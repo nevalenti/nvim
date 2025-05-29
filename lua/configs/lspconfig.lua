@@ -11,7 +11,7 @@ local servers = {
   "cssls",
   "ts_ls",
   "pyright",
-  "csharp_ls"
+  "csharp_ls",
 }
 
 vim.lsp.enable(servers)

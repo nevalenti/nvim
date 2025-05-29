@@ -6,19 +6,19 @@
 local M = {}
 
 M.base46 = {
-	theme = "monekai",
+  theme = "monekai",
 
-	hl_override = {
-		Comment = { italic = true },
-		["@comment"] = { italic = true },
-	},
+  hl_override = {
+    Comment = { italic = true },
+    ["@comment"] = { italic = true },
+  },
 }
 
 M.nvdash = { load_on_startup = false }
 M.ui = {
-	tabufline = {
-		enabled = false
-	}
+  tabufline = {
+    enabled = false,
+  },
 }
 
 return M
