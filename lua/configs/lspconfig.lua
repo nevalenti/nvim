@@ -20,8 +20,6 @@ local servers = {
   "terraformls"
 }
 
-vim.lsp.enable(servers)
-
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
