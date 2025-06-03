@@ -7,11 +7,17 @@ local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
 
 local servers = {
+  "bashls",
   "html",
   "cssls",
+  "jsonls",
+  "yamlls",
+  "lemminx",
   "ts_ls",
   "pyright",
   "csharp_ls",
+  "dockerls",
+  "terraformls"
 }
 
 vim.lsp.enable(servers)
