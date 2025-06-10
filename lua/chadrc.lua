@@ -6,8 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "chadracula",
-
+  theme = "monekai",
   hl_override = {
     Comment = { italic = true },
     ["@comment"] = { italic = true },
@@ -15,6 +14,7 @@ M.base46 = {
 }
 
 M.nvdash = { load_on_startup = false }
+
 M.ui = {
   tabufline = {
     enabled = false,
