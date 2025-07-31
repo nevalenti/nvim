@@ -14,6 +14,7 @@ local servers = {
   "yamlls",
   "lemminx",
   "ts_ls",
+  "angularls",
   "pyright",
   "csharp_ls",
   "dockerls",
