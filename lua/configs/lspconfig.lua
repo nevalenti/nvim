@@ -17,6 +17,7 @@ local servers = {
   "angularls",
   "pyright",
   "csharp_ls",
+  "rust_analyzer",
   "dockerls",
   "terraformls"
 }
