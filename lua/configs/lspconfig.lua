@@ -8,18 +8,19 @@ local capabilities = require("nvchad.configs.lspconfig").capabilities
 
 local servers = {
   "bashls",
+  "rust_analyzer",
+  "csharp_ls",
+  "pyright",
+  "ts_ls",
   "html",
   "cssls",
   "jsonls",
   "yamlls",
   "lemminx",
-  "ts_ls",
   "angularls",
-  "pyright",
-  "csharp_ls",
-  "rust_analyzer",
   "dockerls",
-  "terraformls"
+  "terraformls",
+  "tailwindcss"
 }
 
 for _, lsp in ipairs(servers) do
