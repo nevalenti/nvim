@@ -6,10 +6,18 @@
 local M = {}
 
 M.base46 = {
-  theme = "monekai",
+  theme = "rosepine",
   hl_override = {
     Comment = { italic = true },
     ["@comment"] = { italic = true },
+    Normal = {
+      bg = "#121212",
+    },
+    NormalFloat = {
+      bg = "#121212",
+    },
+    StatusLine = { bg = "#121212" },
+    TabLine = { bg = "#121212" },
   },
 }
 
