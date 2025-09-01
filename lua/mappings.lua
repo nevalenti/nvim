@@ -23,5 +23,20 @@ map("n", "J", "mzJ`z", { desc = "Join lines (keep cursor)" })
 map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
 map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
 
+map("x", "<leader>p", [["_dP]], { desc = "Paste over without copying" })
+map("n", "<leader>Y", [["+Y]], { desc = "Yank line to system clipboard" })
+map({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without copying" })
+map({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system clipboard" })
+
+map("n", "<C-j>", "<cmd>cnext<CR>zz", { desc = "Next quickfix item" })
+map("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Previous quickfix item" })
+
+map("n", "<leader>j", "<cmd>lnext<CR>zz", { desc = "Next location list item" })
+map("n", "<leader>k", "<cmd>lprev<CR>zz", { desc = "Previous location list item" })
+
+map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word under cursor" })
+
 map("n", "<leader>fm", vim.lsp.buf.format, { desc = "Format buffer" })
 
+map("n", "<leader>/", "gcc", { remap = true, desc = "Toggle line comment" })
+map("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment for selection" })
