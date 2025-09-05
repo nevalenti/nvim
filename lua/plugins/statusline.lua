@@ -1,6 +1,6 @@
 local theme = {
   normal = {
-    a = { fg = '#E4E4E4', bg = '#9F84FF', gui = 'bold' },
+    a = { fg = '#E4E4E4', bg = '#121212', gui = 'bold' },
     b = { fg = '#E4E4E4', bg = '#453D41' },
     c = { fg = '#E4E4E4', bg = '#121212' },
   },
