@@ -24,6 +24,9 @@ oil.setup {
       winblend = 0,
     },
   },
+  keymaps = {
+    ["<leader>e"] = { "actions.parent", mode = "n" },
+  }
 }
 require("oil-git-status").setup {}
 
@@ -31,6 +34,6 @@ local map = vim.keymap.set
 
 map("n", "<leader>e", function()
   if not oil.get_current_dir() then
-    oil.toggle_float()
+    oil.open_float()
   end
 end, { desc = "Toggle Oil file explorer" })
