@@ -36,7 +36,7 @@ dap.configurations.cs = {
     name = 'Launch - netcoredbg',
     request = 'launch',
     program = function()
-      return vim.fn.input('Path to DLL: ')
+      return vim.fn.input('Path to DLL: ', vim.fn.getcwd() .. '/bin/Debug/', 'file')
     end,
     cwd = '${workspaceFolder}',
     stopAtEntry = false,

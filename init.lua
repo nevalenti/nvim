@@ -47,6 +47,7 @@ vim.pack.add({
 require('options')
 require('mappings')
 require('autocommands')
+require('overrides')
 require('theme')
 
 require('plugins.lsp')
