@@ -26,7 +26,7 @@ map("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Previous quickfix item" })
 map("n", "<leader>j", "<cmd>lnext<CR>zz", { desc = "Next location list item" })
 map("n", "<leader>k", "<cmd>lprev<CR>zz", { desc = "Previous location list item" })
 
-map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word under cursor" })
+map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word under cursor in current buffer" })
 
 map("n", "<leader>fm", vim.lsp.buf.format, { desc = "Format buffer" })
 

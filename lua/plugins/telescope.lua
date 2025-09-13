@@ -24,7 +24,7 @@ map('n', '<leader>fB', builtin.buffers, { desc = "Telescope: Buffers" })
 map('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope: Find help tags' })
 map('n', '<leader>fr', builtin.resume, { desc = "Telescope: Resume" })
 
-map('n', '<leader>fgf', builtin.git_files, { desc = 'Find Git files' })
+map('n', '<leader>fgf', builtin.git_files, { desc = 'Git files' })
 map('n', '<leader>fgc', builtin.git_commits, { desc = 'Git commits' })
 map('n', '<leader>fgs', builtin.git_status, { desc = 'Git status' })
 map('n', '<leader>fgb', builtin.git_branches, { desc = 'Git branches' })
