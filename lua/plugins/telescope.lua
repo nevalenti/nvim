@@ -1,5 +1,15 @@
+local actions = require("telescope.actions")
+
 require('telescope').setup {
   defaults = {
+    mappings = {
+      i = {
+        ["<leader>q"] = actions.close,
+      },
+      n = {
+        ["<leader>q"] = actions.close,
+      },
+    },
     sorting_strategy = "ascending",
     layout_config = {
       horizontal = {
