@@ -21,8 +21,8 @@ vim.pack.add({
   { src = "https://github.com/nvim-neotest/nvim-nio" },
   { src = "https://github.com/leoluz/nvim-dap-go" },
 
-  { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/nvim-telescope/telescope.nvim" },
+  { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/stevearc/oil.nvim" },
   { src = "https://github.com/refractalize/oil-git-status.nvim" },
 
@@ -35,11 +35,11 @@ vim.pack.add({
   { src = "https://github.com/m4xshen/autoclose.nvim" },
   { src = "https://github.com/mbbill/undotree" },
 
-  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
-  { src = "https://github.com/echasnovski/mini.icons" },
+  { src = "https://github.com/folke/trouble.nvim" },
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
   { src = "https://github.com/folke/which-key.nvim" },
-  { src = "https://github.com/folke/trouble.nvim" },
+  { src = "https://github.com/echasnovski/mini.icons" },
+  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
 
   { src = "https://github.com/nevalenti/gruber-darker.nvim" },
 })

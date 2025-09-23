@@ -5,6 +5,23 @@ local map = vim.keymap.set
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 require("mason").setup {}
 require('mason-lspconfig').setup({
+  ensure_installed = {
+    'csharp_ls',
+    'cssls',
+    'gopls',
+    'html',
+    'jsonls',
+    'lemminx',
+    'lua_ls',
+    'pyright',
+    'ruff',
+    'rust_analyzer',
+    'tailwindcss',
+    'taplo',
+    'ts_ls',
+    'ts_ls',
+    'yamlls',
+  },
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({
@@ -15,6 +32,20 @@ require('mason-lspconfig').setup({
   },
 })
 require('nvim-treesitter.configs').setup {
+  ensure_installed = {
+    'c_sharp',
+    'css',
+    'go',
+    'html',
+    'javascript',
+    'json',
+    'lua',
+    'python',
+    'rust',
+    'toml',
+    'typescript',
+    'yaml',
+  },
   sync_install = false,
   auto_install = true,
   highlight = {
