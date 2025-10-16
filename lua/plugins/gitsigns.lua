@@ -33,6 +33,8 @@ vim.api.nvim_set_hl(0, 'GitSignsStagedUntracked', { fg = '#00FFFF', bold = true 
 local map = vim.keymap.set
 local gitsigns = require('gitsigns')
 
+map('n', '<leader>gg',':vertical G<CR>', { desc = "Git status" })
+
 map('n', ']c', function()
   if vim.wo.diff then
     vim.cmd.normal({ ']c', bang = true })
