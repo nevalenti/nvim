@@ -34,6 +34,7 @@ local map = vim.keymap.set
 local gitsigns = require('gitsigns')
 
 map('n', '<leader>gg',':vertical G<CR>', { desc = "Git status" })
+map('n', '<leader>gl',':vertical G log<CR>', { desc = "Git log" })
 
 map('n', ']c', function()
   if vim.wo.diff then
