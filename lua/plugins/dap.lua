@@ -2,8 +2,6 @@ require('nvim-dap-virtual-text').setup {}
 local dap = require('dap')
 local dapui = require('dapui')
 dapui.setup {}
-require('dap-go')
-require('dap-go').setup {}
 local map = vim.keymap.set
 
 map('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
@@ -66,36 +64,5 @@ dap.configurations.python = {
     pythonPath = function()
       return 'python'
     end,
-  },
-}
-
-dap.adapters.delve = {
-  type = 'server',
-  port = '${port}',
-  executable = {
-    command = 'dlv',
-    args = { 'dap', '-l', '127.0.0.1:${port}' },
-  }
-}
-dap.configurations.go = {
-  {
-    type = "delve",
-    name = "Debug",
-    request = "launch",
-    program = "${file}",
-  },
-  {
-    type = "delve",
-    name = "Debug test",
-    request = "launch",
-    mode = "test",
-    program = "${file}",
-  },
-  {
-    type = "delve",
-    name = "Debug test (go.mod)",
-    request = "launch",
-    mode = "test",
-    program = "./${relativeFileDirname}",
   },
 }
