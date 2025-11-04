@@ -41,6 +41,8 @@ vim.pack.add({
   { src = "https://github.com/nvim-tree/nvim-web-devicons" },
 
   { src = "https://github.com/nevalenti/gruber-darker.nvim" },
+
+  { src = "https://github.com/github/copilot.vim" },
 })
 
 require('options')

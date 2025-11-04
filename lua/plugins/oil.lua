@@ -4,9 +4,9 @@ oil.setup {
   default_file_explorer = false,
   columns = {
     "icon",
-    "permissions",
-    "size",
-    "mtime",
+    -- "permissions",
+    -- "size",
+    -- "mtime",
   },
   view_options = {
     show_hidden = true
@@ -17,7 +17,7 @@ oil.setup {
   float = {
     open_by_default = true,
     padding = 0,
-    max_width = 0.9,
+    max_width = 0.8,
     max_height = 0.8,
     border = "rounded",
     win_options = {

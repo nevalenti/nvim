@@ -28,6 +28,10 @@
       "rev": "98d9cb5",
       "src": "https://github.com/saadparwaiz1/cmp_luasnip"
     },
+    "copilot.vim": {
+      "rev": "da369d9",
+      "src": "https://github.com/github/copilot.vim"
+    },
     "diffview.nvim": {
       "rev": "4516612",
       "src": "https://github.com/sindrets/diffview.nvim"
