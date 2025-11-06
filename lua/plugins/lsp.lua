@@ -1,8 +1,8 @@
 local lsp = require('lsp-zero')
 local cmp = require('cmp')
+
 local map = vim.keymap.set
 
-require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 require("mason").setup {}
 require('mason-lspconfig').setup({
   ensure_installed = {
@@ -21,10 +21,11 @@ require('mason-lspconfig').setup({
   },
   handlers = {
     function(server_name)
-      require('lspconfig')[server_name].setup({
-        on_attach = lsp.on_attach,
-        capabilities = require('cmp_nvim_lsp').default_capabilities(),
-      })
+      require('lspconfig')[server_name].setup({})
+    end,
+
+    lua_ls = function()
+      require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
     end,
   },
 })
