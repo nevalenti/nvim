@@ -28,6 +28,10 @@
       "rev": "98d9cb5",
       "src": "https://github.com/saadparwaiz1/cmp_luasnip"
     },
+    "copilot-lsp": {
+      "rev": "a80e0c1",
+      "src": "https://github.com/copilotlsp-nvim/copilot-lsp"
+    },
     "copilot.vim": {
       "rev": "da369d9",
       "src": "https://github.com/github/copilot.vim"
