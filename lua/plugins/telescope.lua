@@ -5,9 +5,17 @@ require('telescope').setup {
     mappings = {
       i = {
         ["<leader>q"] = actions.close,
+        ["<C-j>"] = require("telescope.actions").move_selection_next,
+        ["<C-k>"] = require("telescope.actions").move_selection_previous,
+        ["<C-d>"] = "preview_scrolling_down",
+        ["<C-u>"] = "preview_scrolling_up",
       },
       n = {
         ["<leader>q"] = actions.close,
+        ["<C-j>"] = require("telescope.actions").move_selection_next,
+        ["<C-k>"] = require("telescope.actions").move_selection_previous,
+        ["<C-d>"] = "preview_scrolling_down",
+        ["<C-u>"] = "preview_scrolling_up",
       },
     },
     sorting_strategy = "ascending",
