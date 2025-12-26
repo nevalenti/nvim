@@ -28,6 +28,10 @@
       "rev": "98d9cb5",
       "src": "https://github.com/saadparwaiz1/cmp_luasnip"
     },
+    "codecompanion.nvim": {
+      "rev": "e6ec73c06d3ed8ce28f144d2f89c30dec0286961",
+      "src": "https://github.com/olimorris/codecompanion.nvim"
+    },
     "copilot-lsp": {
       "rev": "a80e0c1",
       "src": "https://github.com/copilotlsp-nvim/copilot-lsp"
@@ -39,6 +43,10 @@
     "diffview.nvim": {
       "rev": "4516612",
       "src": "https://github.com/sindrets/diffview.nvim"
+    },
+    "dressing.nvim": {
+      "rev": "2d7c2db2507fa3c4956142ee607431ddb2828639",
+      "src": "https://github.com/stevearc/dressing.nvim"
     },
     "friendly-snippets": {
       "rev": "572f566",

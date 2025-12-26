@@ -42,7 +42,8 @@ vim.pack.add({
 
   { src = "https://github.com/nevalenti/gruber-darker.nvim" },
 
-  { src = "https://github.com/github/copilot.vim" },
+  { src = "https://github.com/olimorris/codecompanion.nvim" },
+  { src = "https://github.com/stevearc/dressing.nvim" },
 })
 
 require('options')
@@ -61,3 +62,4 @@ require('plugins.undotree')
 require('plugins.autoclose')
 require('plugins.mini-icons')
 require('plugins.statusline')
+require('plugins.codecompanion')
