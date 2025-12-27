@@ -7,6 +7,7 @@ require("mason").setup {}
 require('mason-lspconfig').setup({
   ensure_installed = {
     'csharp_ls',
+    'gopls',
     'pyright',
     'ruff',
     'ts_ls',
@@ -33,6 +34,10 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = {
     'c_sharp',
     'python',
+    'go',
+    'gomod',
+    'gowork',
+    'gosum',
     'javascript',
     'typescript',
     'lua',

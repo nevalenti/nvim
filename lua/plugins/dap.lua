@@ -1,7 +1,9 @@
 require('nvim-dap-virtual-text').setup {}
+
 local dap = require('dap')
 local dapui = require('dapui')
 dapui.setup {}
+
 local map = vim.keymap.set
 
 map('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
@@ -49,6 +51,8 @@ dap.configurations.cs = {
     end,
   },
 }
+
+require('dap-go').setup {}
 
 dap.adapters.python = {
   type = 'executable',
