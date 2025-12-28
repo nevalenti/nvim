@@ -69,9 +69,13 @@ dap.configurations.cs = {
     program = function()
       return vim.fn.input('Path to DLL: ', vim.fn.getcwd() .. '/bin/Debug/', 'file')
     end,
+    env = {
+      ASPNETCORE_ENVIRONMENT = "Development",
+      ASPNETCORE_URLS = "http://localhost:5000",
+    },
     cwd = '${workspaceFolder}',
     stopAtEntry = false,
-    console = 'internalConsole',
+    justMyCode = false,
   },
   {
     type = 'coreclr',
@@ -85,22 +89,10 @@ dap.configurations.cs = {
 
 require('dap-go').setup {}
 
-dap.adapters.python = {
-  type = 'executable',
-  command = 'python',
-  args = { '-m', 'debugpy.adapter' },
-}
+require('dap-python').setup(
+  vim.fn.stdpath('data') .. '/mason/packages/debugpy/venv/bin/python'
+)
 
-dap.configurations.python = {
-  {
-    type = 'python',
-    request = 'launch',
-    name = 'Launch file',
-    program = '${file}',
-    pythonPath = 'python',
-    console = 'integratedTerminal',
-  },
-}
 
 dap.adapters['pwa-node'] = {
   type = 'server',
@@ -141,7 +133,39 @@ local js_ts_configs = {
   {
     type = 'pwa-chrome',
     request = 'launch',
-    name = 'Launch Chrome<a href="http://localhost:3000" target="_blank" rel="noopener noreferrer nofollow"></a>',
+    name = 'Next.js: Debug Client (Chrome)',
+    url = 'http://localhost:3000',
+    webRoot = '${workspaceFolder}',
+    sourceMaps = true,
+    userDataDir = false,
+  },
+  {
+    type = 'pwa-node',
+    request = 'launch',
+    name = 'Next.js: Debug Server',
+    runtimeExecutable = 'node',
+    runtimeArgs = {
+      '--inspect',
+      './node_modules/next/dist/bin/next',
+      'dev',
+    },
+    cwd = '${workspaceFolder}',
+    env = {
+      NODE_OPTIONS = '--inspect',
+    },
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+    skipFiles = { '<node_internals>/**', 'node_modules/**' },
+    resolveSourceMapLocations = {
+      '${workspaceFolder}/**',
+      '!**/node_modules/**',
+    },
+  },
+  {
+    type = 'pwa-chrome',
+    request = 'launch',
+    name = 'Launch Chrome (localhost:3000)',
     url = 'http://localhost:3000',
     webRoot = '${workspaceFolder}',
     sourceMaps = true,
