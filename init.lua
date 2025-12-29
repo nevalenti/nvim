@@ -40,12 +40,13 @@ vim.pack.add({
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
   { src = "https://github.com/folke/which-key.nvim" },
   { src = "https://github.com/echasnovski/mini.icons" },
-  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
 
   { src = "https://github.com/nevalenti/gruber-darker.nvim" },
 
   { src = "https://github.com/olimorris/codecompanion.nvim" },
+  { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim", ft = { "markdown", "codecompanion" } },
   { src = "https://github.com/stevearc/dressing.nvim" },
+  { src = "https://github.com/j-hui/fidget.nvim" }
 })
 
 require('options')
@@ -64,4 +65,5 @@ require('plugins.undotree')
 require('plugins.autoclose')
 require('plugins.mini-icons')
 require('plugins.statusline')
+require('plugins.render-markdown')
 require('plugins.codecompanion')

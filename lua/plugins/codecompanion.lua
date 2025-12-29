@@ -1,7 +1,22 @@
 require("codecompanion").setup({
   strategies = {
     chat = { adapter = "anthropic" },
-    inline = { adapter = "anthropic" },
+    inline = {
+      adapter = "anthropic",
+      system_prompt = [[
+You are an expert software engineer.
+
+Modify ONLY the selected code.
+Preserve formatting, style, and intent.
+Prefer minimal diffs.
+
+If the change would affect code outside the selection,
+DO NOT make the change.
+
+If you are unsure, return the original code unchanged.
+Do not explain unless asked.
+]],
+    },
   },
   adapters = {
     anthropic = function()
@@ -15,30 +30,39 @@ require("codecompanion").setup({
     end,
   },
   display = {
+    inline = {
+      diff = false,
+      layout = "floating",
+    },
     chat = {
-      window = {
-        layout = "vertical",
-      },
+      window = { layout = "vertical" },
+      render_headers = false,
     },
   },
 })
 
 local map = vim.keymap.set
-local tbl_extend = vim.tbl_extend
-local opts = { noremap = true, silent = true }
 
-map({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<CR>",
-  tbl_extend("force", opts, { desc = "CodeCompanion: Toggle Chat" }))
+map({ "n", "v" }, "<leader>cc", "<cmd>CodeCompanionChat Toggle<CR>", {
+  noremap = true,
+  silent = true,
+  desc = "CodeCompanion: Toggle Chat",
+})
 
-map({ "n", "v" }, "<leader>ca", "<cmd>CodeCompanionActions<CR>",
-  tbl_extend("force", opts, { desc = "CodeCompanion: Actions Menu" }))
+map({ "n", "v" }, "<leader>ca", "<cmd>CodeCompanionActions<CR>", {
+  noremap = true,
+  silent = true,
+  desc = "CodeCompanion: Actions Menu",
+})
 
-map({ "n", "v" }, "<leader>ci", "<cmd>CodeCompanion<CR>",
-  tbl_extend("force", opts, { desc = "CodeCompanion: Inline Prompt" }))
+map("v", "<leader>ci", ":CodeCompanion<CR>", {
+  noremap = true,
+  silent = true,
+  desc = "CodeCompanion: Inline Prompt",
+})
 
-map("v", "ga", "<cmd>CodeCompanionChat Add<CR>",
-  tbl_extend("force", opts, { desc = "CodeCompanion: Add Selection to Chat" }))
-
-map("i", "<C-j>", function()
-  return vim.fn["codecompanion#InlineSuggestionAccept"]()
-end, tbl_extend("force", opts, { expr = true, desc = "CodeCompanion: Accept Inline Suggestion" }))
+map("v", "<leader>cs", "<cmd>CodeCompanionChat Add<CR>", {
+  noremap = true,
+  silent = true,
+  desc = "CodeCompanion: Add Selection to Chat",
+})

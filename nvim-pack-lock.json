@@ -48,6 +48,10 @@
       "rev": "2d7c2db2507fa3c4956142ee607431ddb2828639",
       "src": "https://github.com/stevearc/dressing.nvim"
     },
+    "fidget.nvim": {
+      "rev": "64463022a1f2ff1318ab22a2ea4125ed9313a483",
+      "src": "https://github.com/j-hui/fidget.nvim"
+    },
     "friendly-snippets": {
       "rev": "572f566",
       "src": "https://github.com/rafamadriz/friendly-snippets"
@@ -135,6 +139,10 @@
     "plenary.nvim": {
       "rev": "b9fd522",
       "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
+    "render-markdown.nvim": {
+      "rev": "07d088bf8bdadd159eb807b90eaee86a4778383f",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "telescope.nvim": {
       "rev": "b4da76b",
