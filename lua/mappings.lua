@@ -7,6 +7,7 @@ map("n", "<leader><CR>", ":cd %:h<CR>", { desc = "Set CWD to current file" })
 map('n', '<leader>o', ':update<CR>:source<CR>', { desc = "Save and source" })
 map('n', '<leader>w', ':write<CR>', { desc = "Save file" })
 map('n', '<leader>q', ':quit<CR>', { desc = "Quit" })
+map('n', '<leader>Q', ':quit!<CR>', { desc = "Force Quit" })
 
 map("n", "<C-h>", "<C-w><C-h>", { desc = "Move to left window" })
 map("n", "<C-l>", "<C-w><C-l>", { desc = "Move to right window" })

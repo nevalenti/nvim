@@ -19,7 +19,15 @@ require('telescope').setup {
       },
     },
     sorting_strategy = "ascending",
+    layout_strategy = "horizontal",
     layout_config = {
+      vertical = {
+        mirror = false,
+        prompt_position = "top",
+        width = 0.8,
+        height = 0.8,
+        preview_height = 0.65,
+      },
       horizontal = {
         prompt_position = "top",
         width = 0.8,

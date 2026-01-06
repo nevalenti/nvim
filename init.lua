@@ -5,6 +5,7 @@ vim.pack.add({
 
   { src = "https://github.com/nevalenti/gruber-darker.nvim" },
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
+  { src = "https://github.com/folke/noice.nvim" },
   { src = "https://github.com/stevearc/dressing.nvim" },
   { src = "https://github.com/j-hui/fidget.nvim" },
   { src = "https://github.com/folke/which-key.nvim" },
@@ -78,5 +79,8 @@ require('plugins.autoclose')
 
 require('plugins.codecompanion')
 require('plugins.render-markdown')
+
+require('plugins.notify')
+require('plugins.noice')
 
 require('overrides')
