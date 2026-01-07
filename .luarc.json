@@ -1,0 +1,14 @@
+{
+  "runtime.version": "LuaJIT",
+  "diagnostics.globals": [
+    "vim"
+  ],
+  "diagnostics.disable": [
+    "undefined-field"
+  ],
+  "workspace.library": [
+    "$VIMRUNTIME",
+    "${3rd}/luv/library"
+  ],
+  "workspace.checkThirdParty": false
+}

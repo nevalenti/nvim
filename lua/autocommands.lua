@@ -87,3 +87,47 @@ autocmd("BufWritePre", {
     end
   end,
 })
+
+vim.api.nvim_create_user_command('Reg', function()
+  local Popup = require("nui.popup")
+  local registers = vim.fn.execute('reg')
+
+  local popup = Popup({
+    enter = true,
+    focusable = true,
+    border = { style = "rounded", text = { top = " Registers " } },
+    position = "50%",
+    size = { width = "70%", height = "50%" },
+  })
+
+  popup:mount()
+  vim.api.nvim_buf_set_lines(popup.bufnr, 0, -1, false, vim.split(registers, "\n"))
+  vim.bo[popup.bufnr].modifiable = false
+  popup:map("n", "q", function() popup:unmount() end)
+end, {})
+
+vim.api.nvim_create_user_command('Buf', function()
+  local Popup = require("nui.popup")
+  local buffers = vim.fn.execute('ls')
+
+  local popup = Popup({
+    enter = true,
+    focusable = true,
+    border = { style = "rounded", text = { top = " Buffers " } },
+    position = "50%",
+    size = { width = "70%", height = "50%" },
+  })
+
+  popup:mount()
+  vim.api.nvim_buf_set_lines(popup.bufnr, 0, -1, false, vim.split(buffers, "\n"))
+  vim.bo[popup.bufnr].modifiable = false
+  popup:map("n", "q", function() popup:unmount() end)
+  popup:map("n", "<CR>", function()
+    local line = vim.api.nvim_get_current_line()
+    local bufnr = line:match("^%s*(%d+)")
+    if bufnr then
+      popup:unmount()
+      vim.cmd("buffer " .. bufnr)
+    end
+  end)
+end, {})

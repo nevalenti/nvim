@@ -1,8 +1,7 @@
 vim.cmd('packadd nui.nvim')
-
 vim.cmd('packadd nvim-notify')
-
 vim.cmd('packadd noice.nvim')
+
 require("noice").setup({
   lsp = {
     progress = {
@@ -23,14 +22,6 @@ require("noice").setup({
   },
 
   routes = {
-    {
-      filter = {
-        event = "msg_show",
-        kind = "",
-        find = "written",
-      },
-      opts = { skip = true },
-    },
     {
       filter = { event = "msg_show", min_height = 20 },
       view = "split",

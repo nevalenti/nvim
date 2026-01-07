@@ -8,6 +8,10 @@
       "rev": "3f86702",
       "src": "https://github.com/m4xshen/autoclose.nvim"
     },
+    "blink.cmp": {
+      "rev": "6a4914ca987453464a7dfc7fc237a992adb567d0",
+      "src": "https://github.com/saghen/blink.cmp"
+    },
     "cmp-buffer": {
       "rev": "b74fab3",
       "src": "https://github.com/hrsh7th/cmp-buffer"
