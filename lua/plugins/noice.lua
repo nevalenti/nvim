@@ -1,8 +1,8 @@
-vim.cmd('packadd nui.nvim')
-vim.cmd('packadd nvim-notify')
-vim.cmd('packadd noice.nvim')
+vim.cmd "packadd nui.nvim"
+vim.cmd "packadd nvim-notify"
+vim.cmd "packadd noice.nvim"
 
-require("noice").setup({
+require("noice").setup {
   lsp = {
     progress = {
       enabled = true,
@@ -47,4 +47,4 @@ require("noice").setup({
       position = { row = 2, col = 2 },
     },
   },
-})
+}

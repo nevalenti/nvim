@@ -1,30 +1,33 @@
-vim.pack.add({
+vim.pack.add {
   { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/nvim-neotest/nvim-nio" },
-})
+}
 
-vim.pack.add({
+vim.pack.add {
   { src = "https://github.com/echasnovski/mini.icons" },
   { src = "https://github.com/nevalenti/gruber-darker.nvim" },
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
+  { src = "https://github.com/MunifTanjim/nui.nvim" },
   { src = "https://github.com/folke/noice.nvim" },
+  { src = "https://github.com/rcarriga/nvim-notify" },
   { src = "https://github.com/stevearc/dressing.nvim" },
   { src = "https://github.com/j-hui/fidget.nvim" },
-})
+}
 
-vim.pack.add({
+vim.pack.add {
   { src = "https://github.com/folke/which-key.nvim" },
   { src = "https://github.com/nvim-telescope/telescope.nvim" },
+  { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
   { src = "https://github.com/stevearc/oil.nvim" },
   { src = "https://github.com/refractalize/oil-git-status.nvim" },
   { src = "https://github.com/mbbill/undotree" },
-})
+}
 
-vim.pack.add({
+vim.pack.add {
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-})
+}
 
-vim.pack.add({
+vim.pack.add {
   { src = "https://github.com/VonHeikemen/lsp-zero.nvim" },
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/mason-org/mason.nvim" },
@@ -32,59 +35,59 @@ vim.pack.add({
   { src = "https://github.com/saghen/blink.cmp" },
   { src = "https://github.com/rafamadriz/friendly-snippets" },
   { src = "https://github.com/folke/trouble.nvim" },
-})
+}
 
-vim.pack.add({
+vim.pack.add {
   { src = "https://github.com/tpope/vim-fugitive" },
   { src = "https://github.com/lewis6991/gitsigns.nvim" },
   { src = "https://github.com/sindrets/diffview.nvim" },
-})
+}
 
-vim.pack.add({
+vim.pack.add {
   { src = "https://github.com/mfussenegger/nvim-dap" },
   { src = "https://github.com/jay-babu/mason-nvim-dap.nvim" },
   { src = "https://github.com/rcarriga/nvim-dap-ui" },
   { src = "https://github.com/theHamsta/nvim-dap-virtual-text" },
   { src = "https://github.com/leoluz/nvim-dap-go" },
   { src = "https://github.com/mfussenegger/nvim-dap-python" },
-})
+}
 
-vim.pack.add({
+vim.pack.add {
   { src = "https://github.com/tpope/vim-commentary" },
   { src = "https://github.com/tpope/vim-surround" },
   { src = "https://github.com/m4xshen/autoclose.nvim" },
-})
+}
 
-vim.pack.add({
+vim.pack.add {
   { src = "https://github.com/olimorris/codecompanion.nvim" },
   { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim", ft = { "markdown", "codecompanion" } },
-})
+}
 
-require('options')
-require('mappings')
-require('autocommands')
+require "options"
+require "diagnostics"
+require "mappings"
+require "autocommands"
 
-require('theme')
+require "theme"
 
-require('plugins.mini-icons')
-require('plugins.noice')
-require('plugins.notify')
-require('plugins.statusline')
+require "plugins.mini-icons"
+require "plugins.noice"
+require "plugins.notify"
+require "plugins.statusline"
 
-require('plugins.oil')
-require('plugins.telescope')
-require('plugins.undotree')
+require "plugins.which-key"
+require "plugins.oil"
+require "plugins.telescope"
+require "plugins.undotree"
 
-require('plugins.lsp')
-require('plugins.trouble')
+require "plugins.lsp"
+require "plugins.trouble"
 
-require('plugins.gitsigns')
+require "plugins.gitsigns"
 
-require('plugins.dap')
+require "plugins.dap"
 
-require('plugins.autoclose')
+require "plugins.autoclose"
 
-require('plugins.codecompanion')
-require('plugins.render-markdown')
-
-require('overrides')
+require "plugins.codecompanion"
+require "plugins.render-markdown"

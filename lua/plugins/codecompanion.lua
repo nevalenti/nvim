@@ -1,4 +1,4 @@
-require("codecompanion").setup({
+require("codecompanion").setup {
   strategies = {
     chat = { adapter = "anthropic" },
     inline = {
@@ -39,7 +39,7 @@ Do not explain unless asked.
       render_headers = false,
     },
   },
-})
+}
 
 local map = vim.keymap.set
 

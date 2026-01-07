@@ -1,4 +1,4 @@
-local oil = require('oil')
+local oil = require "oil"
 
 oil.setup {
   default_file_explorer = false,
@@ -9,7 +9,7 @@ oil.setup {
     "mtime",
   },
   view_options = {
-    show_hidden = true
+    show_hidden = true,
   },
   win_options = {
     signcolumn = "yes:2",
@@ -26,7 +26,7 @@ oil.setup {
   },
   keymaps = {
     ["<leader>e"] = { "actions.parent", mode = "n" },
-  }
+  },
 }
 require("oil-git-status").setup {}
 
