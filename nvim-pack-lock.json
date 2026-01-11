@@ -8,6 +8,10 @@
       "rev": "6a4914ca987453464a7dfc7fc237a992adb567d0",
       "src": "https://github.com/saghen/blink.cmp"
     },
+    "claude-code.nvim": {
+      "rev": "c9a31e51069977edaad9560473b5d031fcc5d38b",
+      "src": "https://github.com/greggh/claude-code.nvim"
+    },
     "codecompanion.nvim": {
       "rev": "3ae0cc78bfc775723306c8a7950a81449fc6018d",
       "src": "https://github.com/olimorris/codecompanion.nvim"

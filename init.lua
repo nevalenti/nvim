@@ -44,6 +44,7 @@ vim.pack.add {
   { src = "https://github.com/m4xshen/autoclose.nvim" },
 
   { src = "https://github.com/olimorris/codecompanion.nvim" },
+  { src = "https://github.com/greggh/claude-code.nvim" },
   { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim", ft = { "markdown", "codecompanion" } },
 
   { src = "https://github.com/folke/trouble.nvim" },
@@ -76,4 +77,5 @@ require "plugins.dap"
 require "plugins.autoclose"
 
 require "plugins.codecompanion"
+require "plugins.claude-code"
 require "plugins.render-markdown"
