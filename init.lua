@@ -43,9 +43,8 @@ vim.pack.add {
   { src = "https://github.com/tpope/vim-surround" },
   { src = "https://github.com/m4xshen/autoclose.nvim" },
 
-  { src = "https://github.com/olimorris/codecompanion.nvim" },
-  { src = "https://github.com/greggh/claude-code.nvim" },
-  { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim", ft = { "markdown", "codecompanion" } },
+  { src = "https://github.com/yetone/avante.nvim", build = "make" },
+  { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim", ft = { "markdown" } },
 
   { src = "https://github.com/folke/trouble.nvim" },
 }
@@ -76,6 +75,5 @@ require "plugins.dap"
 
 require "plugins.autoclose"
 
-require "plugins.codecompanion"
-require "plugins.claude-code"
+require "plugins.avante"
 require "plugins.render-markdown"

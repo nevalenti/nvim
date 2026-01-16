@@ -65,7 +65,6 @@ dap.configurations.cs = {
     name = "Launch - netcoredbg",
     request = "launch",
     program = function()
-      -- Try to find the most recent Debug build DLL
       local cwd = vim.fn.getcwd()
       local debug_paths = {
         cwd .. "/bin/Debug/",
