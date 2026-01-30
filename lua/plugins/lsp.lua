@@ -1,3 +1,5 @@
+vim.cmd('packadd nvim-treesitter')
+
 local lsp = require "lsp-zero"
 local map = vim.keymap.set
 

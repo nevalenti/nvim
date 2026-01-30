@@ -4,6 +4,13 @@ local autocmd = vim.api.nvim_create_autocmd
 local text_yank_group = augroup("TextYank", { clear = true })
 local buf_write_pre_group = augroup("BufWritePreGroup", { clear = true })
 
+autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})
+
 autocmd("TextYankPost", {
   group = text_yank_group,
   pattern = "*",
