@@ -25,7 +25,9 @@ autocmd("BufWritePre", {
   callback = function()
     local bufname = vim.api.nvim_buf_get_name(0)
     if vim.bo.filetype ~= "oil" and not bufname:match "^oil://" then
-      vim.cmd [[%s/\s\+$//e]]
+      local pos = vim.api.nvim_win_get_cursor(0)
+      vim.cmd [[keeppatterns %s/\s\+$//e]]
+      pcall(vim.api.nvim_win_set_cursor, 0, pos)
     end
   end,
 })
