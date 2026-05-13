@@ -1,5 +1,7 @@
 local map = vim.keymap.set
 
+map("i", "jj", "<Esc>")
+
 map("n", "<Space>", "<Nop>", { silent = true, desc = "Disable space" })
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 map("n", "<leader><CR>", "<cmd>cd %:h<CR>", { desc = "Set CWD to current file" })
