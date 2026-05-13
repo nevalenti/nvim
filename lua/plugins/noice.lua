@@ -32,11 +32,11 @@ require("noice").setup {
   },
 
   views = {
-    cmdline_popup = {
-      position = { row = "30%", col = "50%" },
-      size = { width = 60, height = "auto" },
-      border = { style = "rounded" },
-    },
+    -- cmdline_popup = {
+    --   position = { row = "30%", col = "50%" },
+    --   size = { width = 60, height = "auto" },
+    --   border = { style = "rounded" },
+    -- },
     hover = {
       border = { style = "rounded" },
       position = { row = 2, col = 2 },
