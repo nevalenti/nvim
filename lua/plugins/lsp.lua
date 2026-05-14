@@ -165,7 +165,7 @@ require("blink.cmp").setup {
       enabled = true,
     },
     trigger = {
-      prefetch_on_insert = true,
+      prefetch_on_insert = false,
     },
   },
 
