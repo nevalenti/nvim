@@ -3,7 +3,7 @@ vim.pack.add {
   { src = "https://github.com/nvim-neotest/nvim-nio" },
   { src = "https://github.com/echasnovski/mini.icons" },
 
-  { src = "https://github.com/nevalenti/gruber-darker.nvim" },
+  { src = "https://github.com/nevalenti/gruber-darker.nvim", branch = "v2" },
 
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
   { src = "https://github.com/rcarriga/nvim-notify" },
