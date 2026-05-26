@@ -1,73 +1,61 @@
-local lsp = require "lsp-zero"
 local map = vim.keymap.set
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-lsp.extend_lspconfig {
-  sign_icons = true,
-  lsp_attach = function(_, bufnr)
-    local opts = { buffer = bufnr, remap = false }
-    map("n", "gd", function()
-      vim.lsp.buf.definition()
-    end, opts)
-    map("n", "K", function()
-      vim.lsp.buf.hover()
-    end, opts)
-    map("n", "<leader>ws", function()
-      vim.lsp.buf.workspace_symbol()
-    end, opts)
-    map("n", "<leader>d", function()
-      vim.diagnostic.open_float()
-    end, opts)
-    map("n", "]d", function()
-      vim.diagnostic.jump { count = 1, float = true }
-    end, opts)
-    map("n", "[d", function()
-      vim.diagnostic.jump { count = -1, float = true }
-    end, opts)
-    map("n", "<leader>ca", function()
-      vim.lsp.buf.code_action()
-    end, opts)
-    map("n", "<leader>rr", function()
-      vim.lsp.buf.references()
-    end, opts)
-    map("n", "<leader>rn", function()
-      vim.lsp.buf.rename()
-    end, opts)
-    map("i", "<C-h>", function()
-      vim.lsp.buf.signature_help()
-    end, opts)
-  end,
-  capabilities = require("blink.cmp").get_lsp_capabilities(),
-}
+local function on_attach(_, bufnr)
+  local opts = { buffer = bufnr, remap = false }
+  map("n", "gd", vim.lsp.buf.definition, opts)
+  map("n", "K", vim.lsp.buf.hover, opts)
+  map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, opts)
+  map("n", "<leader>d", vim.diagnostic.open_float, opts)
+  map("n", "]d", function()
+    vim.diagnostic.jump { count = 1, float = true }
+  end, opts)
+  map("n", "[d", function()
+    vim.diagnostic.jump { count = -1, float = true }
+  end, opts)
+  map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+  map("n", "<leader>rr", vim.lsp.buf.references, opts)
+  map("n", "<leader>rn", vim.lsp.buf.rename, opts)
+  map("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+end
 
 require("mason").setup {}
 
 require("mason-lspconfig").setup {
   ensure_installed = {
-    "csharp_ls",
-    "gopls",
-    -- "pyright",
-    "ruff",
-    "ts_ls",
-    "lua_ls",
     "html",
     "cssls",
     "tailwindcss",
+    "ts_ls",
+    "vue_ls",
+    "eslint",
+    "emmet_ls",
     "jsonls",
-    "lemminx",
     "yamlls",
     "taplo",
+    "lemminx",
+    "lua_ls",
   },
   handlers = {
     function(server_name)
-      require("lspconfig")[server_name].setup {}
+      require("lspconfig")[server_name].setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+      }
     end,
     lua_ls = function()
-      local lua_opts = lsp.nvim_lua_ls()
-      lua_opts.settings = lua_opts.settings or {}
-      lua_opts.settings.Lua = lua_opts.settings.Lua or {}
-      lua_opts.settings.Lua.diagnostics = lua_opts.settings.Lua.diagnostics or {}
-      lua_opts.settings.Lua.diagnostics.globals = { "vim" }
-      require("lspconfig").lua_ls.setup(lua_opts)
+      require("lspconfig").lua_ls.setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          Lua = {
+            runtime = { version = "LuaJIT" },
+            diagnostics = { globals = { "vim" } },
+            workspace = { library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false },
+            telemetry = { enable = false },
+          },
+        },
+      }
     end,
   },
 }
@@ -180,21 +168,27 @@ require("blink.cmp").setup {
 
 require("nvim-treesitter").setup {
   ensure_installed = {
-    "c_sharp",
-    "python",
-    "go",
-    "gomod",
-    "gowork",
-    "gosum",
     "javascript",
     "typescript",
     "lua",
+    "bash",
+    "dockerfile",
     "html",
     "css",
     "json",
     "xml",
     "yaml",
     "toml",
+    "tsx",
+    "vue",
+    "tailwindcss",
+    "markdown",
+    "markdown_inline",
+    "sql",
+    "prisma",
+    "regex",
+    "gitignore",
+    "dotenv",
   },
   highlight = {
     enable = true,
