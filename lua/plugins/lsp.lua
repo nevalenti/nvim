@@ -1,23 +1,55 @@
 local map = vim.keymap.set
 local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-local function on_attach(_, bufnr)
-  local opts = { buffer = bufnr, remap = false }
-  map("n", "gd", vim.lsp.buf.definition, opts)
-  map("n", "K", vim.lsp.buf.hover, opts)
-  map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, opts)
-  map("n", "<leader>d", vim.diagnostic.open_float, opts)
-  map("n", "]d", function()
-    vim.diagnostic.jump { count = 1, float = true }
-  end, opts)
-  map("n", "[d", function()
-    vim.diagnostic.jump { count = -1, float = true }
-  end, opts)
-  map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-  map("n", "<leader>rr", vim.lsp.buf.references, opts)
-  map("n", "<leader>rn", vim.lsp.buf.rename, opts)
-  map("i", "<C-h>", vim.lsp.buf.signature_help, opts)
-end
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local bufnr = args.buf
+    local opts = { buffer = bufnr, remap = false }
+    map("n", "gd", vim.lsp.buf.definition, opts)
+    map("n", "K", vim.lsp.buf.hover, opts)
+    map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, opts)
+    map("n", "<leader>d", vim.diagnostic.open_float, opts)
+    map("n", "]d", function()
+      vim.diagnostic.jump { count = 1, float = true }
+    end, opts)
+    map("n", "[d", function()
+      vim.diagnostic.jump { count = -1, float = true }
+    end, opts)
+    map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    map("n", "<leader>rr", vim.lsp.buf.references, opts)
+    map("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    map("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+  end,
+})
+
+vim.lsp.config("*", { capabilities = capabilities })
+
+local vue_plugin_path = vim.fn.stdpath "data"
+  .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+
+vim.lsp.config("ts_ls", {
+  init_options = {
+    plugins = {
+      {
+        name = "@vue/typescript-plugin",
+        location = vue_plugin_path,
+        languages = { "vue" },
+      },
+    },
+  },
+  filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+})
+
+vim.lsp.config("lua_ls", {
+  settings = {
+    Lua = {
+      runtime = { version = "LuaJIT" },
+      diagnostics = { globals = { "vim" } },
+      workspace = { library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false },
+      telemetry = { enable = false },
+    },
+  },
+})
 
 require("mason").setup {}
 
@@ -35,28 +67,6 @@ require("mason-lspconfig").setup {
     "taplo",
     "lemminx",
     "lua_ls",
-  },
-  handlers = {
-    function(server_name)
-      require("lspconfig")[server_name].setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-      }
-    end,
-    lua_ls = function()
-      require("lspconfig").lua_ls.setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          Lua = {
-            runtime = { version = "LuaJIT" },
-            diagnostics = { globals = { "vim" } },
-            workspace = { library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false },
-            telemetry = { enable = false },
-          },
-        },
-      }
-    end,
   },
 }
 
