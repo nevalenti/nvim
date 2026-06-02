@@ -24,8 +24,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 vim.lsp.config("*", { capabilities = capabilities })
 
-local vue_plugin_path = vim.fn.stdpath "data"
-  .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+local vue_plugin_path = vim.fn.stdpath "data" .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
 
 vim.lsp.config("ts_ls", {
   init_options = {
