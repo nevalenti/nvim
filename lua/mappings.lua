@@ -25,8 +25,8 @@ map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected line up" })
 map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
 
-map("n", "]q", "<cmd>cnext<CR>zz", { desc = "Next quickfix item" })
-map("n", "[q", "<cmd>cprev<CR>zz", { desc = "Previous quickfix item" })
+map("n", "<C-j>", "<cmd>cnext<CR>zz", { desc = "Next quickfix item" })
+map("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Previous quickfix item" })
 
 map("n", "]l", "<cmd>lnext<CR>zz", { desc = "Next location list item" })
 map("n", "[l", "<cmd>lprev<CR>zz", { desc = "Previous location list item" })
