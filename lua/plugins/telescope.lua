@@ -1,6 +1,16 @@
 local actions = require "telescope.actions"
+local lga_actions = require "telescope-live-grep-args.actions"
 
 require("telescope").setup {
+  extensions = {
+    live_grep_args = {
+      mappings = {
+        i = {
+          ["<C-t>"] = lga_actions.quote_prompt { postfix = " -t " },
+        },
+      },
+    },
+  },
   defaults = {
     mappings = {
       i = {
@@ -38,12 +48,14 @@ require("telescope").setup {
   },
 }
 require("telescope").load_extension "fzf"
+require("telescope").load_extension "live_grep_args"
 
 local map = vim.keymap.set
 local builtin = require "telescope.builtin"
+local live_grep_args = require("telescope").extensions.live_grep_args
 
 map("n", "<leader>ff", builtin.find_files, { desc = "Telescope: Find files" })
-map("n", "<leader>fa", builtin.live_grep, { desc = "Telescope: Live grep" })
+map("n", "<leader>fa", live_grep_args.live_grep_args, { desc = "Telescope: Live grep (args)" })
 map("n", "<leader>fw", builtin.grep_string, { desc = "Telescope: Search word under cursor" })
 map("n", "<leader>fb", builtin.current_buffer_fuzzy_find, { desc = "Telescope: Search in current file" })
 map("n", "<leader>fB", builtin.buffers, { desc = "Telescope: Buffers" })

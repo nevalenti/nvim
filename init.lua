@@ -14,12 +14,14 @@ vim.pack.add {
 
   { src = "https://github.com/nvim-telescope/telescope.nvim" },
   { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+  { src = "https://github.com/nvim-telescope/telescope-live-grep-args.nvim" },
   { src = "https://github.com/stevearc/oil.nvim" },
   { src = "https://github.com/refractalize/oil-git-status.nvim" },
   { src = "https://github.com/mbbill/undotree" },
-  { src = "https://github.com/ThePrimeagen/harpoon" },
+  { src = "https://github.com/ThePrimeagen/harpoon", branch = "harpoon2" },
 
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
   { src = "https://github.com/windwp/nvim-ts-autotag" },
 
   { src = "https://github.com/neovim/nvim-lspconfig" },
@@ -70,12 +72,15 @@ require "plugins.telescope"
 require "plugins.undotree"
 require "plugins.harpoon"
 
+require "plugins.treesitter"
+require "plugins.treesitter-textobjects"
 require "plugins.lsp"
 require "plugins.conform"
 
 require "plugins.trouble"
 
 require "plugins.gitsigns"
+require "plugins.diffview"
 
 require "plugins.dap"
 require "plugins.neotest"

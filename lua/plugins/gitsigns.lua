@@ -1,4 +1,5 @@
 require("gitsigns").setup {
+  base = "HEAD",
   signs = {
     add = { text = "+" },
     change = { text = "~" },

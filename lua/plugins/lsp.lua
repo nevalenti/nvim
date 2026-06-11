@@ -67,6 +67,7 @@ require("mason-lspconfig").setup {
     "taplo",
     "lemminx",
     "lua_ls",
+    "csharp_ls",
   },
 }
 
@@ -172,47 +173,6 @@ require("blink.cmp").setup {
     window = {
       border = "rounded",
       winhighlight = "Normal:BlinkCmpSignatureHelp,FloatBorder:BlinkCmpSignatureHelpBorder",
-    },
-  },
-}
-
-require("nvim-treesitter").setup {
-  ensure_installed = {
-    "javascript",
-    "typescript",
-    "lua",
-    "bash",
-    "dockerfile",
-    "html",
-    "css",
-    "json",
-    "xml",
-    "yaml",
-    "toml",
-    "tsx",
-    "vue",
-    "tailwindcss",
-    "markdown",
-    "markdown_inline",
-    "sql",
-    "prisma",
-    "regex",
-    "gitignore",
-    "dotenv",
-  },
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-  auto_install = true,
-  indent = { enable = true },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "gnn",
-      node_incremental = "gnn",
-      scope_incremental = false,
-      node_decremental = "gnp",
     },
   },
 }

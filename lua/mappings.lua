@@ -42,3 +42,8 @@ map("n", "<leader>/", "gcc", { remap = true, desc = "Toggle comment" })
 map("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment" })
 
 map("n", "<leader>X", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make file executable" })
+
+map("n", "<leader>tl", function()
+  local cfg = vim.diagnostic.config()
+  vim.diagnostic.config { virtual_text = not cfg.virtual_text }
+end, { desc = "Toggle inline diagnostics" })
