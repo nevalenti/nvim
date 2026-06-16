@@ -1,3 +1,7 @@
+require("mason-nvim-dap").setup {
+  ensure_installed = { "netcoredbg" },
+}
+
 require("nvim-dap-virtual-text").setup {
   enabled = true,
   highlight_changed_variables = true,

@@ -51,6 +51,19 @@ vim.lsp.config("lua_ls", {
   },
 })
 
+vim.lsp.config("omnisharp", {
+  root_dir = function(bufnr, on_dir)
+    local root = vim.fs.root(bufnr, function(name)
+      return name:match "%.sln$" ~= nil
+        or name:match "%.slnx$" ~= nil
+        or name:match "%.csproj$" ~= nil
+        or name == "omnisharp.json"
+    end)
+    on_dir(root or vim.fn.getcwd())
+  end,
+})
+vim.lsp.enable "omnisharp"
+
 require("mason").setup {}
 
 require("mason-lspconfig").setup {
@@ -67,7 +80,7 @@ require("mason-lspconfig").setup {
     "taplo",
     "lemminx",
     "lua_ls",
-    "csharp_ls",
+    "omnisharp",
   },
 }
 
