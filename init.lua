@@ -1,3 +1,13 @@
+vim.api.nvim_create_autocmd("PackChanged", {
+  callback = function(ev)
+    local spec, kind = ev.data.spec, ev.data.kind
+    if spec.name == "blink.cmp" and (kind == "install" or kind == "update") then
+      if not ev.data.active then vim.cmd.packadd("blink.cmp") end
+      require("blink.cmp").build():pwait()
+    end
+  end,
+})
+
 vim.pack.add {
   { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/nvim-neotest/nvim-nio" },
@@ -27,7 +37,7 @@ vim.pack.add {
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/mason-org/mason.nvim" },
   { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-  { src = "https://github.com/saghen/blink.cmp", build = "cargo build --release" },
+  { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("*") },
   { src = "https://github.com/rafamadriz/friendly-snippets" },
   { src = "https://github.com/stevearc/conform.nvim" },
 

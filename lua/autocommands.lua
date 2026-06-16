@@ -8,7 +8,7 @@ autocmd("TextYankPost", {
   group = text_yank_group,
   pattern = "*",
   callback = function()
-    vim.highlight.on_yank { higroup = "IncSearch", timeout = 250 }
+    vim.hl.hl_op { higroup = "IncSearch", timeout = 250 }
   end,
 })
 
@@ -17,7 +17,7 @@ autocmd("BufWritePre", {
   pattern = "*",
   callback = function()
     local bufname = vim.api.nvim_buf_get_name(0)
-    if vim.bo.filetype ~= "oil" and not bufname:match "^oil://" then
+    if vim.bo.modifiable and vim.bo.filetype ~= "oil" and not bufname:match "^oil://" then
       local pos = vim.api.nvim_win_get_cursor(0)
       vim.cmd [[keeppatterns %s/\s\+$//e]]
       pcall(vim.api.nvim_win_set_cursor, 0, pos)

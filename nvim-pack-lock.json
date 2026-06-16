@@ -9,8 +9,9 @@
       "src": "https://github.com/yetone/avante.nvim"
     },
     "blink.cmp": {
-      "rev": "6a4914ca987453464a7dfc7fc237a992adb567d0",
-      "src": "https://github.com/saghen/blink.cmp"
+      "rev": "8dfcae258106ea7190802029849255714650d3b2",
+      "src": "https://github.com/saghen/blink.cmp",
+      "version": ">=0.0.0"
     },
     "claude-code.nvim": {
       "rev": "c9a31e51069977edaad9560473b5d031fcc5d38b",
@@ -53,7 +54,7 @@
       "src": "https://github.com/nevalenti/gruber-darker.nvim"
     },
     "harpoon": {
-      "rev": "87b1a35a9b599ba493e09a8c7fd0c8b0683a1bdf",
+      "rev": "87b1a3506211538f460786c23f98ec63ad9af4e5",
       "src": "https://github.com/ThePrimeagen/harpoon"
     },
     "lsp-zero.nvim": {
