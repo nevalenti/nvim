@@ -16,7 +16,7 @@ require("conform").setup {
   },
   format_on_save = {
     timeout_ms = 2000,
-    lsp_fallback = true,
+    lsp_format = "fallback",
   },
   formatters = {
     csharpier = {
@@ -29,5 +29,5 @@ require("conform").setup {
 }
 
 vim.keymap.set({ "n", "v" }, "<leader>fm", function()
-  require("conform").format { async = true, lsp_fallback = true }
+  require("conform").format { async = true, lsp_format = "fallback" }
 end, { desc = "Format buffer" })

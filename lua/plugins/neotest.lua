@@ -4,6 +4,9 @@ require("neotest").setup {
   adapters = {
     require "neotest-vitest",
     require "neotest-jest" { jestCommand = "npx jest --" },
+    require "neotest-python" { dap = { justMyCode = false }, runner = "pytest" },
+    require "neotest-golang",
+    require "neotest-dotnet" { dap = { justMyCode = false } },
   },
   output = { open_on_run = true },
 }

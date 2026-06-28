@@ -64,6 +64,7 @@ map("v", "<leader>gr", function()
   gitsigns.reset_hunk { vim.fn.line ".", vim.fn.line "v" }
 end, { desc = "Reset the visually selected hunk" })
 
+map("n", "<leader>gu", gitsigns.undo_stage_hunk, { desc = "Undo the last staged hunk" })
 map("n", "<leader>gS", gitsigns.stage_buffer, { desc = "Stage all hunks in the current buffer" })
 map("n", "<leader>gR", gitsigns.reset_buffer, { desc = "Reset all hunks in the current buffer" })
 

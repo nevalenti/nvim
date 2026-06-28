@@ -6,6 +6,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local bufnr = args.buf
     local opts = { buffer = bufnr, remap = false }
     map("n", "gd", vim.lsp.buf.definition, opts)
+    map("n", "gD", vim.lsp.buf.declaration, opts)
     map("n", "gi", vim.lsp.buf.implementation, opts)
     map("n", "K", vim.lsp.buf.hover, opts)
     map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, opts)
@@ -81,6 +82,8 @@ require("mason-lspconfig").setup {
     "lemminx",
     "lua_ls",
     "omnisharp",
+    "pyright",
+    "gopls",
   },
 }
 

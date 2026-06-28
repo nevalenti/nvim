@@ -1,5 +1,5 @@
 require("mason-nvim-dap").setup {
-  ensure_installed = { "netcoredbg" },
+  ensure_installed = { "netcoredbg", "debugpy", "delve" },
 }
 
 require("nvim-dap-virtual-text").setup {
@@ -70,21 +70,9 @@ dap.configurations.cs = {
     request = "launch",
     program = function()
       local cwd = vim.fn.getcwd()
-      local debug_paths = {
-        cwd .. "/bin/Debug/",
-        cwd .. "/bin/x64/Debug/",
-        cwd .. "/bin/",
-      }
-
-      local default_path = cwd
-      for _, path in ipairs(debug_paths) do
-        if vim.fn.isdirectory(path) == 1 then
-          default_path = path
-          break
-        end
-      end
-
-      return vim.fn.input("Path to DLL: ", default_path, "file")
+      local dlls = vim.fn.glob(cwd .. "/bin/Debug/**/*.dll", false, true)
+      local default = #dlls > 0 and dlls[1] or (cwd .. "/bin/Debug/")
+      return vim.fn.input("Path to DLL: ", default, "file")
     end,
     env = {
       ASPNETCORE_ENVIRONMENT = "Development",
@@ -98,9 +86,7 @@ dap.configurations.cs = {
     type = "coreclr",
     name = "Attach - netcoredbg",
     request = "attach",
-    processId = function()
-      return vim.fn.input "Process ID: "
-    end,
+    processId = require("dap.utils").pick_process,
   },
 }
 

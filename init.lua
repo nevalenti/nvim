@@ -2,7 +2,9 @@ vim.api.nvim_create_autocmd("PackChanged", {
   callback = function(ev)
     local spec, kind = ev.data.spec, ev.data.kind
     if spec.name == "blink.cmp" and (kind == "install" or kind == "update") then
-      if not ev.data.active then vim.cmd.packadd("blink.cmp") end
+      if not ev.data.active then
+        vim.cmd.packadd "blink.cmp"
+      end
       require("blink.cmp").build():pwait()
     end
   end,
@@ -37,13 +39,16 @@ vim.pack.add {
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/mason-org/mason.nvim" },
   { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-  { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("*") },
+  { src = "https://github.com/saghen/blink.cmp", version = vim.version.range "*" },
   { src = "https://github.com/rafamadriz/friendly-snippets" },
   { src = "https://github.com/stevearc/conform.nvim" },
 
   { src = "https://github.com/nvim-neotest/neotest" },
   { src = "https://github.com/marilari88/neotest-vitest" },
   { src = "https://github.com/nvim-neotest/neotest-jest" },
+  { src = "https://github.com/nvim-neotest/neotest-python" },
+  { src = "https://github.com/fredrikaverpil/neotest-golang" },
+  { src = "https://github.com/Issafalcon/neotest-dotnet" },
 
   { src = "https://github.com/tpope/vim-fugitive" },
   { src = "https://github.com/lewis6991/gitsigns.nvim" },
@@ -58,9 +63,6 @@ vim.pack.add {
 
   { src = "https://github.com/kylechui/nvim-surround" },
   { src = "https://github.com/m4xshen/autoclose.nvim" },
-
-  { src = "https://github.com/yetone/avante.nvim", build = "make" },
-  { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim", ft = { "markdown" } },
 
   { src = "https://github.com/folke/trouble.nvim" },
 }
@@ -98,6 +100,3 @@ require "plugins.neotest"
 require "plugins.autoclose"
 require "plugins.surround"
 require "plugins.autotag"
-
-require "plugins.avante"
-require "plugins.render-markdown"

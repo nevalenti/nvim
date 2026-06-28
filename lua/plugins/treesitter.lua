@@ -21,6 +21,10 @@ require("nvim-treesitter").install {
   "regex",
   "gitignore",
   "c_sharp",
+  "python",
+  "go",
+  "gomod",
+  "gosum",
 }
 
 vim.api.nvim_create_autocmd("FileType", {

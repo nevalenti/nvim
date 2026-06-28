@@ -1,7 +1,7 @@
 require("noice").setup {
   lsp = {
     progress = {
-      enabled = false,
+      enabled = true,
       format = "lsp_progress",
       format_done = "lsp_progress_done",
       throttle = 1000 / 30,
@@ -17,6 +17,10 @@ require("noice").setup {
   },
 
   routes = {
+    {
+      filter = { event = "msg_show", find = "INVALID_SERVER_MESSAGE" },
+      opts = { skip = true },
+    },
     {
       filter = { event = "msg_show", min_height = 20 },
       view = "split",

@@ -25,8 +25,8 @@ map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected line up" })
 map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
 
-map("n", "<C-j>", "<cmd>cnext<CR>zz", { desc = "Next quickfix item" })
-map("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Previous quickfix item" })
+map("n", "]q", "<cmd>cnext<CR>zz", { desc = "Next quickfix item" })
+map("n", "[q", "<cmd>cprev<CR>zz", { desc = "Previous quickfix item" })
 
 map("n", "]l", "<cmd>lnext<CR>zz", { desc = "Next location list item" })
 map("n", "[l", "<cmd>lprev<CR>zz", { desc = "Previous location list item" })
@@ -47,3 +47,7 @@ map("n", "<leader>tl", function()
   local cfg = vim.diagnostic.config()
   vim.diagnostic.config { virtual_text = not cfg.virtual_text }
 end, { desc = "Toggle inline diagnostics" })
+
+map("n", "<leader>ti", function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 }, { bufnr = 0 })
+end, { desc = "Toggle inlay hints" })

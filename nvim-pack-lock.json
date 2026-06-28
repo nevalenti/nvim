@@ -85,9 +85,25 @@
       "rev": "ad991822b7076b1d940b33a9d6d0d30416d5df81",
       "src": "https://github.com/nvim-neotest/neotest"
     },
+    "neotest-dotnet": {
+      "rev": "e27c67a856ce67cc968b773d01a35ec07459bb8b",
+      "src": "https://github.com/Issafalcon/neotest-dotnet"
+    },
+    "neotest-golang": {
+      "rev": "f0ba097d4af098c036aac24cd647480d0d301ad2",
+      "src": "https://github.com/fredrikaverpil/neotest-golang"
+    },
+    "neotest-java": {
+      "rev": "78d236da986cca4dd95cb10b1250c4c6e1508240",
+      "src": "https://github.com/rcasia/neotest-java"
+    },
     "neotest-jest": {
       "rev": "0e7979d51301dfae5ef839d771bd28cf593fde3f",
       "src": "https://github.com/nvim-neotest/neotest-jest"
+    },
+    "neotest-python": {
+      "rev": "e6df4f1892f6137f58135917db24d1655937d831",
+      "src": "https://github.com/nvim-neotest/neotest-python"
     },
     "neotest-vitest": {
       "rev": "f01addc6f07b79ef1be5f4297eafbee9e0959018",
@@ -124,6 +140,10 @@
     "nvim-dap-virtual-text": {
       "rev": "fbdb48c2ed45f4a8293d0d483f7730d24467ccb6",
       "src": "https://github.com/theHamsta/nvim-dap-virtual-text"
+    },
+    "nvim-jdtls": {
+      "rev": "6e9d953f0b82bccdb834cfde0e893f3119c22592",
+      "src": "https://github.com/mfussenegger/nvim-jdtls"
     },
     "nvim-lspconfig": {
       "rev": "0b38bc74487e73489624d61396af7805af9cc75f",
@@ -172,6 +192,10 @@
     "render-markdown.nvim": {
       "rev": "da6a7b25471ab23824f3429225973186eb0b62d2",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
+    "roslyn.nvim": {
+      "rev": "c4ef25973bcc30a2c8c8766711fbbdb3d02b70a3",
+      "src": "https://github.com/seblj/roslyn.nvim"
     },
     "telescope-fzf-native.nvim": {
       "rev": "6fea601bd2b694c6f2ae08a6c6fab14930c60e2c",
