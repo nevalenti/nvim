@@ -25,26 +25,18 @@ autocmd("BufWritePre", {
   end,
 })
 
-vim.api.nvim_create_user_command("Reg", function()
+local function ex_output_popup(opts)
   local Popup = require "nui.popup"
 
-  local raw_registers = vim.fn.execute "reg"
-  local lines = vim.split(vim.trim(raw_registers), "\n", { trimempty = true })
+  local lines = vim.split(vim.trim(vim.fn.execute(opts.ex_cmd)), "\n", { trimempty = true })
 
   local popup = Popup {
     enter = true,
     focusable = true,
-    border = {
-      style = "rounded",
-      text = { top = " Registers ", top_align = "center" },
-    },
+    border = { style = "rounded", text = { top = opts.title, top_align = "center" } },
     position = "50%",
-    size = { width = "70%", height = "50%" },
-    win_options = {
-      number = true,
-      relativenumber = true,
-      cursorline = true,
-    },
+    size = opts.size,
+    win_options = opts.win_options,
   }
 
   popup:mount()
@@ -57,82 +49,48 @@ vim.api.nvim_create_user_command("Reg", function()
     popup:unmount()
   end)
 
-  popup:map("n", "<CR>", function()
-    local line = vim.api.nvim_get_current_line()
-    local reg_name = line:match '^%s*"(.)'
+  if opts.on_select then
+    popup:map("n", "<CR>", function()
+      local line = vim.api.nvim_get_current_line()
+      local match = line:match(opts.select_pattern)
+      if match then
+        popup:unmount()
+        opts.on_select(match)
+      end
+    end)
+  end
+end
 
-    if reg_name then
-      popup:unmount()
+vim.api.nvim_create_user_command("Reg", function()
+  ex_output_popup {
+    ex_cmd = "reg",
+    title = " Registers ",
+    size = { width = "70%", height = "50%" },
+    win_options = { number = true, relativenumber = true, cursorline = true },
+    select_pattern = '^%s*"(.)',
+    on_select = function(reg_name)
       vim.cmd('normal! "' .. reg_name .. "p")
-    end
-  end)
+    end,
+  }
 end, {})
 
 vim.api.nvim_create_user_command("Pwd", function()
-  local Popup = require "nui.popup"
-  local raw_output = vim.fn.execute "pwd"
-  local cleaned_output = vim.trim(raw_output)
-
-  local popup = Popup {
-    enter = true,
-    focusable = true,
-    border = { style = "rounded", text = { top = "Working Directory", top_align = "center" } },
-    position = "50%",
+  ex_output_popup {
+    ex_cmd = "pwd",
+    title = "Working Directory",
     size = { width = "70%", height = "10%" },
   }
-
-  popup:mount()
-
-  local lines = vim.split(cleaned_output, "\n", { trimempty = true })
-  vim.api.nvim_buf_set_lines(popup.bufnr, 0, -1, false, lines)
-
-  vim.bo[popup.bufnr].modifiable = false
-  vim.bo[popup.bufnr].buftype = "nofile"
-
-  popup:map("n", "q", function()
-    popup:unmount()
-  end)
 end, {})
 
 vim.api.nvim_create_user_command("Buf", function()
-  local Popup = require "nui.popup"
-
-  local raw_buffers = vim.fn.execute "ls"
-  local lines = vim.split(vim.trim(raw_buffers), "\n", { trimempty = true })
-
-  local popup = Popup {
-    enter = true,
-    focusable = true,
-    border = {
-      style = "rounded",
-      text = { top = " Buffers ", top_align = "center" },
-    },
-    position = "50%",
+  ex_output_popup {
+    ex_cmd = "ls",
+    title = " Buffers ",
     size = { width = "70%", height = "50%" },
-    win_options = {
-      number = true,
-      relativenumber = true,
-      cursorline = true,
-    },
-  }
-
-  popup:mount()
-
-  vim.api.nvim_buf_set_lines(popup.bufnr, 0, -1, false, lines)
-  vim.bo[popup.bufnr].modifiable = false
-  vim.bo[popup.bufnr].buftype = "nofile"
-
-  popup:map("n", "q", function()
-    popup:unmount()
-  end)
-
-  popup:map("n", "<CR>", function()
-    local line = vim.api.nvim_get_current_line()
-    local bufnr = line:match "^%s*(%d+)"
-
-    if bufnr then
-      popup:unmount()
+    win_options = { number = true, relativenumber = true, cursorline = true },
+    select_pattern = "^%s*(%d+)",
+    on_select = function(bufnr)
       vim.api.nvim_set_current_buf(tonumber(bufnr))
-    end
-  end)
+    end,
+  }
 end, {})
