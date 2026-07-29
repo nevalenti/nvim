@@ -18,18 +18,7 @@ require("gitsigns").setup {
   },
 }
 
-vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = "#00FF00", bold = true })
-vim.api.nvim_set_hl(0, "GitSignsChange", { fg = "#FFFF00", bold = true })
-vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = "#FF0000", bold = true })
-vim.api.nvim_set_hl(0, "GitSignsTopdelete", { fg = "#FF5555", bold = true })
-vim.api.nvim_set_hl(0, "GitSignsChangedelete", { fg = "#FFAA00", bold = true })
-vim.api.nvim_set_hl(0, "GitSignsUntracked", { fg = "#00FFFF", bold = true })
-vim.api.nvim_set_hl(0, "GitSignsStagedAdd", { fg = "#00FF00", bold = true })
-vim.api.nvim_set_hl(0, "GitSignsStagedChange", { fg = "#FFFF00", bold = true })
-vim.api.nvim_set_hl(0, "GitSignsStagedDelete", { fg = "#FF0000", bold = true })
-vim.api.nvim_set_hl(0, "GitSignsStagedTopdelete", { fg = "#FF5555", bold = true })
-vim.api.nvim_set_hl(0, "GitSignsStagedChangedelete", { fg = "#FFAA00", bold = true })
-vim.api.nvim_set_hl(0, "GitSignsStagedUntracked", { fg = "#00FFFF", bold = true })
+vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = require("vscode.colors").get_colors().vscGray })
 
 local map = vim.keymap.set
 local gitsigns = require "gitsigns"

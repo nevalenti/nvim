@@ -20,6 +20,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "<leader>rr", vim.lsp.buf.references, opts)
     map("n", "<leader>rn", vim.lsp.buf.rename, opts)
     map("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+    if client:supports_method("textDocument/documentSymbol", bufnr) then
+      require("nvim-navic").attach(client, bufnr)
+    end
+
+    local st = client.server_capabilities.semanticTokensProvider
+    if type(st) == "table" and st.full and st.range then
+      st.range = nil
+    end
+    if
+      client:supports_method("textDocument/semanticTokens/full", bufnr)
+      or client:supports_method("textDocument/semanticTokens/range", bufnr)
+    then
+      vim.lsp.semantic_tokens._start(bufnr, client.id, 25)
+    end
   end,
 })
 
@@ -67,9 +84,29 @@ require("mason-lspconfig").setup {
     "taplo",
     "lemminx",
     "lua_ls",
-    "csharp_ls",
+    "jdtls",
+    "intelephense",
   },
+  automatic_enable = { exclude = { "jdtls", "csharp_ls" } },
 }
+
+local mason_registry = require "mason-registry"
+mason_registry.refresh(function()
+  for _, tool in ipairs {
+    "java-debug-adapter",
+    "java-test",
+    "php-debug-adapter",
+    "google-java-format",
+    "php-cs-fixer",
+    "netcoredbg",
+    "roslyn-language-server",
+  } do
+    local ok, pkg = pcall(mason_registry.get_package, tool)
+    if ok and not pkg:is_installed() then
+      pkg:install()
+    end
+  end
+end)
 
 require("blink.cmp").setup {
   keymap = {

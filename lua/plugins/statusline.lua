@@ -1,36 +1,74 @@
-local theme = {
-  normal = {
-    a = { fg = "#E4E4E4", bg = "#121212", gui = "bold" },
-    b = { fg = "#E4E4E4", bg = "#453D41" },
-    c = { fg = "#E4E4E4", bg = "#121212" },
-  },
-  insert = {
-    a = { fg = "#121212", bg = "#73D936", gui = "bold" },
-    b = { fg = "#E4E4E4", bg = "#453D41" },
-    c = { fg = "#E4E4E4", bg = "#121212" },
-  },
-  visual = {
-    a = { fg = "#121212", bg = "#FFDD33", gui = "bold" },
-    b = { fg = "#E4E4E4", bg = "#453D41" },
-    c = { fg = "#E4E4E4", bg = "#121212" },
-  },
-  replace = {
-    a = { fg = "#121212", bg = "#F43841", gui = "bold" },
-    b = { fg = "#E4E4E4", bg = "#453D41" },
-    c = { fg = "#E4E4E4", bg = "#121212" },
-  },
-  command = {
-    a = { fg = "#121212", bg = "#B584FF", gui = "bold" },
-    b = { fg = "#E4E4E4", bg = "#453D41" },
-    c = { fg = "#E4E4E4", bg = "#121212" },
-  },
-  inactive = {
-    a = { fg = "#E4E4E4", bg = "#101010", gui = "bold" },
-    b = { fg = "#E4E4E4", bg = "#101010" },
-    c = { fg = "#E4E4E4", bg = "#101010" },
-  },
-}
+local palette = require("vscode.colors").get_colors()
+
+local function recording()
+  local reg = vim.fn.reg_recording()
+  if reg == "" then
+    return ""
+  end
+  return " @" .. reg
+end
 
 require("lualine").setup {
-  options = { theme = theme },
+  options = {
+    theme = "vscode",
+    globalstatus = true,
+  },
+  sections = {
+    lualine_a = { "mode" },
+    lualine_b = { "branch", "diff" },
+    lualine_c = {
+      {
+        "filename",
+        path = 1,
+        symbols = { modified = " ●", readonly = " ", unnamed = "[No Name]", newfile = "[New]" },
+      },
+      "diagnostics",
+    },
+    lualine_x = {
+      { recording, color = { fg = palette.vscRed, gui = "bold" } },
+      "searchcount",
+      "selectioncount",
+      "lsp_status",
+      {
+        "encoding",
+        cond = function()
+          return vim.bo.fileencoding ~= "" and vim.bo.fileencoding ~= "utf-8"
+        end,
+      },
+      {
+        "fileformat",
+        cond = function()
+          return vim.bo.fileformat ~= "unix"
+        end,
+      },
+      "filetype",
+    },
+    lualine_y = { "progress" },
+    lualine_z = { "location" },
+  },
+  tabline = {
+    lualine_a = {
+      {
+        "buffers",
+        icons_enabled = false,
+        symbols = { modified = " ●" },
+        buffers_color = {
+          active = { fg = palette.vscFront, bg = palette.vscLeftMid, gui = "bold" },
+          inactive = { fg = palette.vscGray, bg = palette.vscLeftDark },
+        },
+        fmt = function(name, ctx)
+          local icon = require("mini.icons").get("file", ctx.file)
+          return icon .. "  " .. name
+        end,
+      },
+    },
+    lualine_z = {
+      {
+        function()
+          return vim.fn.fnamemodify(vim.fn.getcwd(), ":~")
+        end,
+        icon = "",
+      },
+    },
+  },
 }

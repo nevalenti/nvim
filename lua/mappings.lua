@@ -47,3 +47,19 @@ map("n", "<leader>tl", function()
   local cfg = vim.diagnostic.config()
   vim.diagnostic.config { virtual_text = not cfg.virtual_text }
 end, { desc = "Toggle inline diagnostics" })
+
+map("n", "<leader>tq", function()
+  vim.diagnostic.setqflist { open = true }
+end, { desc = "Send all diagnostics to quickfix list" })
+
+map("n", "<leader>yp", function()
+  local path = vim.fn.expand "%:p"
+  vim.fn.setreg("+", path)
+  vim.notify(path)
+end, { desc = "Yank full file path" })
+
+map("n", "<leader>yP", function()
+  local path = vim.fn.expand "%"
+  vim.fn.setreg("+", path)
+  vim.notify(path)
+end, { desc = "Yank relative file path" })

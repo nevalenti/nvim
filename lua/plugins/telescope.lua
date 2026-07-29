@@ -28,6 +28,9 @@ require("telescope").setup {
         ["<C-u>"] = "preview_scrolling_up",
       },
     },
+    prompt_prefix = " ",
+    selection_caret = "❯ ",
+    entry_prefix = "  ",
     sorting_strategy = "ascending",
     layout_strategy = "vertical",
     layout_config = {
@@ -36,7 +39,7 @@ require("telescope").setup {
         prompt_position = "top",
         width = 0.8,
         height = 0.9,
-        preview_height = 0.6,
+        preview_height = 0.7,
       },
       horizontal = {
         prompt_position = "top",
@@ -49,6 +52,18 @@ require("telescope").setup {
 }
 require("telescope").load_extension "fzf"
 require("telescope").load_extension "live_grep_args"
+
+do
+  local telescope_utils = require "telescope.utils"
+  local original_transform_devicons = telescope_utils.transform_devicons
+  telescope_utils.transform_devicons = function(filename, display, disable_devicons)
+    local icon_display, hl_group, icon = original_transform_devicons(filename, display, disable_devicons)
+    if icon and icon_display then
+      icon_display = icon .. "  " .. (display or "")
+    end
+    return icon_display, hl_group, icon
+  end
+end
 
 local map = vim.keymap.set
 local builtin = require "telescope.builtin"

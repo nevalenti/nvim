@@ -11,6 +11,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.wrap = false
 vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+vim.opt.fillchars = { vert = "│", fold = " ", eob = " " }
 vim.opt.termguicolors = true
 vim.opt.title = true
 vim.opt.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a'
@@ -36,6 +37,8 @@ vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.undofile = true
 vim.opt.clipboard = "unnamedplus"
+
+vim.opt.autoread = true
 
 vim.opt.timeoutlen = 300
 vim.opt.updatetime = 250

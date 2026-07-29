@@ -13,6 +13,8 @@ require("conform").setup {
     yaml = { "prettier" },
     markdown = { "prettier" },
     cs = { "csharpier" },
+    java = { "google-java-format" },
+    php = { "php_cs_fixer" },
   },
   format_on_save = {
     timeout_ms = 2000,
@@ -20,8 +22,6 @@ require("conform").setup {
   },
   formatters = {
     csharpier = {
-      -- Use the project's pinned dotnet-tools.json version instead of the
-      -- Mason-installed csharpier, so editor output matches `csharpier check` in CI.
       command = "dotnet",
       args = { "csharpier", "format", "--stdin-path", "$FILENAME" },
     },

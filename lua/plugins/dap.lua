@@ -185,3 +185,18 @@ local js_ts_configs = {
 for _, lang in ipairs { "javascript", "typescript", "javascriptreact", "typescriptreact" } do
   dap.configurations[lang] = js_ts_configs
 end
+
+dap.adapters.php = {
+  type = "executable",
+  command = "node",
+  args = { vim.fn.stdpath "data" .. "/mason/packages/php-debug-adapter/extension/out/phpDebug.js" },
+}
+
+dap.configurations.php = {
+  {
+    type = "php",
+    request = "launch",
+    name = "Listen for Xdebug",
+    port = 9003,
+  },
+}

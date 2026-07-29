@@ -21,6 +21,9 @@ require("nvim-treesitter").install {
   "regex",
   "gitignore",
   "c_sharp",
+  "java",
+  "php",
+  "php_only",
 }
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -31,5 +34,16 @@ vim.api.nvim_create_autocmd("FileType", {
     end
     vim.treesitter.start(args.buf, lang)
     vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+    local ok, parser = pcall(vim.treesitter.get_parser, args.buf, lang)
+    if ok and parser then
+      local function parse_all(lt)
+        lt:parse(true)
+        for _, child in pairs(lt:children()) do
+          parse_all(child)
+        end
+      end
+      parse_all(parser)
+    end
   end,
 })
