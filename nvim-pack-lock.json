@@ -28,6 +28,10 @@
       "rev": "18aeab3d63d350dcf44d64c462cc489a3412af40",
       "src": "https://github.com/stevearc/conform.nvim"
     },
+    "cyberdream.nvim": {
+      "rev": "d0e6e837b0248e3507f3a295deb4661221610e78",
+      "src": "https://github.com/scottmckendry/cyberdream.nvim"
+    },
     "diffview.nvim": {
       "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
       "src": "https://github.com/sindrets/diffview.nvim"

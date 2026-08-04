@@ -1,4 +1,4 @@
-local palette = require("vscode.colors").get_colors()
+local palette = require("cyberdream.colors").default
 
 local function recording()
   local reg = vim.fn.reg_recording()
@@ -10,7 +10,7 @@ end
 
 require("lualine").setup {
   options = {
-    theme = "vscode",
+    theme = "auto",
     globalstatus = true,
   },
   sections = {
@@ -25,7 +25,7 @@ require("lualine").setup {
       "diagnostics",
     },
     lualine_x = {
-      { recording, color = { fg = palette.vscRed, gui = "bold" } },
+      { recording, color = { fg = palette.red, gui = "bold" } },
       "searchcount",
       "selectioncount",
       "lsp_status",
@@ -53,8 +53,8 @@ require("lualine").setup {
         icons_enabled = false,
         symbols = { modified = " ●" },
         buffers_color = {
-          active = { fg = palette.vscFront, bg = palette.vscLeftMid, gui = "bold" },
-          inactive = { fg = palette.vscGray, bg = palette.vscLeftDark },
+          active = { fg = palette.fg, bg = palette.bg_highlight, gui = "bold" },
+          inactive = { fg = palette.grey, bg = palette.bg_alt },
         },
         fmt = function(name, ctx)
           local icon = require("mini.icons").get("file", ctx.file)

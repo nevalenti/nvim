@@ -13,6 +13,7 @@ vim.pack.add {
   { src = "https://github.com/sainnhe/gruvbox-material" },
   { src = "https://github.com/blazkowolf/gruber-darker.nvim" },
   { src = "https://github.com/Mofiqul/vscode.nvim" },
+  { src = "https://github.com/scottmckendry/cyberdream.nvim" },
   { src = "https://github.com/nyoom-engineering/oxocarbon.nvim" },
   { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
 

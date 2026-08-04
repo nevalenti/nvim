@@ -6,6 +6,6 @@ local function blend(hex_a, hex_b, ratio)
   return ("#%02x%02x%02x"):format(a_r + (b_r - a_r) * ratio, a_g + (b_g - a_g) * ratio, a_b + (b_b - a_b) * ratio)
 end
 
-local c = require("vscode.colors").get_colors()
-vim.api.nvim_set_hl(0, "MiniCursorword", { bg = blend(c.vscBack, c.vscSelection, 0.5), underline = false })
+local c = require("cyberdream.colors").default
+vim.api.nvim_set_hl(0, "MiniCursorword", { bg = blend(c.bg, c.bg_highlight, 0.5), underline = false })
 vim.api.nvim_set_hl(0, "MiniCursorwordCurrent", { bg = "NONE", underline = false })

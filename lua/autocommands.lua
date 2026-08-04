@@ -39,7 +39,7 @@ autocmd("BufWritePre", {
   end,
 })
 
-autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+autocmd({ "FocusGained", "BufEnter" }, {
   group = checktime_group,
   pattern = "*",
   callback = function()

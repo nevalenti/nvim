@@ -4,7 +4,7 @@ require("mini.indentscope").setup {
   options = { try_as_border = true },
 }
 
-vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", { fg = require("vscode.colors").get_colors().vscGray })
+vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", { fg = require("cyberdream.colors").default.grey })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "help", "trouble", "lazy", "mason", "notify", "oil", "qf", "checkhealth", "starter" },
