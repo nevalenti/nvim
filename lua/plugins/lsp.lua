@@ -98,6 +98,7 @@ mason_registry.refresh(function()
     "php-debug-adapter",
     "google-java-format",
     "php-cs-fixer",
+    "phpstan",
     "netcoredbg",
     "roslyn-language-server",
   } do

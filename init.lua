@@ -46,6 +46,7 @@ vim.pack.add {
   { src = "https://github.com/saghen/blink.cmp", build = "cargo build --release" },
   { src = "https://github.com/rafamadriz/friendly-snippets" },
   { src = "https://github.com/stevearc/conform.nvim" },
+  { src = "https://github.com/mfussenegger/nvim-lint" },
 
   { src = "https://github.com/tpope/vim-fugitive" },
   { src = "https://github.com/lewis6991/gitsigns.nvim" },
@@ -127,6 +128,7 @@ vim.schedule(function()
 end)
 require "plugins.roslyn"
 require "plugins.conform"
+require "plugins.lint"
 
 lazy.on_keys("trouble", { { "n", "<leader>tt" } })
 

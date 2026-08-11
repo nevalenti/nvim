@@ -26,6 +26,7 @@ M.groups = {
     { src = "https://github.com/marilari88/neotest-vitest" },
     { src = "https://github.com/nvim-neotest/neotest-jest" },
     { src = "https://github.com/Issafalcon/neotest-dotnet" },
+    { src = "https://github.com/olimorris/neotest-phpunit" },
   },
   harpoon = {
     { src = "https://github.com/ThePrimeagen/harpoon", branch = "harpoon2" },

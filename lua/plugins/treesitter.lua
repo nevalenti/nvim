@@ -24,6 +24,7 @@ require("nvim-treesitter").install {
   "java",
   "php",
   "php_only",
+  "blade",
 }
 
 vim.api.nvim_create_autocmd("FileType", {

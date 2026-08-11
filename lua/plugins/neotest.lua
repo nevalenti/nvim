@@ -4,9 +4,8 @@ require("neotest").setup {
   adapters = {
     require "neotest-vitest",
     require "neotest-jest" { jestCommand = "npx jest --" },
-    -- adapter_name matches dap.adapters.coreclr (dap.lua), not the "netcoredbg"
-    -- name neotest-dotnet defaults to.
     require "neotest-dotnet" { dap = { adapter_name = "coreclr" } },
+    require "neotest-phpunit" { dap = { type = "php", request = "launch", name = "Listen for Xdebug", port = 9003 } },
   },
   output = { open_on_run = true },
 }
