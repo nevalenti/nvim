@@ -15,7 +15,9 @@ vim.pack.add {
   { src = "https://github.com/Mofiqul/vscode.nvim" },
   { src = "https://github.com/scottmckendry/cyberdream.nvim" },
   { src = "https://github.com/nyoom-engineering/oxocarbon.nvim" },
+  { src = "https://github.com/olivercederborg/poimandres.nvim" },
   { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
+  { src = "https://github.com/folke/tokyonight.nvim" },
 
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
   { src = "https://github.com/rcarriga/nvim-notify" },

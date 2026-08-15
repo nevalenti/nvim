@@ -62,10 +62,10 @@ starter.setup {
   },
 }
 
-local c = require("cyberdream.colors").default
-vim.api.nvim_set_hl(0, "MiniStarterHeader", { fg = c.blue, bold = true })
-vim.api.nvim_set_hl(0, "MiniStarterSection", { fg = c.yellow, bold = true })
-vim.api.nvim_set_hl(0, "MiniStarterItem", { fg = c.fg })
-vim.api.nvim_set_hl(0, "MiniStarterItemPrefix", { fg = c.cyan })
-vim.api.nvim_set_hl(0, "MiniStarterQuery", { fg = c.green })
-vim.api.nvim_set_hl(0, "MiniStarterFooter", { fg = c.grey, italic = true })
+local c = require("vscode.colors").get_colors()
+vim.api.nvim_set_hl(0, "MiniStarterHeader", { fg = c.vscBlue, bold = true })
+vim.api.nvim_set_hl(0, "MiniStarterSection", { fg = c.vscYellow, bold = true })
+vim.api.nvim_set_hl(0, "MiniStarterItem", { fg = c.vscFront })
+vim.api.nvim_set_hl(0, "MiniStarterItemPrefix", { fg = c.vscBlueGreen })
+vim.api.nvim_set_hl(0, "MiniStarterQuery", { fg = c.vscLightGreen })
+vim.api.nvim_set_hl(0, "MiniStarterFooter", { fg = c.vscGray, italic = true })

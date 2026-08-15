@@ -6,37 +6,38 @@ navic.setup {
   depth_limit = 6,
 }
 
-local c = require("cyberdream.colors").default
-vim.api.nvim_set_hl(0, "NavicText", { fg = c.fg })
-vim.api.nvim_set_hl(0, "NavicSeparator", { fg = c.grey })
+local c = require("vscode.colors").get_colors()
+
+vim.api.nvim_set_hl(0, "NavicText", { fg = c.vscFront })
+vim.api.nvim_set_hl(0, "NavicSeparator", { fg = c.vscGray })
 
 local kind_colors = {
-  File = c.blue,
-  Module = c.cyan,
-  Namespace = c.cyan,
-  Package = c.cyan,
-  Class = c.cyan,
-  Method = c.yellow,
-  Property = c.blue,
-  Field = c.blue,
-  Constructor = c.cyan,
-  Enum = c.cyan,
-  Interface = c.cyan,
-  Function = c.yellow,
-  Variable = c.blue,
-  Constant = c.purple,
-  String = c.orange,
-  Number = c.green,
-  Boolean = c.green,
-  Array = c.fg,
-  Object = c.fg,
-  Key = c.fg,
-  Null = c.fg,
-  EnumMember = c.purple,
-  Struct = c.cyan,
-  Event = c.fg,
-  Operator = c.blue,
-  TypeParameter = c.cyan,
+  File = c.vscBlue,
+  Module = c.vscBlue,
+  Namespace = c.vscBlue,
+  Package = c.vscBlue,
+  Class = c.vscBlue,
+  Method = c.vscYellow,
+  Property = c.vscBlue,
+  Field = c.vscBlue,
+  Constructor = c.vscBlue,
+  Enum = c.vscBlue,
+  Interface = c.vscBlue,
+  Function = c.vscYellow,
+  Variable = c.vscBlue,
+  Constant = c.vscPink,
+  String = c.vscOrange,
+  Number = c.vscLightGreen,
+  Boolean = c.vscLightGreen,
+  Array = c.vscFront,
+  Object = c.vscFront,
+  Key = c.vscFront,
+  Null = c.vscFront,
+  EnumMember = c.vscPink,
+  Struct = c.vscBlue,
+  Event = c.vscFront,
+  Operator = c.vscBlue,
+  TypeParameter = c.vscBlue,
 }
 for kind, color in pairs(kind_colors) do
   vim.api.nvim_set_hl(0, "NavicIcons" .. kind, { fg = color })
