@@ -22,11 +22,19 @@ map("n", "J", "mzJ`z", { desc = "Join lines and keep cursor position" })
 map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected line down" })
 map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected line up" })
 
-map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
-map("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
+local function quarter_page_scroll()
+  return math.max(1, math.floor(vim.fn.winheight(0) / 4))
+end
 
-map("n", "<C-j>", "<cmd>cnext<CR>zz", { desc = "Next quickfix item" })
-map("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Previous quickfix item" })
+map("n", "<C-d>", function()
+  return quarter_page_scroll() .. "<C-d>zz"
+end, { expr = true, desc = "Scroll down one quarter page and center" })
+map("n", "<C-u>", function()
+  return quarter_page_scroll() .. "<C-u>zz"
+end, { expr = true, desc = "Scroll up one quarter page and center" })
+
+map("n", "]q", "<cmd>cnext<CR>zz", { desc = "Next quickfix item" })
+map("n", "[q", "<cmd>cprev<CR>zz", { desc = "Previous quickfix item" })
 
 map("n", "]l", "<cmd>lnext<CR>zz", { desc = "Next location list item" })
 map("n", "[l", "<cmd>lprev<CR>zz", { desc = "Previous location list item" })

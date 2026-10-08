@@ -11,7 +11,7 @@ vim.diagnostic.config {
     priority = 20,
   },
   update_in_insert = false,
-  underline = true,
+  underline = false,
   severity_sort = true,
   float = {
     focusable = false,

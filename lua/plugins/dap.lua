@@ -55,7 +55,10 @@ dap.listeners.before.event_exited["dapui_config"] = dapui.close
 
 dap.adapters.coreclr = {
   type = "executable",
-  command = "netcoredbg",
+  command = (function()
+    local mason_netcoredbg = vim.fn.stdpath "data" .. "/mason/bin/netcoredbg"
+    return vim.fn.executable(mason_netcoredbg) == 1 and mason_netcoredbg or "netcoredbg"
+  end)(),
   args = { "--interpreter=vscode" },
 }
 
@@ -102,7 +105,14 @@ dap.configurations.cs = {
 
 require("dap-go").setup {}
 
-require("dap-python").setup(vim.fn.stdpath "data" .. "/mason/packages/debugpy/venv/bin/python")
+local dap_python = require "dap-python"
+dap_python.resolve_python = function()
+  return require("python-env").resolve()
+end
+dap_python.setup(vim.fn.stdpath "data" .. "/mason/packages/debugpy/venv/bin/python")
+
+map("n", "<Leader>dm", dap_python.test_method, { desc = "Debug: Python test method" })
+map("n", "<Leader>dc", dap_python.test_class, { desc = "Debug: Python test class" })
 
 dap.adapters["pwa-node"] = {
   type = "server",

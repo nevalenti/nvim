@@ -28,22 +28,29 @@ require("telescope").setup {
         ["<C-u>"] = "preview_scrolling_up",
       },
     },
-    prompt_prefix = " ",
-    selection_caret = "❯ ",
+    prompt_prefix = "   ",
+    selection_caret = "› ",
     entry_prefix = "  ",
     sorting_strategy = "ascending",
-    layout_strategy = "vertical",
+    borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    path_display = { "smart" },
+    layout_strategy = "flex",
     layout_config = {
+      flex = {
+        flip_columns = 120,
+        flip_lines = 24,
+      },
       vertical = {
         mirror = true,
         prompt_position = "top",
-        width = 0.8,
-        height = 0.9,
-        preview_height = 0.7,
+        width = 0.9,
+        height = 0.85,
+        preview_height = 0.45,
+        preview_cutoff = 24,
       },
       horizontal = {
         prompt_position = "top",
-        width = 0.8,
+        width = 0.85,
         height = 0.8,
         preview_width = 0.5,
       },
@@ -60,6 +67,7 @@ do
     local icon_display, hl_group, icon = original_transform_devicons(filename, display, disable_devicons)
     if icon and icon_display then
       icon_display = icon .. "  " .. (display or "")
+      hl_group = "TelescopeFileIcon"
     end
     return icon_display, hl_group, icon
   end

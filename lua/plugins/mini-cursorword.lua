@@ -1,5 +1,5 @@
 require("mini.cursorword").setup {}
 
-local c = require("vscode.colors").get_colors()
-vim.api.nvim_set_hl(0, "MiniCursorword", { bg = c.vscDimHighlight, underline = false })
+local c = require "theme-palette"
+vim.api.nvim_set_hl(0, "MiniCursorword", { bg = c.hover_bg, underline = false })
 vim.api.nvim_set_hl(0, "MiniCursorwordCurrent", { bg = "NONE", underline = false })

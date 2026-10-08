@@ -23,6 +23,7 @@ M.groups = {
   },
   neotest = {
     { src = "https://github.com/nvim-neotest/neotest" },
+    { src = "https://github.com/nvim-neotest/neotest-python" },
     { src = "https://github.com/marilari88/neotest-vitest" },
     { src = "https://github.com/nvim-neotest/neotest-jest" },
     { src = "https://github.com/Issafalcon/neotest-dotnet" },
@@ -67,7 +68,7 @@ function M.on_keys(name, keys)
     local mode, lhs = key[1], key[2]
     vim.keymap.set(mode, lhs, function()
       trigger(lhs)
-    end, { desc = "Load " .. name })
+    end, { desc = key[3] or ("Load " .. name) })
   end
 end
 

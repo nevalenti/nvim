@@ -3,44 +3,44 @@ local navic = require "nvim-navic"
 navic.setup {
   highlight = true,
   separator = "  ›  ",
-  depth_limit = 6,
+  depth_limit = 3,
 }
 
-local c = require("vscode.colors").get_colors()
+local c = require "theme-palette"
 
-vim.api.nvim_set_hl(0, "NavicText", { fg = c.vscFront })
-vim.api.nvim_set_hl(0, "NavicSeparator", { fg = c.vscGray })
+vim.api.nvim_set_hl(0, "NavicText", { fg = c.fg_dark, bg = c.bg })
+vim.api.nvim_set_hl(0, "NavicSeparator", { fg = c.border, bg = c.bg })
 
 local kind_colors = {
-  File = c.vscBlue,
-  Module = c.vscBlue,
-  Namespace = c.vscBlue,
-  Package = c.vscBlue,
-  Class = c.vscBlue,
-  Method = c.vscYellow,
-  Property = c.vscBlue,
-  Field = c.vscBlue,
-  Constructor = c.vscBlue,
-  Enum = c.vscBlue,
-  Interface = c.vscBlue,
-  Function = c.vscYellow,
-  Variable = c.vscBlue,
-  Constant = c.vscPink,
-  String = c.vscOrange,
-  Number = c.vscLightGreen,
-  Boolean = c.vscLightGreen,
-  Array = c.vscFront,
-  Object = c.vscFront,
-  Key = c.vscFront,
-  Null = c.vscFront,
-  EnumMember = c.vscPink,
-  Struct = c.vscBlue,
-  Event = c.vscFront,
-  Operator = c.vscBlue,
-  TypeParameter = c.vscBlue,
+  File = c.blue,
+  Module = c.module,
+  Namespace = c.module,
+  Package = c.module,
+  Class = c.type,
+  Method = c.func,
+  Property = c.member,
+  Field = c.member,
+  Constructor = c.type,
+  Enum = c.type,
+  Interface = c.type,
+  Function = c.func,
+  Variable = c.identifier,
+  Constant = c.constant,
+  String = c.string,
+  Number = c.number,
+  Boolean = c.boolean,
+  Array = c.fg,
+  Object = c.fg,
+  Key = c.fg,
+  Null = c.fg,
+  EnumMember = c.constant,
+  Struct = c.type,
+  Event = c.fg,
+  Operator = c.operator,
+  TypeParameter = c.type,
 }
 for kind, color in pairs(kind_colors) do
-  vim.api.nvim_set_hl(0, "NavicIcons" .. kind, { fg = color })
+  vim.api.nvim_set_hl(0, "NavicIcons" .. kind, { fg = color, bg = c.bg })
 end
 
 local excluded_filetypes = {
@@ -53,6 +53,7 @@ local excluded_filetypes = {
   qf = true,
   checkhealth = true,
   starter = true,
+  ministarter = true,
   TelescopePrompt = true,
   ["neo-tree"] = true,
 }
@@ -69,17 +70,22 @@ function M.winbar()
     return ""
   end
 
-  local icon, hl = require("mini.icons").get("file", filename)
-  local winbar = ("%%#%s#%s%%*  %s"):format(hl, icon, filename)
+  local icon = require("mini.icons").get("file", filename)
+  filename = filename:gsub("%%", "%%%%")
+  local pill = (" %%#WinBarIslandEdge#%%#WinBarIslandIcon#%s  %%#WinBarIsland#%s"):format(icon, filename)
+  if vim.bo.modified then
+    pill = pill .. "%#WinBarModified# ●"
+  end
+  pill = pill .. "%#WinBarIsland# %#WinBarIslandEdge#"
 
-  if navic.is_available() then
+  if vim.api.nvim_win_get_width(0) >= 100 and navic.is_available() then
     local location = navic.get_location()
     if location ~= "" then
-      winbar = winbar .. "  ›  " .. location
+      pill = pill .. "%#WinBarIslandSep#  ›  " .. location
     end
   end
 
-  return winbar
+  return pill .. "%*"
 end
 
 vim.o.winbar = "%{%v:lua.require('plugins.navic').winbar()%}"

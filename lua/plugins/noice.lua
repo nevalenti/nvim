@@ -1,4 +1,10 @@
 require("noice").setup {
+  cmdline = {
+    format = {
+      cmdline = { pattern = "^:", icon = "❯", lang = "vim" },
+    },
+  },
+
   lsp = {
     progress = {
       enabled = false,
@@ -32,11 +38,13 @@ require("noice").setup {
   },
 
   views = {
-    -- cmdline_popup = {
-    --   position = { row = "30%", col = "50%" },
-    --   size = { width = 60, height = "auto" },
-    --   border = { style = "rounded" },
-    -- },
+    cmdline_popup = {
+      position = { row = "30%", col = "50%" },
+      size = { width = 64, height = "auto" },
+      border = { style = "rounded", padding = { 0, 1 } },
+      title = "  COMMAND  ",
+      title_pos = "center",
+    },
     hover = {
       border = { style = "rounded" },
       position = { row = 2, col = 2 },

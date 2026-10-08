@@ -22,15 +22,15 @@ local ICONS = {
   ["<leader>Q"] = "\u{F011}",
 }
 
-local function keymap_item(lhs)
+local function keymap_item(lhs, label, section)
   return function()
     local map = vim.fn.maparg(lhs, "n", false, true)
     if not map.lhs then
       return {}
     end
     return {
-      name = ("%s  %-11s %s"):format(ICONS[lhs] or " ", lhs, map.desc or lhs),
-      section = "Keybindings",
+      name = ("%s  %-18s %s"):format(ICONS[lhs] or " ", label, lhs:gsub("<leader>", "Space ")),
+      section = section,
       action = function()
         if map.callback then
           map.callback()
@@ -44,28 +44,31 @@ end
 
 starter.setup {
   evaluate_single = true,
+  silent = true,
   header = function()
-    return ("\u{E62B}  NEOVIM\n%s"):format(greeting())
+    local project = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+    return ("\u{E62B}  Neovim\n\n%s  ·  %s"):format(greeting(), project)
   end,
-  footer = "type a number, or <CR> on a line",
+  footer = "Type to filter  ·  Enter to open  ·  Esc to clear",
   items = {
-    keymap_item "<leader>ff",
-    keymap_item "<leader>fa",
-    keymap_item "<leader>fgs",
-    keymap_item "<leader>e",
-    keymap_item "<leader>ss",
-    keymap_item "<leader>Q",
+    keymap_item("<leader>ff", "Find a file", "Explore"),
+    keymap_item("<leader>fa", "Search project", "Explore"),
+    keymap_item("<leader>e", "Browse files", "Explore"),
+    keymap_item("<leader>fgs", "Git changes", "Workspace"),
+    keymap_item("<leader>ss", "Restore session", "Workspace"),
+    keymap_item("<leader>Q", "Quit", "Workspace"),
   },
   content_hooks = {
-    starter.gen_hook.indexing("all", {}),
+    starter.gen_hook.adding_bullet "  ",
     starter.gen_hook.aligning("center", "center"),
   },
 }
 
-local c = require("vscode.colors").get_colors()
-vim.api.nvim_set_hl(0, "MiniStarterHeader", { fg = c.vscBlue, bold = true })
-vim.api.nvim_set_hl(0, "MiniStarterSection", { fg = c.vscYellow, bold = true })
-vim.api.nvim_set_hl(0, "MiniStarterItem", { fg = c.vscFront })
-vim.api.nvim_set_hl(0, "MiniStarterItemPrefix", { fg = c.vscBlueGreen })
-vim.api.nvim_set_hl(0, "MiniStarterQuery", { fg = c.vscLightGreen })
-vim.api.nvim_set_hl(0, "MiniStarterFooter", { fg = c.vscGray, italic = true })
+local c = require "theme-palette"
+vim.api.nvim_set_hl(0, "MiniStarterHeader", { fg = c.fg, bold = true })
+vim.api.nvim_set_hl(0, "MiniStarterSection", { fg = c.fg_dark, bold = true })
+vim.api.nvim_set_hl(0, "MiniStarterCurrent", { fg = c.identifier, bg = c.bg_float, bold = true })
+vim.api.nvim_set_hl(0, "MiniStarterItem", { fg = c.fg })
+vim.api.nvim_set_hl(0, "MiniStarterItemPrefix", { fg = c.accent })
+vim.api.nvim_set_hl(0, "MiniStarterQuery", { fg = c.green })
+vim.api.nvim_set_hl(0, "MiniStarterFooter", { fg = c.fg_dark })

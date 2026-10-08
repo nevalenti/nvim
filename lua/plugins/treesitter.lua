@@ -1,8 +1,9 @@
 require("nvim-treesitter").setup {}
 
-require("nvim-treesitter").install {
+local parsers = {
   "javascript",
   "typescript",
+  "python",
   "lua",
   "bash",
   "dockerfile",
@@ -27,24 +28,38 @@ require("nvim-treesitter").install {
   "blade",
 }
 
+local function start_treesitter(bufnr)
+  if not vim.api.nvim_buf_is_valid(bufnr) then
+    return
+  end
+
+  local filetype = vim.bo[bufnr].filetype
+  local lang = vim.treesitter.language.get_lang(filetype) or filetype
+  local ok, available = pcall(vim.treesitter.language.add, lang)
+  if not ok or not available then
+    return false
+  end
+
+  local started = pcall(vim.treesitter.start, bufnr, lang)
+  if started then
+    vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end
+  return started
+end
+
 vim.api.nvim_create_autocmd("FileType", {
   callback = function(args)
-    local lang = vim.treesitter.language.get_lang(args.match) or args.match
-    if not vim.treesitter.language.add(lang) then
-      return
-    end
-    vim.treesitter.start(args.buf, lang)
-    vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-
-    local ok, parser = pcall(vim.treesitter.get_parser, args.buf, lang)
-    if ok and parser then
-      local function parse_all(lt)
-        lt:parse(true)
-        for _, child in pairs(lt:children()) do
-          parse_all(child)
-        end
-      end
-      parse_all(parser)
-    end
+    start_treesitter(args.buf)
   end,
 })
+
+local install = require("nvim-treesitter").install(parsers)
+install:await(function()
+  vim.schedule(function()
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].filetype ~= "" then
+        start_treesitter(bufnr)
+      end
+    end
+  end)
+end)

@@ -3,13 +3,22 @@ local oil = require "oil"
 oil.setup {
   default_file_explorer = false,
   columns = {
-    "icon",
+    { "icon", highlight = "OilFileIcon" },
   },
   view_options = {
     show_hidden = true,
   },
   win_options = {
+    number = true,
+    relativenumber = true,
     signcolumn = "yes:2",
+    foldcolumn = "0",
+    cursorline = true,
+    cursorlineopt = "line",
+    list = false,
+    wrap = false,
+    scrolloff = 4,
+    winbar = "",
   },
   float = {
     open_by_default = true,
@@ -17,16 +26,45 @@ oil.setup {
     max_width = 0.8,
     max_height = 0.8,
     border = "rounded",
+    get_win_title = function(winid)
+      local dir = oil.get_current_dir(vim.api.nvim_win_get_buf(winid)) or ""
+      local path = vim.fn.fnamemodify(dir, ":~"):gsub("/$", "")
+      if path == "" then
+        path = "/"
+      end
+      local width = vim.api.nvim_win_get_width(winid) - 8
+      if vim.fn.strdisplaywidth(path) > width then
+        path = vim.fn.pathshorten(path)
+      end
+      if vim.fn.strdisplaywidth(path) > width then
+        path = "…" .. vim.fn.strcharpart(path, math.max(0, vim.fn.strchars(path) - width + 1))
+      end
+      return "    " .. path .. "  "
+    end,
+    override = function(conf)
+      conf.title = " Files "
+      conf.title_pos = "left"
+      local help = conf.width >= 70 and "  Enter open   ·   - parent   ·   g. hidden   ·   q close  "
+        or "  Enter open   ·   - parent   ·   q close  "
+      if conf.width >= 44 then
+        conf.footer = { { help, "OilFooter" } }
+        conf.footer_pos = "center"
+      end
+      return conf
+    end,
     win_options = {
+      number = true,
+      relativenumber = true,
       winblend = 0,
-      winhighlight = "NormalFloat:OilNormalFloat,FloatBorder:OilFloatBorder",
+      winhighlight = "Normal:OilNormalFloat,NormalFloat:OilNormalFloat,FloatBorder:OilFloatBorder,CursorLine:OilCursorLine,SignColumn:OilSignColumn",
     },
   },
   keymaps = {
     ["<leader>e"] = { "actions.parent", mode = "n" },
+    ["q"] = { "actions.close", mode = "n" },
   },
 }
-require("oil-git-status").setup {}
+require("oil-git-status").setup { show_ignored = false }
 
 do
   local system = require("oil-git-status.system").system
@@ -229,7 +267,8 @@ do
 
   vim.keymap.set("n", "<leader>tg", function()
     git_info_enabled = not git_info_enabled
-    oil_config.columns = git_info_enabled and { "icon", mtime_column } or { "icon" }
+    local icon_column = { "icon", highlight = "OilFileIcon" }
+    oil_config.columns = git_info_enabled and { icon_column, mtime_column } or { icon_column }
     oil_view.rerender_all_oil_buffers({ refetch = true }, function()
       for buf, refresh in pairs(refresh_by_buf) do
         if git_info_enabled then

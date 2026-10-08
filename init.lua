@@ -1,8 +1,26 @@
+vim.api.nvim_create_autocmd("PackChanged", {
+  callback = function(event)
+    local data = event.data
+    if data.spec.name == "nvim-dbee" and (data.kind == "install" or data.kind == "update") then
+      vim.cmd.packadd "nui.nvim"
+      if not data.active then
+        vim.cmd.packadd "nvim-dbee"
+      end
+      vim.schedule(function()
+        local ok, dbee = pcall(require, "dbee")
+        if ok then
+          pcall(dbee.install)
+        end
+      end)
+    end
+  end,
+})
+
 vim.pack.add {
   { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/nvim-neotest/nvim-nio" },
   { src = "https://github.com/echasnovski/mini.icons" },
-  { src = "https://github.com/echasnovski/mini.indentscope" },
+  { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
   { src = "https://github.com/echasnovski/mini.cursorword" },
   { src = "https://github.com/echasnovski/mini.starter" },
 
@@ -12,12 +30,15 @@ vim.pack.add {
   { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
   { src = "https://github.com/sainnhe/gruvbox-material" },
   { src = "https://github.com/blazkowolf/gruber-darker.nvim" },
+  { src = "https://github.com/bluz71/vim-nightfly-colors", name = "nightfly" },
   { src = "https://github.com/Mofiqul/vscode.nvim" },
   { src = "https://github.com/scottmckendry/cyberdream.nvim" },
   { src = "https://github.com/nyoom-engineering/oxocarbon.nvim" },
   { src = "https://github.com/olivercederborg/poimandres.nvim" },
   { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
   { src = "https://github.com/folke/tokyonight.nvim" },
+  { src = "https://github.com/EdenEast/nightfox.nvim" },
+  { src = "https://github.com/sainnhe/sonokai" },
 
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
   { src = "https://github.com/rcarriga/nvim-notify" },
@@ -28,9 +49,8 @@ vim.pack.add {
   { src = "https://github.com/lewis6991/satellite.nvim" },
   { src = "https://github.com/folke/persistence.nvim" },
   { src = "https://github.com/akinsho/toggleterm.nvim" },
+  { src = "https://github.com/kndndrj/nvim-dbee" },
 
-  { src = "https://github.com/tpope/vim-dadbod" },
-  { src = "https://github.com/kristijanhusak/vim-dadbod-ui" },
   { src = "https://github.com/mbbill/undotree" },
 
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
@@ -55,6 +75,7 @@ vim.pack.add {
 
   { src = "https://github.com/kylechui/nvim-surround" },
   { src = "https://github.com/m4xshen/autoclose.nvim" },
+  { src = "https://github.com/numToStr/Comment.nvim" },
 
   { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim", ft = { "markdown" } },
 }
@@ -66,7 +87,7 @@ require "autocommands"
 
 require "theme"
 require "plugins.mini-icons"
-require "plugins.mini-indentscope"
+require "plugins.indent-blankline"
 require "plugins.mini-cursorword"
 require "plugins.mini-starter"
 require "plugins.noice"
@@ -88,104 +109,108 @@ require "plugins.persistence"
 
 local lazy = require "lazy-load"
 
-lazy.on_keys("zen-mode", { { "n", "<leader>zz" } })
+lazy.on_keys("zen-mode", { { "n", "<leader>zz", "Toggle distraction-free mode" } })
 require "plugins.toggleterm"
+require "plugins.backend"
+require "plugins.dbee"
 
 lazy.on_keys("oil", {
-  { "n", "<leader>e" },
-  { "n", "<leader>tg" },
+  { "n", "<leader>e", "Browse files" },
+  { "n", "<leader>tg", "Open Git file browser" },
 })
-require "plugins.dadbod"
 lazy.on_keys("telescope", {
-  { "n", "<leader>ff" },
-  { "n", "<leader>fa" },
-  { "n", "<leader>fw" },
-  { "n", "<leader>fb" },
-  { "n", "<leader>fB" },
-  { "n", "<leader>fh" },
-  { "n", "<leader>fr" },
-  { "n", "<leader>fgf" },
-  { "n", "<leader>fgc" },
-  { "n", "<leader>fgs" },
-  { "n", "<leader>fgb" },
-  { "n", "<leader>fls" },
-  { "n", "<leader>flw" },
-  { "n", "<leader>fld" },
+  { "n", "<leader>ff", "Find files" },
+  { "n", "<leader>fa", "Search project" },
+  { "n", "<leader>fw", "Search word under cursor" },
+  { "n", "<leader>fb", "Search current buffer" },
+  { "n", "<leader>fB", "List open buffers" },
+  { "n", "<leader>fh", "Search help tags" },
+  { "n", "<leader>fr", "Resume last search" },
+  { "n", "<leader>fgf", "List Git files" },
+  { "n", "<leader>fgc", "Search Git commits" },
+  { "n", "<leader>fgs", "Show Git status" },
+  { "n", "<leader>fgb", "List Git branches" },
+  { "n", "<leader>fls", "List document symbols" },
+  { "n", "<leader>flw", "List workspace symbols" },
+  { "n", "<leader>fld", "List diagnostics" },
 })
 require "plugins.undotree"
 lazy.on_keys("harpoon", {
-  { "n", "<leader>ha" },
-  { "n", "<leader>hh" },
-  { "n", "<leader>1" },
-  { "n", "<leader>2" },
-  { "n", "<leader>3" },
-  { "n", "<leader>4" },
+  { "n", "<leader>ha", "Add file to Harpoon" },
+  { "n", "<leader>hh", "Open Harpoon menu" },
+  { "n", "<leader>1", "Jump to Harpoon file 1" },
+  { "n", "<leader>2", "Jump to Harpoon file 2" },
+  { "n", "<leader>3", "Jump to Harpoon file 3" },
+  { "n", "<leader>4", "Jump to Harpoon file 4" },
 })
 
 require "plugins.treesitter"
 require "plugins.treesitter-textobjects"
 require "plugins.navic"
-vim.schedule(function()
-  require "plugins.lsp"
-end)
+require "plugins.lsp"
 require "plugins.roslyn"
 require "plugins.conform"
 require "plugins.lint"
 
-lazy.on_keys("trouble", { { "n", "<leader>tt" } })
+lazy.on_keys("trouble", { { "n", "<leader>tt", "Toggle diagnostics list" } })
 
 require "plugins.gitsigns"
 lazy.on_keys("diffview", {
-  { "n", "<leader>gv" },
-  { "n", "<leader>gh" },
-  { "v", "<leader>gh" },
+  { "n", "<leader>gv", "Open Git diff view" },
+  { "n", "<leader>gh", "Show file Git history" },
+  { "v", "<leader>gh", "Show selected-lines Git history" },
 })
 
 lazy.on_keys("dap", {
-  { "n", "<F5>" },
-  { "n", "<F10>" },
-  { "n", "<F11>" },
-  { "n", "<F12>" },
-  { "n", "<Leader>b" },
-  { "n", "<Leader>B" },
-  { "n", "<Leader>du" },
-  { "n", "<Leader>dt" },
-  { "n", "<Leader>de" },
-  { "v", "<Leader>de" },
+  { "n", "<F5>", "Start or continue debugging" },
+  { "n", "<F10>", "Debug: Step over" },
+  { "n", "<F11>", "Debug: Step into" },
+  { "n", "<F12>", "Debug: Step out" },
+  { "n", "<Leader>b", "Toggle breakpoint" },
+  { "n", "<Leader>B", "Set conditional breakpoint" },
+  { "n", "<Leader>du", "Toggle debugger UI" },
+  { "n", "<Leader>dt", "Terminate debug session" },
+  { "n", "<Leader>de", "Evaluate expression" },
+  { "v", "<Leader>de", "Evaluate selected expression" },
+  { "n", "<Leader>dm", "Debug Python test method" },
+  { "n", "<Leader>dc", "Debug Python test class" },
 })
 lazy.on_keys("neotest", {
-  { "n", "<leader>tr" },
-  { "n", "<leader>tf" },
-  { "n", "<leader>ts" },
-  { "n", "<leader>to" },
-  { "n", "<leader>tS" },
-  { "n", "]t" },
-  { "n", "[t" },
+  { "n", "<leader>t", "Run nearest test" },
+  { "n", "<leader>tr", "Run nearest test" },
+  { "n", "<leader>tf", "Run tests in current file" },
+  { "n", "<leader>td", "Debug nearest test" },
+  { "n", "<leader>ts", "Toggle test summary" },
+  { "n", "<leader>to", "Toggle test output" },
+  { "n", "<leader>tS", "Stop running tests" },
+  { "n", "]n", "Jump to next failed test" },
+  { "n", "[n", "Jump to previous failed test" },
 })
 
 require "plugins.autoclose"
 require "plugins.surround"
+require "plugins.comment"
 require "plugins.autotag"
 
 lazy.on_keys("avante", {
-  { "n", "<leader>aa" },
-  { "v", "<leader>aa" },
-  { "n", "<leader>az" },
-  { "v", "<leader>az" },
-  { "n", "<leader>an" },
-  { "v", "<leader>an" },
-  { "v", "<leader>ae" },
-  { "n", "<leader>aS" },
-  { "n", "<leader>ar" },
-  { "n", "<leader>af" },
-  { "n", "<leader>at" },
-  { "n", "<leader>ad" },
-  { "n", "<leader>aC" },
-  { "n", "<leader>as" },
-  { "n", "<leader>aR" },
-  { "n", "<leader>a?" },
-  { "n", "<leader>ah" },
-  { "n", "<leader>aB" },
+  { "n", "<leader>aa", "Open AI assistant" },
+  { "v", "<leader>aa", "Open AI assistant" },
+  { "n", "<leader>az", "Toggle AI assistant" },
+  { "v", "<leader>az", "Toggle AI assistant" },
+  { "n", "<leader>an", "New AI assistant prompt" },
+  { "v", "<leader>an", "New AI assistant prompt" },
+  { "v", "<leader>ae", "Edit AI assistant prompt" },
+  { "n", "<leader>aS", "Select AI assistant sidebar" },
+  { "n", "<leader>ar", "Refresh AI assistant" },
+  { "n", "<leader>af", "Focus AI assistant" },
+  { "n", "<leader>at", "Toggle AI assistant chat" },
+  { "n", "<leader>ad", "Toggle AI assistant debug" },
+  { "n", "<leader>aC", "Clear AI assistant" },
+  { "n", "<leader>as", "Stop AI assistant request" },
+  { "n", "<leader>aR", "Reset AI assistant" },
+  { "n", "<leader>a?", "Show AI assistant help" },
+  { "n", "<leader>ah", "Show AI assistant history" },
+  { "n", "<leader>aB", "Toggle AI assistant sidebar" },
 })
 lazy.on_cmd("avante", "Avante*")
 

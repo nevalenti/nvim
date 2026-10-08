@@ -17,6 +17,7 @@ vim.opt.title = true
 vim.opt.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a'
 vim.opt.laststatus = 3
 vim.opt.showmode = false
+vim.opt.winborder = "rounded"
 
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2

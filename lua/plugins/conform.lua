@@ -1,8 +1,22 @@
+local util = require "conform.util"
+
 require("conform").setup {
+  formatters = {
+    dotnet_format = {
+      command = "dotnet",
+      args = function(_, ctx)
+        local relative_path = vim.fs.relpath(ctx.cwd, ctx.filename) or ctx.filename
+        return { "format", "--include", relative_path, "--no-restore" }
+      end,
+      stdin = false,
+      cwd = util.root_file { "*.sln", "*.csproj", ".git" },
+      require_cwd = true,
+    },
+  },
   formatters_by_ft = {
     lua = { "stylua" },
     go = { "goimports", "gofmt" },
-    python = { "ruff_format" },
+    python = { "ruff_organize_imports", "ruff_format" },
     javascript = { "prettier" },
     typescript = { "prettier" },
     javascriptreact = { "prettier" },
@@ -12,19 +26,13 @@ require("conform").setup {
     json = { "prettier" },
     yaml = { "prettier" },
     markdown = { "prettier" },
-    cs = { "csharpier" },
+    cs = { "dotnet_format" },
     java = { "google-java-format" },
     php = { "php_cs_fixer" },
   },
   format_on_save = {
-    timeout_ms = 2000,
+    timeout_ms = 5000,
     lsp_fallback = true,
-  },
-  formatters = {
-    csharpier = {
-      command = "dotnet",
-      args = { "csharpier", "format", "--stdin-path", "$FILENAME" },
-    },
   },
 }
 

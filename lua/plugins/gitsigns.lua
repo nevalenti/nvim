@@ -18,7 +18,7 @@ require("gitsigns").setup {
   },
 }
 
-vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = require("cyberdream.colors").default.grey })
+vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = require("theme-palette").fg_dark })
 
 local map = vim.keymap.set
 local gitsigns = require "gitsigns"

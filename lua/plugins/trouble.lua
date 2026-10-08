@@ -5,9 +5,9 @@ require("trouble").setup {
 local map = vim.keymap.set
 
 map("n", "<leader>tt", "<cmd>Trouble diagnostics toggle<CR>", { desc = "Toggle Trouble diagnostics" })
-map("n", "[t", function()
+map("n", "[T", function()
   require("trouble").next { skip_groups = true, jump = true }
-end)
-map("n", "]t", function()
+end, { desc = "Trouble: Next item" })
+map("n", "]T", function()
   require("trouble").previous { skip_groups = true, jump = true }
-end)
+end, { desc = "Trouble: Previous item" })

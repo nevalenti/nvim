@@ -23,19 +23,37 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
-    if client:supports_method("textDocument/documentSymbol", bufnr) then
-      require("nvim-navic").attach(client, bufnr)
+    if vim.bo[bufnr].filetype == "cs" and client.name == "roslyn" then
+      if vim.lsp.inlay_hint then
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+      end
+
+      map("n", "<leader>co", function()
+        vim.lsp.buf.code_action {
+          context = { only = { "source.organizeImports" }, diagnostics = {} },
+          apply = true,
+        }
+      end, vim.tbl_extend("force", opts, { desc = "C#: Organize imports" }))
+
+      map("n", "<leader>cf", function()
+        vim.lsp.buf.code_action {
+          context = { only = { "source.fixAll" }, diagnostics = {} },
+          apply = true,
+        }
+      end, vim.tbl_extend("force", opts, { desc = "C#: Fix all" }))
     end
 
-    local st = client.server_capabilities.semanticTokensProvider
-    if type(st) == "table" and st.full and st.range then
-      st.range = nil
+    if client.name == "ruff" then
+      client.server_capabilities.hoverProvider = false
+
+      client.server_capabilities.diagnosticProvider = nil
     end
+
     if
-      client:supports_method("textDocument/semanticTokens/full", bufnr)
-      or client:supports_method("textDocument/semanticTokens/range", bufnr)
+      (vim.bo[bufnr].filetype ~= "python" or client.name == "ty")
+      and client:supports_method("textDocument/documentSymbol", bufnr)
     then
-      vim.lsp.semantic_tokens._start(bufnr, client.id, 25)
+      require("nvim-navic").attach(client, bufnr)
     end
   end,
 })
@@ -86,8 +104,12 @@ require("mason-lspconfig").setup {
     "lua_ls",
     "jdtls",
     "intelephense",
+    "ruff",
+    "ty",
+    "gopls",
+    "rust_analyzer",
   },
-  automatic_enable = { exclude = { "jdtls", "csharp_ls" } },
+  automatic_enable = { exclude = { "jdtls", "csharp_ls", "pyright" } },
 }
 
 local mason_registry = require "mason-registry"
@@ -99,8 +121,13 @@ mason_registry.refresh(function()
     "google-java-format",
     "php-cs-fixer",
     "phpstan",
+    "debugpy",
     "netcoredbg",
     "roslyn-language-server",
+    "goimports",
+    "prettier",
+    "stylua",
+    "csharpier",
   } do
     local ok, pkg = pcall(mason_registry.get_package, tool)
     if ok and not pkg:is_installed() then
@@ -180,7 +207,9 @@ require("blink.cmp").setup {
       border = "rounded",
       winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
       draw = {
-        columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "kind" } },
+        padding = 1,
+        gap = 2,
+        columns = { { "kind_icon" }, { "label", "label_description", gap = 1 } },
       },
     },
 
