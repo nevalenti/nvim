@@ -153,4 +153,12 @@ vim.api.nvim_set_hl(0, "TelescopeResultsDiffUntracked", { fg = c.gray })
 vim.api.nvim_set_hl(0, "diffIndexLine", { fg = c.gray })
 vim.api.nvim_set_hl(0, "diffComment", { fg = c.gray })
 
-vim.api.nvim_set_hl(0, "YankHighlight", { fg = c.bg, bg = c.blue })
+local function set_yank_highlight()
+  vim.api.nvim_set_hl(0, "YankHighlight", { fg = c.bg, bg = c.blue })
+end
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("YankHighlightTheme", { clear = true }),
+  callback = set_yank_highlight,
+})
+set_yank_highlight()

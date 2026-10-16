@@ -23,8 +23,8 @@ vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = require("theme-palette
 local map = vim.keymap.set
 local gitsigns = require "gitsigns"
 
-map("n", "<leader>gg", ":vertical G<CR>", { desc = "Git status" })
-map("n", "<leader>gl", ":vertical G log --oneline<CR>", { desc = "Git log" })
+map("n", "<leader>gg", ":vertical G<CR>", { desc = "Fugitive: Git status (vertical split)" })
+map("n", "<leader>gl", ":vertical G log --oneline<CR>", { desc = "Fugitive: Git log (one line per commit)" })
 
 map("n", "]c", function()
   if vim.wo.diff then
@@ -62,6 +62,7 @@ map("n", "<leader>gi", gitsigns.preview_hunk_inline, { desc = "Preview the curre
 map("n", "<leader>gb", function()
   gitsigns.blame_line { full = true }
 end, { desc = "Show blame for the current line with full commit message" })
+map("n", "<leader>gB", gitsigns.blame, { desc = "Show blame for the whole file" })
 
 map("n", "<leader>gd", gitsigns.diffthis, { desc = "Open diff view of current file against Git index" })
 

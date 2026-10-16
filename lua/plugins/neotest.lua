@@ -17,31 +17,28 @@ require("neotest").setup {
   output = { open_on_run = true },
 }
 
-map("n", "<leader>t", function()
-  require("neotest").run.run()
-end, { desc = "Neotest: Run nearest" })
 map("n", "<leader>tr", function()
   require("neotest").run.run()
-end, { desc = "Neotest: Run nearest" })
+end, { desc = "Neotest: Run nearest test" })
 map("n", "<leader>tf", function()
   require("neotest").run.run(vim.fn.expand "%")
-end, { desc = "Neotest: Run file" })
+end, { desc = "Neotest: Run tests in current file" })
 map("n", "<leader>td", function()
   lazy.load "dap"
   require("neotest").run.run { strategy = "dap" }
-end, { desc = "Neotest: Debug nearest" })
+end, { desc = "Neotest: Debug nearest test" })
 map("n", "<leader>ts", function()
   require("neotest").summary.toggle()
-end, { desc = "Neotest: Summary" })
+end, { desc = "Neotest: Toggle summary panel" })
 map("n", "<leader>to", function()
   require("neotest").output_panel.toggle()
-end, { desc = "Neotest: Output" })
+end, { desc = "Neotest: Toggle output panel" })
 map("n", "<leader>tS", function()
   require("neotest").run.stop()
-end, { desc = "Neotest: Stop" })
+end, { desc = "Neotest: Stop running tests" })
 map("n", "]n", function()
   require("neotest").jump.next { status = "failed" }
-end, { desc = "Neotest: Next failed" })
+end, { desc = "Neotest: Next failed test" })
 map("n", "[n", function()
   require("neotest").jump.prev { status = "failed" }
-end, { desc = "Neotest: Prev failed" })
+end, { desc = "Neotest: Previous failed test" })

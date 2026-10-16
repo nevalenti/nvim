@@ -20,8 +20,6 @@ local function project_python()
   return vim.fn.shellescape(require("python-env").resolve())
 end
 
-vim.keymap.set("n", "<leader>x", "<Nop>", { desc = "Backend commands" })
-
 vim.keymap.set("n", "<leader>xa", function()
   run_prompt("HTTP request: ", "curl -i ")
 end, { desc = "Backend: Run curl HTTP request" })

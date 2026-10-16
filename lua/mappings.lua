@@ -1,12 +1,12 @@
 local map = vim.keymap.set
 
-map("i", "jj", "<Esc>")
+map("i", "jj", "<Esc>", { desc = "Exit insert mode" })
 
-map("n", "<Space>", "<Nop>", { silent = true, desc = "Disable space" })
+map("n", "<Space>", "<Nop>", { silent = true, desc = "Disable Space (reserved for leader)" })
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 map("n", "<leader><CR>", "<cmd>cd %:h<CR>", { desc = "Set CWD to current file" })
 
-map("n", "<leader>o", "<cmd>update<CR><cmd>source<CR>", { desc = "Save and source file" })
+map("n", "<leader>o", "<cmd>update<CR><cmd>source<CR>", { desc = "Save and source current file" })
 map("n", "<leader>w", "<cmd>write<CR>", { desc = "Save file" })
 map("n", "<leader>q", "<cmd>quit<CR>", { desc = "Quit window" })
 map("n", "<leader>Q", "<cmd>quit!<CR>", { desc = "Force quit window" })
@@ -41,15 +41,40 @@ map("n", "[l", "<cmd>lprev<CR>zz", { desc = "Previous location list item" })
 
 map(
   "n",
-  "<leader>s",
+  "<leader>sr",
   [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
   { desc = "Search and replace word under cursor" }
 )
+map("x", "<leader>sr", [["zy:%s/\V<C-r>z//gI<Left><Left><Left>]], { desc = "Search and replace selection" })
 
-map("n", "<leader>/", "gcc", { remap = true, desc = "Toggle comment" })
-map("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment" })
+map("x", "<", "<gv", { desc = "Indent left and keep selection" })
+map("x", ">", ">gv", { desc = "Indent right and keep selection" })
+map("x", "<leader>p", [["_dP]], { desc = "Paste over selection without yanking it" })
+map({ "n", "x" }, "<leader>D", [["_d]], { desc = "Delete without yanking" })
 
-map("n", "<leader>X", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make file executable" })
+for _, ch in ipairs { ",", ".", ";" } do
+  map("i", ch, ch .. "<C-g>u", { desc = "Insert with undo breakpoint" })
+end
+
+map("n", "<leader>k", "<cmd>bp|bd #<CR>", { desc = "Delete buffer and keep window" })
+map("n", "<leader>K", "<cmd>%bd|e#|bd#<CR>", { desc = "Delete other buffers" })
+
+map("n", "<C-Up>", "<cmd>resize +2<CR>", { desc = "Increase window height" })
+map("n", "<C-Down>", "<cmd>resize -2<CR>", { desc = "Decrease window height" })
+map("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Decrease window width" })
+map("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Increase window width" })
+
+map("n", "<leader>cq", function()
+  local open = vim.iter(vim.fn.getwininfo()):any(function(win)
+    return win.quickfix == 1
+  end)
+  vim.cmd(open and "cclose" or "copen")
+end, { desc = "Toggle quickfix list" })
+
+map("n", "<leader>/", "gcc", { remap = true, desc = "Toggle comment on line" })
+map("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment on selection" })
+
+map("n", "<leader>X", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make current file executable" })
 
 map("n", "<leader>tl", function()
   local cfg = vim.diagnostic.config()

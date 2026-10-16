@@ -58,7 +58,7 @@ map(
 
 map("n", "<leader>na", function()
   swap.swap_next "@parameter.inner"
-end, { desc = "Swap argument with next" })
+end, { desc = "Swap argument with next one" })
 map("n", "<leader>pa", function()
   swap.swap_previous "@parameter.inner"
-end, { desc = "Swap argument with previous" })
+end, { desc = "Swap argument with previous one" })

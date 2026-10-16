@@ -38,4 +38,4 @@ require("conform").setup {
 
 vim.keymap.set({ "n", "v" }, "<leader>fm", function()
   require("conform").format { async = true, lsp_fallback = true }
-end, { desc = "Format buffer" })
+end, { desc = "Format buffer or selection" })

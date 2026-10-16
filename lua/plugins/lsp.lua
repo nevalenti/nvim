@@ -5,21 +5,46 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local bufnr = args.buf
     local opts = { buffer = bufnr, remap = false }
-    map("n", "gd", vim.lsp.buf.definition, opts)
-    map("n", "gi", vim.lsp.buf.implementation, opts)
-    map("n", "K", vim.lsp.buf.hover, opts)
-    map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, opts)
-    map("n", "<leader>d", vim.diagnostic.open_float, opts)
+    map("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "LSP: Go to definition" }))
+    map("n", "<leader>lp", function()
+      vim.lsp.buf.definition {
+        on_list = function(result)
+          local function preview(item)
+            if item then
+              vim.lsp.util.preview_location(item.user_data, { border = "rounded", max_width = 100, max_height = 30 })
+            end
+          end
+
+          if #result.items == 1 then
+            preview(result.items[1])
+          else
+            vim.ui.select(result.items, {
+              prompt = "Peek definition",
+              format_item = function(item)
+                return ("%s:%d  %s"):format(vim.fn.fnamemodify(item.filename, ":~:."), item.lnum, item.text)
+              end,
+            }, preview)
+          end
+        end,
+      }
+    end, vim.tbl_extend("force", opts, { desc = "LSP: Peek definition" }))
+    map("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "LSP: Go to declaration" }))
+    map("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", opts, { desc = "LSP: Go to implementation" }))
+    map("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "LSP: Hover documentation" }))
+    map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, vim.tbl_extend("force", opts, { desc = "LSP: Search workspace symbols" }))
+    map("n", "<leader>dd", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Show diagnostics for current line" }))
+    map("n", "<leader>th", function()
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
+    end, vim.tbl_extend("force", opts, { desc = "LSP: Toggle inlay hints" }))
     map("n", "]d", function()
       vim.diagnostic.jump { count = 1, float = true }
-    end, opts)
+    end, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
     map("n", "[d", function()
       vim.diagnostic.jump { count = -1, float = true }
-    end, opts)
-    map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-    map("n", "<leader>rr", vim.lsp.buf.references, opts)
-    map("n", "<leader>rn", vim.lsp.buf.rename, opts)
-    map("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+    end, vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
+    map("n", "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "LSP: Code action" }))
+    map("n", "<leader>rr", vim.lsp.buf.references, vim.tbl_extend("force", opts, { desc = "LSP: List references" }))
+    map("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "LSP: Rename symbol" }))
 
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 

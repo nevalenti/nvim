@@ -35,19 +35,22 @@ dapui.setup {
 
 local map = vim.keymap.set
 
-map("n", "<F5>", dap.continue, { desc = "Debug: Start/Continue" })
-map("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
-map("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
-map("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
-map("n", "<Leader>b", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
+map("n", "<F5>", dap.continue, { desc = "Debug: Start or continue" })
+map("n", "<F10>", dap.step_over, { desc = "Debug: Step over" })
+map("n", "<F11>", dap.step_into, { desc = "Debug: Step into" })
+map("n", "<F12>", dap.step_out, { desc = "Debug: Step out" })
+map("n", "<Leader>b", dap.toggle_breakpoint, { desc = "Debug: Toggle breakpoint" })
 map("n", "<Leader>B", function()
   dap.set_breakpoint(vim.fn.input "Breakpoint condition: ")
-end, { desc = "Debug: Set Conditional Breakpoint" })
+end, { desc = "Debug: Set conditional breakpoint" })
 
-map("n", "<Leader>du", dapui.toggle, { desc = "Debug: Toggle UI" })
-map("n", "<Leader>dt", dap.terminate, { desc = "Debug: Terminate Session" })
-map("n", "<Leader>de", dapui.eval, { desc = "Debug: Evaluate Expression (normal/visual mode)" })
-map("v", "<Leader>de", dapui.eval, { desc = "Debug: Evaluate Selection" })
+map("n", "<Leader>du", dapui.toggle, { desc = "Debug: Toggle debugger UI" })
+map("n", "<Leader>dt", dap.terminate, { desc = "Debug: Terminate session" })
+map("n", "<Leader>de", dapui.eval, { desc = "Debug: Evaluate expression under cursor" })
+map("v", "<Leader>de", dapui.eval, { desc = "Debug: Evaluate selection" })
+map("n", "<Leader>dC", dap.run_to_cursor, { desc = "Debug: Run to cursor" })
+map("n", "<Leader>dr", dap.restart, { desc = "Debug: Restart session" })
+map("n", "<Leader>dl", dap.run_last, { desc = "Debug: Rerun last configuration" })
 
 dap.listeners.after.event_initialized["dapui_config"] = dapui.open
 dap.listeners.before.event_terminated["dapui_config"] = dapui.close
@@ -111,8 +114,8 @@ dap_python.resolve_python = function()
 end
 dap_python.setup(vim.fn.stdpath "data" .. "/mason/packages/debugpy/venv/bin/python")
 
-map("n", "<Leader>dm", dap_python.test_method, { desc = "Debug: Python test method" })
-map("n", "<Leader>dc", dap_python.test_class, { desc = "Debug: Python test class" })
+map("n", "<Leader>dm", dap_python.test_method, { desc = "Debug: Nearest Python test method" })
+map("n", "<Leader>dc", dap_python.test_class, { desc = "Debug: Nearest Python test class" })
 
 dap.adapters["pwa-node"] = {
   type = "server",

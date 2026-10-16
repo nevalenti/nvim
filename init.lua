@@ -49,6 +49,7 @@ vim.pack.add {
   { src = "https://github.com/lewis6991/satellite.nvim" },
   { src = "https://github.com/folke/persistence.nvim" },
   { src = "https://github.com/akinsho/toggleterm.nvim" },
+  { src = "https://github.com/stevearc/overseer.nvim" },
   { src = "https://github.com/kndndrj/nvim-dbee" },
 
   { src = "https://github.com/mbbill/undotree" },
@@ -56,6 +57,8 @@ vim.pack.add {
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
   { src = "https://github.com/windwp/nvim-ts-autotag" },
+  { src = "https://github.com/lewis6991/async.nvim" },
+  { src = "https://github.com/ThePrimeagen/refactoring.nvim" },
 
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/mason-org/mason.nvim" },
@@ -111,80 +114,95 @@ local lazy = require "lazy-load"
 
 lazy.on_keys("zen-mode", { { "n", "<leader>zz", "Toggle distraction-free mode" } })
 require "plugins.toggleterm"
+require "plugins.overseer"
 require "plugins.backend"
 require "plugins.dbee"
 
 lazy.on_keys("oil", {
-  { "n", "<leader>e", "Browse files" },
-  { "n", "<leader>tg", "Open Git file browser" },
+  { "n", "<leader>e", "Toggle Oil file explorer" },
+  { "n", "<leader>tg", "Toggle git author/timestamp info in Oil" },
 })
 lazy.on_keys("telescope", {
-  { "n", "<leader>ff", "Find files" },
-  { "n", "<leader>fa", "Search project" },
-  { "n", "<leader>fw", "Search word under cursor" },
-  { "n", "<leader>fb", "Search current buffer" },
-  { "n", "<leader>fB", "List open buffers" },
-  { "n", "<leader>fh", "Search help tags" },
-  { "n", "<leader>fr", "Resume last search" },
-  { "n", "<leader>fgf", "List Git files" },
-  { "n", "<leader>fgc", "Search Git commits" },
-  { "n", "<leader>fgs", "Show Git status" },
-  { "n", "<leader>fgb", "List Git branches" },
-  { "n", "<leader>fls", "List document symbols" },
-  { "n", "<leader>flw", "List workspace symbols" },
-  { "n", "<leader>fld", "List diagnostics" },
+  { "n", "<leader>ff", "Telescope: Find files" },
+  { "n", "<leader>fa", "Telescope: Live grep with ripgrep args" },
+  { "n", "<leader>fw", "Telescope: Search word under cursor" },
+  { "x", "<leader>fw", "Telescope: Search selection" },
+  { "n", "<leader>fk", "Telescope: Search keymaps" },
+  { "n", "<leader>fo", "Telescope: Recent files" },
+  { "n", "<leader>fb", "Telescope: Fuzzy search current buffer" },
+  { "n", "<leader>fB", "Telescope: Open buffers" },
+  { "n", "<leader>fh", "Telescope: Search help tags" },
+  { "n", "<leader>fr", "Telescope: Resume last picker" },
+  { "n", "<leader>fgf", "Telescope: Git files" },
+  { "n", "<leader>fgc", "Telescope: Git commits" },
+  { "n", "<leader>fgs", "Telescope: Git status" },
+  { "n", "<leader>fgb", "Telescope: Git branches" },
+  { "n", "<leader>fls", "Telescope: Document symbols" },
+  { "n", "<leader>flw", "Telescope: Workspace symbols" },
+  { "n", "<leader>fld", "Telescope: Workspace diagnostics" },
 })
 require "plugins.undotree"
 lazy.on_keys("harpoon", {
-  { "n", "<leader>ha", "Add file to Harpoon" },
-  { "n", "<leader>hh", "Open Harpoon menu" },
-  { "n", "<leader>1", "Jump to Harpoon file 1" },
-  { "n", "<leader>2", "Jump to Harpoon file 2" },
-  { "n", "<leader>3", "Jump to Harpoon file 3" },
-  { "n", "<leader>4", "Jump to Harpoon file 4" },
+  { "n", "<leader>ha", "Harpoon: Add current file" },
+  { "n", "<leader>hh", "Harpoon: Toggle quick menu" },
+  { "n", "[h", "Harpoon: Previous file" },
+  { "n", "]h", "Harpoon: Next file" },
+  { "n", "<leader>1", "Harpoon: Jump to file 1" },
+  { "n", "<leader>2", "Harpoon: Jump to file 2" },
+  { "n", "<leader>3", "Harpoon: Jump to file 3" },
+  { "n", "<leader>4", "Harpoon: Jump to file 4" },
 })
 
 require "plugins.treesitter"
 require "plugins.treesitter-textobjects"
+require "plugins.refactoring"
 require "plugins.navic"
 require "plugins.lsp"
 require "plugins.roslyn"
 require "plugins.conform"
 require "plugins.lint"
 
-lazy.on_keys("trouble", { { "n", "<leader>tt", "Toggle diagnostics list" } })
+lazy.on_keys("trouble", {
+  { "n", "<leader>tt", "Trouble: Toggle diagnostics" },
+  { "n", "<leader>tQ", "Trouble: Toggle quickfix list" },
+  { "n", "<leader>ls", "Trouble: Toggle symbols outline" },
+  { "n", "<leader>lci", "Trouble: Incoming calls" },
+  { "n", "<leader>lco", "Trouble: Outgoing calls" },
+})
 
 require "plugins.gitsigns"
 lazy.on_keys("diffview", {
-  { "n", "<leader>gv", "Open Git diff view" },
-  { "n", "<leader>gh", "Show file Git history" },
-  { "v", "<leader>gh", "Show selected-lines Git history" },
+  { "n", "<leader>gv", "Diffview: Open working tree changes" },
+  { "n", "<leader>gh", "Diffview: Current file history" },
+  { "v", "<leader>gh", "Diffview: History of selected lines" },
 })
 
 lazy.on_keys("dap", {
-  { "n", "<F5>", "Start or continue debugging" },
+  { "n", "<F5>", "Debug: Start or continue" },
   { "n", "<F10>", "Debug: Step over" },
   { "n", "<F11>", "Debug: Step into" },
   { "n", "<F12>", "Debug: Step out" },
-  { "n", "<Leader>b", "Toggle breakpoint" },
-  { "n", "<Leader>B", "Set conditional breakpoint" },
-  { "n", "<Leader>du", "Toggle debugger UI" },
-  { "n", "<Leader>dt", "Terminate debug session" },
-  { "n", "<Leader>de", "Evaluate expression" },
-  { "v", "<Leader>de", "Evaluate selected expression" },
-  { "n", "<Leader>dm", "Debug Python test method" },
-  { "n", "<Leader>dc", "Debug Python test class" },
+  { "n", "<Leader>b", "Debug: Toggle breakpoint" },
+  { "n", "<Leader>B", "Debug: Set conditional breakpoint" },
+  { "n", "<Leader>du", "Debug: Toggle debugger UI" },
+  { "n", "<Leader>dt", "Debug: Terminate session" },
+  { "n", "<Leader>de", "Debug: Evaluate expression under cursor" },
+  { "v", "<Leader>de", "Debug: Evaluate selection" },
+  { "n", "<Leader>dC", "Debug: Run to cursor" },
+  { "n", "<Leader>dr", "Debug: Restart session" },
+  { "n", "<Leader>dl", "Debug: Rerun last configuration" },
+  { "n", "<Leader>dm", "Debug: Nearest Python test method" },
+  { "n", "<Leader>dc", "Debug: Nearest Python test class" },
 })
 lazy.on_keys("neotest", {
-  { "n", "<leader>t", "Run nearest test" },
-  { "n", "<leader>tr", "Run nearest test" },
-  { "n", "<leader>tf", "Run tests in current file" },
-  { "n", "<leader>td", "Debug nearest test" },
-  { "n", "<leader>ts", "Toggle test summary" },
-  { "n", "<leader>to", "Toggle test output" },
-  { "n", "<leader>tS", "Stop running tests" },
-  { "n", "]n", "Jump to next failed test" },
-  { "n", "[n", "Jump to previous failed test" },
+  { "n", "<leader>tr", "Neotest: Run nearest test" },
+  { "n", "<leader>tf", "Neotest: Run tests in current file" },
+  { "n", "<leader>td", "Neotest: Debug nearest test" },
+  { "n", "<leader>ts", "Neotest: Toggle summary panel" },
+  { "n", "<leader>to", "Neotest: Toggle output panel" },
+  { "n", "<leader>tS", "Neotest: Stop running tests" },
+  { "n", "]n", "Neotest: Next failed test" },
+  { "n", "[n", "Neotest: Previous failed test" },
 })
 
 require "plugins.autoclose"
@@ -193,24 +211,24 @@ require "plugins.comment"
 require "plugins.autotag"
 
 lazy.on_keys("avante", {
-  { "n", "<leader>aa", "Open AI assistant" },
-  { "v", "<leader>aa", "Open AI assistant" },
-  { "n", "<leader>az", "Toggle AI assistant" },
-  { "v", "<leader>az", "Toggle AI assistant" },
-  { "n", "<leader>an", "New AI assistant prompt" },
-  { "v", "<leader>an", "New AI assistant prompt" },
-  { "v", "<leader>ae", "Edit AI assistant prompt" },
-  { "n", "<leader>aS", "Select AI assistant sidebar" },
-  { "n", "<leader>ar", "Refresh AI assistant" },
-  { "n", "<leader>af", "Focus AI assistant" },
-  { "n", "<leader>at", "Toggle AI assistant chat" },
-  { "n", "<leader>ad", "Toggle AI assistant debug" },
-  { "n", "<leader>aC", "Clear AI assistant" },
-  { "n", "<leader>as", "Stop AI assistant request" },
-  { "n", "<leader>aR", "Reset AI assistant" },
-  { "n", "<leader>a?", "Show AI assistant help" },
-  { "n", "<leader>ah", "Show AI assistant history" },
-  { "n", "<leader>aB", "Toggle AI assistant sidebar" },
+  { "n", "<leader>aa", "Avante: Ask" },
+  { "v", "<leader>aa", "Avante: Ask" },
+  { "n", "<leader>az", "Avante: Toggle Zen Mode" },
+  { "v", "<leader>az", "Avante: Toggle Zen Mode" },
+  { "n", "<leader>an", "Avante: Create new ask" },
+  { "v", "<leader>an", "Avante: Create new ask" },
+  { "v", "<leader>ae", "Avante: Edit" },
+  { "n", "<leader>aS", "Avante: Stop" },
+  { "n", "<leader>ar", "Avante: Refresh" },
+  { "n", "<leader>af", "Avante: Focus" },
+  { "n", "<leader>at", "Avante: Toggle" },
+  { "n", "<leader>ad", "Avante: Toggle debug" },
+  { "n", "<leader>aC", "Avante: Toggle selection" },
+  { "n", "<leader>as", "Avante: Toggle suggestion" },
+  { "n", "<leader>aR", "Avante: Display repo map" },
+  { "n", "<leader>a?", "Avante: Select model" },
+  { "n", "<leader>ah", "Avante: Select history" },
+  { "n", "<leader>aB", "Avante: Add all open buffers" },
 })
 lazy.on_cmd("avante", "Avante*")
 

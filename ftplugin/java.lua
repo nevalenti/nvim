@@ -79,19 +79,19 @@ require("jdtls").start_or_attach {
 
     local map = vim.keymap.set
     local opts = { buffer = bufnr }
-    map("n", "<leader>jo", jdtls.organize_imports, opts)
-    map("n", "<leader>jv", jdtls.extract_variable, opts)
+    map("n", "<leader>jo", jdtls.organize_imports, vim.tbl_extend("force", opts, { desc = "Java: Organize imports" }))
+    map("n", "<leader>jv", jdtls.extract_variable, vim.tbl_extend("force", opts, { desc = "Java: Extract variable" }))
     map("v", "<leader>jv", function()
       jdtls.extract_variable(true)
-    end, opts)
-    map("n", "<leader>jc", jdtls.extract_constant, opts)
+    end, vim.tbl_extend("force", opts, { desc = "Java: Extract selection to variable" }))
+    map("n", "<leader>jc", jdtls.extract_constant, vim.tbl_extend("force", opts, { desc = "Java: Extract constant" }))
     map("v", "<leader>jc", function()
       jdtls.extract_constant(true)
-    end, opts)
+    end, vim.tbl_extend("force", opts, { desc = "Java: Extract selection to constant" }))
     map("v", "<leader>jm", function()
       jdtls.extract_method(true)
-    end, opts)
-    map("n", "<leader>jt", jdtls.test_class, opts)
-    map("n", "<leader>jn", jdtls.test_nearest_method, opts)
+    end, vim.tbl_extend("force", opts, { desc = "Java: Extract selection to method" }))
+    map("n", "<leader>jt", jdtls.test_class, vim.tbl_extend("force", opts, { desc = "Java: Test class" }))
+    map("n", "<leader>jn", jdtls.test_nearest_method, vim.tbl_extend("force", opts, { desc = "Java: Test nearest method" }))
   end,
 }

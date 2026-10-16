@@ -4,6 +4,10 @@
       "rev": "e30b7f2008e52442154b66f7c519bfd2f1e32acb",
       "src": "https://github.com/numToStr/Comment.nvim"
     },
+    "async.nvim": {
+      "rev": "15f28ec323a75f34f317336831c00c2d1b0a7192",
+      "src": "https://github.com/lewis6991/async.nvim"
+    },
     "autoclose.nvim": {
       "rev": "3f86702b54a861a17d7994b2e32a7c648cb12fb1",
       "src": "https://github.com/m4xshen/autoclose.nvim"
@@ -224,6 +228,10 @@
       "rev": "81b8a91735ad5cd24a6b3137f14a89f19176364f",
       "src": "https://github.com/stevearc/oil.nvim"
     },
+    "overseer.nvim": {
+      "rev": "a93d9f6d6defdac4bcd6d2c8ba988650e42e0a0e",
+      "src": "https://github.com/stevearc/overseer.nvim"
+    },
     "oxocarbon.nvim": {
       "rev": "cf49e389c22dab56224e43ae16422ddcd5b61b28",
       "src": "https://github.com/nyoom-engineering/oxocarbon.nvim"
@@ -243,6 +251,10 @@
     "promise-async": {
       "rev": "119e8961014c9bfaf1487bf3c2a393d254f337e2",
       "src": "https://github.com/kevinhwang91/promise-async"
+    },
+    "refactoring.nvim": {
+      "rev": "684b3484796ea44595bebbfddee4fa4dbfc90939",
+      "src": "https://github.com/ThePrimeagen/refactoring.nvim"
     },
     "render-markdown.nvim": {
       "rev": "da6a7b25471ab23824f3429225973186eb0b62d2",
