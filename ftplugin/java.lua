@@ -92,6 +92,11 @@ require("jdtls").start_or_attach {
       jdtls.extract_method(true)
     end, vim.tbl_extend("force", opts, { desc = "Java: Extract selection to method" }))
     map("n", "<leader>jt", jdtls.test_class, vim.tbl_extend("force", opts, { desc = "Java: Test class" }))
-    map("n", "<leader>jn", jdtls.test_nearest_method, vim.tbl_extend("force", opts, { desc = "Java: Test nearest method" }))
+    map(
+      "n",
+      "<leader>jn",
+      jdtls.test_nearest_method,
+      vim.tbl_extend("force", opts, { desc = "Java: Test nearest method" })
+    )
   end,
 }

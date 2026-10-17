@@ -65,9 +65,9 @@ starter.setup {
 }
 
 local c = require "theme-palette"
-vim.api.nvim_set_hl(0, "MiniStarterHeader", { fg = c.fg, bold = true })
+vim.api.nvim_set_hl(0, "MiniStarterHeader", { fg = c.accent, bold = true })
 vim.api.nvim_set_hl(0, "MiniStarterSection", { fg = c.fg_dark, bold = true })
-vim.api.nvim_set_hl(0, "MiniStarterCurrent", { fg = c.identifier, bg = c.bg_float, bold = true })
+vim.api.nvim_set_hl(0, "MiniStarterCurrent", { fg = c.fg, bg = c.popup_selection, bold = true })
 vim.api.nvim_set_hl(0, "MiniStarterItem", { fg = c.fg })
 vim.api.nvim_set_hl(0, "MiniStarterItemPrefix", { fg = c.accent })
 vim.api.nvim_set_hl(0, "MiniStarterQuery", { fg = c.green })

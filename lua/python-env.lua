@@ -8,7 +8,7 @@ function M.resolve(path)
   end
 
   path = path or vim.api.nvim_buf_get_name(0)
-  local root = vim.fs.root(path, { "pyproject.toml", "ty.toml", "setup.py", "setup.cfg", ".git" })
+  local root = vim.fs.root(path, { "pyproject.toml", "mypy.ini", ".mypy.ini", "setup.py", "setup.cfg", ".git" })
   if root and vim.fn.executable(root .. "/.venv/bin/python") == 1 then
     return root .. "/.venv/bin/python"
   end

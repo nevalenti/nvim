@@ -31,8 +31,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "LSP: Go to declaration" }))
     map("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", opts, { desc = "LSP: Go to implementation" }))
     map("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "LSP: Hover documentation" }))
-    map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, vim.tbl_extend("force", opts, { desc = "LSP: Search workspace symbols" }))
-    map("n", "<leader>dd", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Show diagnostics for current line" }))
+    map(
+      "n",
+      "<leader>ws",
+      vim.lsp.buf.workspace_symbol,
+      vim.tbl_extend("force", opts, { desc = "LSP: Search workspace symbols" })
+    )
+    map(
+      "n",
+      "<leader>dd",
+      vim.diagnostic.open_float,
+      vim.tbl_extend("force", opts, { desc = "Show diagnostics for current line" })
+    )
     map("n", "<leader>th", function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
     end, vim.tbl_extend("force", opts, { desc = "LSP: Toggle inlay hints" }))
@@ -74,10 +84,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       client.server_capabilities.diagnosticProvider = nil
     end
 
-    if
-      (vim.bo[bufnr].filetype ~= "python" or client.name == "ty")
-      and client:supports_method("textDocument/documentSymbol", bufnr)
-    then
+    if client.name ~= "ruff" and client:supports_method("textDocument/documentSymbol", bufnr) then
       require("nvim-navic").attach(client, bufnr)
     end
   end,
@@ -130,7 +137,6 @@ require("mason-lspconfig").setup {
     "jdtls",
     "intelephense",
     "ruff",
-    "ty",
     "gopls",
     "rust_analyzer",
   },
@@ -147,6 +153,7 @@ mason_registry.refresh(function()
     "php-cs-fixer",
     "phpstan",
     "debugpy",
+    "mypy",
     "netcoredbg",
     "roslyn-language-server",
     "goimports",

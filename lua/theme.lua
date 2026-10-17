@@ -34,7 +34,7 @@ local ui = {
   NonText = { fg = c.indent_guide },
   Whitespace = { fg = c.indent_guide },
   MatchParen = { fg = c.identifier, bg = c.popup_selection, bold = true },
-  Search = { fg = c.search_fg or c.accent, bg = c.search_bg },
+  Search = { fg = c.search_fg or c.fg, bg = c.search_bg },
   IncSearch = { fg = c.bg, bg = c.accent },
   CurSearch = { link = "IncSearch" },
   Pmenu = { fg = c.fg, bg = c.bg_float },

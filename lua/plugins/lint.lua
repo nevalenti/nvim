@@ -1,7 +1,14 @@
 local lint = require "lint"
 
+vim.list_extend(lint.linters.mypy.args, {
+  "--python-executable",
+  function()
+    return require("python-env").resolve()
+  end,
+})
+
 lint.linters_by_ft = {
-  python = { "ruff" },
+  python = { "ruff", "mypy" },
   php = { "phpstan" },
 }
 
