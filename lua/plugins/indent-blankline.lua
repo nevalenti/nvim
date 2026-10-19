@@ -22,6 +22,7 @@ require("ibl").setup {
       "oil",
       "qf",
       "starter",
+      "ministarter",
       "TelescopePrompt",
       "TelescopeResults",
     },

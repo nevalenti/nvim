@@ -1,5 +1,5 @@
 require("satellite").setup {
-  current_only = false,
+  current_only = true,
   winblend = 0,
   handlers = {
     search = { enable = true },

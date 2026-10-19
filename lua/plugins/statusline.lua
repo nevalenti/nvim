@@ -51,12 +51,6 @@ require("lualine").setup {
     },
     lualine_c = {
       {
-        "filename",
-        path = 1,
-        symbols = { modified = " ●", readonly = " ", unnamed = "[No Name]" },
-        color = { fg = c.fg },
-      },
-      {
         "diagnostics",
         symbols = { error = "● ", warn = "▲ ", info = "◆ ", hint = "◇ " },
         diagnostics_color = {

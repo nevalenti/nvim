@@ -51,6 +51,7 @@ vim.pack.add {
   { src = "https://github.com/akinsho/toggleterm.nvim" },
   { src = "https://github.com/stevearc/overseer.nvim" },
   { src = "https://github.com/kndndrj/nvim-dbee" },
+  { src = "https://github.com/dont-be-evil-company/kulala.nvim", version = "v5.3.4" },
 
   { src = "https://github.com/mbbill/undotree" },
 
@@ -154,6 +155,7 @@ lazy.on_keys("harpoon", {
 })
 
 require "plugins.treesitter"
+require "plugins.kulala"
 require "plugins.treesitter-textobjects"
 require "plugins.refactoring"
 require "plugins.navic"

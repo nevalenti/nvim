@@ -31,5 +31,6 @@ require("which-key").add {
   { "<leader>c", group = "Code / Quickfix" },
   { "<leader>d", group = "Diagnostics / Debug" },
   { "<leader>x", group = "Backend" },
+  { "<leader>R", group = "HTTP requests" },
   { "<leader>a", group = "AI assistant" },
 }

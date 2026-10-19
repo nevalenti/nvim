@@ -78,8 +78,12 @@ map("n", "<leader>X", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make curr
 
 map("n", "<leader>tl", function()
   local cfg = vim.diagnostic.config()
-  vim.diagnostic.config { virtual_text = not cfg.virtual_text }
-end, { desc = "Toggle inline diagnostics" })
+  if cfg.virtual_lines then
+    vim.diagnostic.config { virtual_lines = false }
+  else
+    vim.diagnostic.config { virtual_lines = { current_line = true } }
+  end
+end, { desc = "Toggle diagnostic virtual lines" })
 
 map("n", "<leader>tq", function()
   vim.diagnostic.setqflist { open = true }
