@@ -1,6 +1,9 @@
 local M = {}
 
 M.groups = {
+  dbee = {
+    { src = "https://github.com/kndndrj/nvim-dbee" },
+  },
   avante = {
     { src = "https://github.com/yetone/avante.nvim", build = "make" },
   },

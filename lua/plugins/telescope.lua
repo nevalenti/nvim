@@ -33,7 +33,7 @@ require("telescope").setup {
     entry_prefix = "  ",
     sorting_strategy = "ascending",
     borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-    path_display = { "smart" },
+    path_display = {},
     layout_strategy = "flex",
     layout_config = {
       flex = {

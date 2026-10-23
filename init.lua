@@ -50,7 +50,6 @@ vim.pack.add {
   { src = "https://github.com/folke/persistence.nvim" },
   { src = "https://github.com/akinsho/toggleterm.nvim" },
   { src = "https://github.com/stevearc/overseer.nvim" },
-  { src = "https://github.com/kndndrj/nvim-dbee" },
   { src = "https://github.com/dont-be-evil-company/kulala.nvim", version = "v5.3.4" },
 
   { src = "https://github.com/mbbill/undotree" },
@@ -117,7 +116,11 @@ lazy.on_keys("zen-mode", { { "n", "<leader>zz", "Toggle distraction-free mode" }
 require "plugins.toggleterm"
 require "plugins.overseer"
 require "plugins.backend"
-require "plugins.dbee"
+lazy.on_keys("dbee", {
+  { "n", "<leader>db", "Database: Toggle dbee workspace" },
+  { "n", "<leader>do", "Database: Open dbee workspace" },
+})
+lazy.on_cmd("dbee", "Dbee*")
 
 lazy.on_keys("oil", {
   { "n", "<leader>e", "Toggle Oil file explorer" },
@@ -155,7 +158,6 @@ lazy.on_keys("harpoon", {
 })
 
 require "plugins.treesitter"
-require "plugins.kulala"
 require "plugins.treesitter-textobjects"
 require "plugins.refactoring"
 require "plugins.navic"

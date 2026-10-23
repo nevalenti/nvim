@@ -6,7 +6,7 @@ vim.api.nvim_set_hl(0, "IblScope", { fg = c.blue })
 require("ibl").setup {
   indent = { char = "│", tab_char = "│", highlight = "IblIndent" },
   whitespace = { highlight = "IblIndent", remove_blankline_trail = false },
-  scope = { enabled = true, highlight = "IblScope" },
+  scope = { enabled = false, highlight = "IblScope" },
   exclude = {
     filetypes = {
       "",

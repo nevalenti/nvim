@@ -10,6 +10,9 @@ require("nvim-dap-virtual-text").setup {
 local dap = require "dap"
 local dapui = require "dapui"
 
+vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = require("theme-palette").red })
+vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DapBreakpoint" })
+
 dapui.setup {
   layouts = {
     {
@@ -109,13 +112,82 @@ dap.configurations.cs = {
 require("dap-go").setup {}
 
 local dap_python = require "dap-python"
+local python_env = require "python-env"
 dap_python.resolve_python = function()
-  return require("python-env").resolve()
+  return python_env.resolve()
 end
 dap_python.setup(vim.fn.stdpath "data" .. "/mason/packages/debugpy/venv/bin/python")
 
-map("n", "<Leader>dm", dap_python.test_method, { desc = "Debug: Nearest Python test method" })
-map("n", "<Leader>dc", dap_python.test_class, { desc = "Debug: Nearest Python test class" })
+for _, config in ipairs(dap.configurations.python) do
+  if config.request == "launch" then
+    config.cwd = function()
+      return python_env.root()
+    end
+  end
+end
+
+local fastapi_apps = {}
+
+local function fastapi_app()
+  local root = python_env.root()
+  local file = vim.api.nvim_buf_get_name(0)
+  local relative = vim.fs.relpath(root .. "/src", file) or vim.fs.relpath(root, file)
+  local default = "app:app"
+  if relative and relative:match "%.py$" then
+    default = relative:gsub("/__init__%.py$", ""):gsub("%.py$", ""):gsub("/", ".") .. ":app"
+  end
+
+  local app = vim.fn.input("FastAPI app (module:variable): ", fastapi_apps[root] or default)
+  if app ~= "" then
+    fastapi_apps[root] = app
+  end
+  return app ~= "" and app or (fastapi_apps[root] or default)
+end
+
+table.insert(dap.configurations.python, {
+  type = "python",
+  request = "launch",
+  name = "FastAPI (uvicorn)",
+  module = "uvicorn",
+  args = function()
+    return { fastapi_app(), "--host", "127.0.0.1", "--port", "8000" }
+  end,
+  cwd = function()
+    return python_env.root()
+  end,
+  pythonPath = function()
+    return python_env.resolve()
+  end,
+  console = "integratedTerminal",
+})
+
+dap.listeners.on_config["python.neotest_cwd"] = function(config)
+  if config.type == "python" and config.name == "Neotest Debugger" and config.args then
+    local test_id = config.args[#config.args]
+    if type(test_id) == "string" then
+      local test_file = test_id:match "^(.-)::" or test_id
+      if vim.fn.filereadable(test_file) == 1 then
+        config.cwd = python_env.root(test_file)
+      end
+    end
+  end
+  return config
+end
+
+local python_test_opts = {
+  test_runner = "pytest",
+  config = {
+    cwd = function()
+      return python_env.root()
+    end,
+  },
+}
+map("n", "<Leader>dm", function()
+  dap_python.test_method(python_test_opts)
+end, { desc = "Debug: Nearest Python test method" })
+map("n", "<Leader>dc", function()
+  dap_python.test_class(python_test_opts)
+end, { desc = "Debug: Nearest Python test class" })
 
 dap.adapters["pwa-node"] = {
   type = "server",

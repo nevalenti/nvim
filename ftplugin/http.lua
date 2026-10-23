@@ -1,3 +1,4 @@
+require "plugins.kulala"
 local kulala = require "kulala"
 
 vim.keymap.set("n", "<leader>Rr", kulala.run, { buffer = true, desc = "HTTP: Run request under cursor" })
