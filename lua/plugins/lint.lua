@@ -12,7 +12,7 @@ lint.linters_by_ft = {
   php = { "phpstan" },
 }
 
-vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {
+vim.api.nvim_create_autocmd("BufWritePost", {
   callback = function(args)
     if not vim.api.nvim_buf_is_valid(args.buf) then
       return
@@ -24,5 +24,15 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {
     end
 
     vim.api.nvim_buf_call(args.buf, lint.try_lint)
+  end,
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+  callback = function(args)
+    if vim.api.nvim_buf_is_valid(args.buf) and vim.bo[args.buf].filetype == "python" then
+      vim.api.nvim_buf_call(args.buf, function()
+        lint.try_lint "ruff"
+      end)
+    end
   end,
 })

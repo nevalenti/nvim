@@ -1,5 +1,5 @@
 vim.o.background = "dark"
-vim.o.guifont = "JetBrains Mono NL:h15"
+vim.o.guifont = "FiraCode Nerd Font:h12"
 
 vim.cmd.colorscheme "vscode-modern-dark"
 

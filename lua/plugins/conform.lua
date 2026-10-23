@@ -4,10 +4,7 @@ require("conform").setup {
   formatters = {
     dotnet_format = {
       command = "dotnet",
-      args = function(_, ctx)
-        local relative_path = vim.fs.relpath(ctx.cwd, ctx.filename) or ctx.filename
-        return { "format", "--include", relative_path, "--no-restore" }
-      end,
+      args = { "format", "--include", "$RELATIVE_FILEPATH", "--no-restore" },
       stdin = false,
       cwd = util.root_file { "*.sln", "*.csproj", ".git" },
       require_cwd = true,

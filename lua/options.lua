@@ -14,7 +14,7 @@ vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.opt.fillchars = { vert = "│", fold = " ", eob = " " }
 vim.opt.termguicolors = true
 vim.opt.title = true
-vim.opt.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a'
+vim.opt.titlestring = '%t%( %M%)%( (%{expand("%:.:h")})%)%a'
 vim.opt.laststatus = 3
 vim.opt.showmode = false
 vim.opt.winborder = "rounded"
