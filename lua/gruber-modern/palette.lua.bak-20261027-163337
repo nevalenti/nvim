@@ -1,0 +1,48 @@
+-- Gruber Modern: gruber-darker.nvim's palette with the same backgrounds,
+-- grays and hues; the accents are re-derived in OKLCH with more chroma and,
+-- for the cool hues, a little more lightness so they glow on the background.
+-- The keys after `wisteria` are this theme's own; gruber-darker.nvim ignores
+-- names it doesn't define.
+return {
+  ["bg-1"] = "#101010",
+  bg = "#141414",
+  ["bg+1"] = "#282828",
+  ["bg+2"] = "#453D41",
+  ["bg+3"] = "#484848",
+  ["bg+4"] = "#52494E",
+  fg = "#E4E4E4",
+  ["fg+1"] = "#F4F4FF",
+  ["fg+2"] = "#F5F5F5",
+  white = "#FFFFFF",
+  black = "#000000",
+  ["red-1"] = "#D9353C",
+  red = "#FB3C45",
+  ["red+1"] = "#FF6468",
+  green = "#74DB4A",
+  yellow = "#FFDD33",
+  brown = "#E19236",
+  quartz = "#86CCAC",
+  ["niagara-2"] = "#293248",
+  ["niagara-1"] = "#5E6B89",
+  niagara = "#88B2FF",
+  wisteria = "#B09AFC",
+  -- Syntax roles; colors/gruber-modern.lua puts them in gruber-darker's
+  -- function (niagara), string (green) and type (quartz) slots; types are
+  -- purple and rose is kept for the terminal's magenta. Functions
+  -- are slate: niagara-1's hue, lifted to read at 6.9:1 on the background.
+  slate = "#8D9EC5",
+  purple = "#B09AFC",
+  rose = "#F589B6",
+  neon = "#47FD38",
+  -- Dimmed text (inactive windows, picker details, punctuation) and
+  -- faint annotations (inlay hints).
+  ["fg-1"] = "#A6A6A6",
+  ["fg-2"] = "#707070",
+  -- Terminal-only: cyan and the bright variants.
+  teal = "#5CE4D5",
+  ["yellow+1"] = "#FFE866",
+  ["rose+1"] = "#FDA6C8",
+  ["neon+1"] = "#86FF78",
+  ["purple+1"] = "#C0B0FF",
+  ["teal+1"] = "#88F1E3",
+}

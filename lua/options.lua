@@ -6,7 +6,7 @@ vim.g.loaded_matchparen = 1
 
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.signcolumn = "yes"
 vim.opt.wrap = false
 vim.opt.list = true

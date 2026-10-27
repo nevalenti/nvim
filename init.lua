@@ -37,6 +37,7 @@ vim.pack.add {
   { src = "https://github.com/olivercederborg/poimandres.nvim" },
   { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
   { src = "https://github.com/folke/tokyonight.nvim" },
+  { src = "https://github.com/oxfist/night-owl.nvim" },
   { src = "https://github.com/EdenEast/nightfox.nvim" },
   { src = "https://github.com/sainnhe/sonokai" },
 

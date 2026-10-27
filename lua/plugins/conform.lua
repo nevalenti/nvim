@@ -1,15 +1,4 @@
-local util = require "conform.util"
-
 require("conform").setup {
-  formatters = {
-    dotnet_format = {
-      command = "dotnet",
-      args = { "format", "--include", "$RELATIVE_FILEPATH", "--no-restore" },
-      stdin = false,
-      cwd = util.root_file { "*.sln", "*.csproj", ".git" },
-      require_cwd = true,
-    },
-  },
   formatters_by_ft = {
     lua = { "stylua" },
     go = { "goimports", "gofmt" },
@@ -23,7 +12,7 @@ require("conform").setup {
     json = { "prettier" },
     yaml = { "prettier" },
     markdown = { "prettier" },
-    cs = { "dotnet_format" },
+    cs = { "csharpier" },
     java = { "google-java-format" },
     php = { "php_cs_fixer" },
   },

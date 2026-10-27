@@ -23,8 +23,6 @@ oil.setup {
   float = {
     open_by_default = true,
     padding = 0,
-    max_width = 0.8,
-    max_height = 0.8,
     border = "rounded",
     get_win_title = function(winid)
       local dir = oil.get_current_dir(vim.api.nvim_win_get_buf(winid)) or ""
@@ -42,6 +40,14 @@ oil.setup {
       return "    " .. path .. "  "
     end,
     override = function(conf)
+      -- Telescope's layout sizes include the border; Oil's width and height do not.
+      local editor_height = require("oil.layout").get_editor_height()
+      local telescope_width = math.min(math.floor(vim.o.columns * 0.72), 110)
+      local telescope_height = math.min(math.floor(editor_height * 0.72), 38)
+      conf.width = math.min(conf.width, math.max(1, telescope_width - 2))
+      conf.height = math.min(conf.height, math.max(1, telescope_height - 2))
+      conf.row = math.floor((editor_height - conf.height) / 2)
+      conf.col = math.floor((vim.o.columns - conf.width) / 2) - 1
       conf.title = " Files "
       conf.title_pos = "left"
       local help = conf.width >= 70 and "  Enter open   ·   - parent   ·   g. hidden   ·   q close  "

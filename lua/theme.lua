@@ -1,11 +1,11 @@
 vim.o.background = "dark"
 vim.o.guifont = "FiraCode Nerd Font:h12"
 
-vim.cmd.colorscheme "vscode-modern-dark"
+require("gruber-darker").setup()
+vim.cmd.colorscheme "gruber-modern"
 
 local c = require "theme-palette"
 local blend_bg = require("tokyonight.util").blend_bg
-local cursor_line_bg = vim.api.nvim_get_hl(0, { name = "CursorLine" }).bg
 
 for index, color in ipairs(c.terminal) do
   vim.g["terminal_color_" .. (index - 1)] = color
@@ -13,7 +13,7 @@ end
 vim.g.terminal_color_background = c.bg
 vim.g.terminal_color_foreground = c.fg
 
-vim.api.nvim_set_hl(0, "Cursor", { fg = c.bg, bg = "#FF10F0" })
+vim.api.nvim_set_hl(0, "Cursor", { fg = c.bg, bg = c.caret })
 vim.api.nvim_set_hl(0, "lCursor", { link = "Cursor" })
 vim.api.nvim_set_hl(0, "TermCursor", { link = "Cursor" })
 vim.opt.guicursor =
@@ -48,24 +48,25 @@ local ui = {
   TabLine = { fg = c.fg_dark, bg = c.bg_statusline },
   TabLineFill = { bg = c.bg_statusline },
   TabLineSel = { fg = c.accent, bg = c.bg_float, bold = true },
-  TelescopeNormal = { link = "NormalFloat" },
-  TelescopePromptNormal = { link = "NormalFloat" },
-  TelescopeResultsNormal = { link = "NormalFloat" },
-  TelescopePreviewNormal = { link = "NormalFloat" },
-  TelescopeBorder = { link = "FloatBorder" },
-  TelescopePromptBorder = { link = "FloatBorder" },
-  TelescopeResultsBorder = { link = "FloatBorder" },
-  TelescopePreviewBorder = { link = "FloatBorder" },
-  TelescopeTitle = { link = "FloatTitle" },
-  TelescopePromptTitle = { link = "FloatTitle" },
-  TelescopeResultsTitle = { link = "FloatTitle" },
-  TelescopePreviewTitle = { link = "FloatTitle" },
-  TelescopePromptPrefix = { fg = c.accent },
-  TelescopePromptCounter = { fg = c.fg_dark },
+  TelescopeNormal = { fg = c.fg, bg = c.bg_float },
+  TelescopePromptNormal = { fg = c.fg, bg = c.bg_float },
+  TelescopeResultsNormal = { fg = c.fg, bg = c.bg_float },
+  TelescopePreviewNormal = { fg = c.fg, bg = c.bg_float },
+  TelescopeBorder = { fg = c.border, bg = c.bg_float },
+  TelescopePromptBorder = { fg = c.border, bg = c.bg_float },
+  TelescopeResultsBorder = { fg = c.border, bg = c.bg_float },
+  TelescopePreviewBorder = { fg = c.border, bg = c.bg_float },
+  TelescopeTitle = { fg = c.fg_dark, bg = c.bg_float, bold = true },
+  TelescopePromptTitle = { fg = c.accent, bg = c.bg_float, bold = true },
+  TelescopeResultsTitle = { fg = c.fg_dark, bg = c.bg_float, bold = true },
+  TelescopePreviewTitle = { fg = c.fg_dark, bg = c.bg_float, bold = true },
+  TelescopePromptPrefix = { fg = c.accent, bg = c.bg_float },
+  TelescopePromptCounter = { fg = c.fg_dark, bg = c.bg_float },
   TelescopeMatching = { fg = c.accent, bold = true },
-  TelescopeFileIcon = { fg = c.fg_dark },
-  TelescopeSelection = { fg = c.fg, bg = cursor_line_bg, bold = true },
-  TelescopeSelectionCaret = { fg = c.accent, bg = cursor_line_bg },
+  TelescopeFileIcon = { fg = c.blue },
+  TelescopeResultsComment = { fg = c.fg_dark },
+  TelescopeSelection = { fg = c.fg, bg = c.popup_selection, bold = true },
+  TelescopeSelectionCaret = { fg = c.accent, bg = c.popup_selection, bold = true },
   OilNormalFloat = { link = "NormalFloat" },
   OilFloatBorder = { link = "FloatBorder" },
   OilFooter = { fg = c.fg_dark, bg = c.bg_float },
@@ -95,7 +96,7 @@ local ui = {
   BlinkCmpDocCursorLine = { bg = c.popup_selection },
   BlinkCmpSignatureHelp = { link = "NormalFloat" },
   BlinkCmpSignatureHelpBorder = { link = "FloatBorder" },
-  BlinkCmpGhostText = { fg = c.fg_dark, italic = true },
+  BlinkCmpGhostText = { fg = c.inlay_hint or c.fg_dark, italic = true },
   WhichKeyNormal = { link = "NormalFloat" },
   WhichKeyBorder = { link = "FloatBorder" },
   WhichKeyTitle = { link = "FloatTitle" },
@@ -116,16 +117,26 @@ local ui = {
   LspReferenceText = { bg = c.popup_selection },
   LspReferenceRead = { link = "LspReferenceText" },
   LspReferenceWrite = { link = "LspReferenceText" },
-  LspInlayHint = { fg = c.fg_dark, bg = c.bg_float },
+  LspInlayHint = { fg = c.inlay_hint or c.fg_dark, bg = c.bg_float, italic = true },
 }
-for group, highlight in pairs(ui) do
-  vim.api.nvim_set_hl(0, group, highlight)
-end
+-- rose-pine is used as-is, like ThePrimeagen's setup; the shared overrides
+-- would repaint its UI groups with this config's own look.
+local stock = vim.g.colors_name:match "^rose%-pine" ~= nil
 
-for severity, color in pairs { Error = c.red, Warn = c.warning, Info = c.info, Hint = c.hint } do
-  vim.api.nvim_set_hl(0, "Diagnostic" .. severity, { fg = color })
-  vim.api.nvim_set_hl(0, "DiagnosticSign" .. severity, { link = "Diagnostic" .. severity })
-  vim.api.nvim_set_hl(0, "DiagnosticUnderline" .. severity, { sp = color, undercurl = true })
+if not stock then
+  for group, highlight in pairs(ui) do
+    vim.api.nvim_set_hl(0, group, highlight)
+  end
+
+  for severity, color in pairs { Error = c.red, Warn = c.warning, Info = c.info, Hint = c.hint } do
+    vim.api.nvim_set_hl(0, "Diagnostic" .. severity, { fg = color })
+    vim.api.nvim_set_hl(0, "DiagnosticSign" .. severity, { link = "Diagnostic" .. severity })
+    vim.api.nvim_set_hl(0, "DiagnosticUnderline" .. severity, { sp = color, undercurl = true })
+  end
+else
+  -- ColorMyPencils: let the terminal background show through.
+  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 end
 
 vim.api.nvim_set_hl(0, "WinBar", { fg = c.fg, bg = c.bg })
@@ -162,3 +173,17 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = set_yank_highlight,
 })
 set_yank_highlight()
+
+-- Waybar, Rofi, swaync and btop take their colors from the palette.
+local theme_sync = require "theme-sync"
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("ThemeSync", { clear = true }),
+  callback = function()
+    package.loaded["theme-palette"] = nil
+    local ok, palette = pcall(require, "theme-palette")
+    if ok then
+      theme_sync.sync(palette)
+    end
+  end,
+})
+theme_sync.sync(c)

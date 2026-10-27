@@ -1,9 +1,41 @@
 local actions = require "telescope.actions"
+local layout_actions = require "telescope.actions.layout"
 local lga_actions = require "telescope-live-grep-args.actions"
+local picker_width = function(_, columns)
+  return math.min(math.floor(columns * 0.72), 110)
+end
+local picker_height = function(_, _, lines)
+  return math.min(math.floor(lines * 0.72), 38)
+end
+local grep_layout = { vertical = { preview_height = 0.6 } }
+local dropdown = require("telescope.themes").get_dropdown {
+  previewer = false,
+  layout_config = { width = picker_width, height = picker_height },
+}
+
+local layout_strategies = require "telescope.pickers.layout_strategies"
+local vertical_layout = layout_strategies.vertical
+layout_strategies.vertical = function(...)
+  local layout = vertical_layout(...)
+  if layout.prompt.line < layout.results.line then
+    -- Share the prompt's bottom border with the results instead of leaving a blank row.
+    layout.results.line = layout.results.line - 1
+    layout.results.height = layout.results.height + 1
+  end
+  return layout
+end
 
 require("telescope").setup {
+  pickers = {
+    buffers = dropdown,
+    oldfiles = dropdown,
+    keymaps = dropdown,
+    help_tags = dropdown,
+    grep_string = { layout_config = grep_layout },
+  },
   extensions = {
     live_grep_args = {
+      layout_config = grep_layout,
       mappings = {
         i = {
           ["<C-t>"] = lga_actions.quote_prompt { postfix = " -t " },
@@ -19,6 +51,7 @@ require("telescope").setup {
         ["<C-k>"] = require("telescope.actions").move_selection_previous,
         ["<C-d>"] = "preview_scrolling_down",
         ["<C-u>"] = "preview_scrolling_up",
+        ["<C-p>"] = layout_actions.toggle_preview,
       },
       n = {
         ["<leader>q"] = actions.close,
@@ -26,33 +59,29 @@ require("telescope").setup {
         ["<C-k>"] = require("telescope.actions").move_selection_previous,
         ["<C-d>"] = "preview_scrolling_down",
         ["<C-u>"] = "preview_scrolling_up",
+        ["<C-p>"] = layout_actions.toggle_preview,
       },
     },
     prompt_prefix = "   ",
     selection_caret = "› ",
     entry_prefix = "  ",
     sorting_strategy = "ascending",
-    borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    results_title = false,
+    borderchars = {
+      prompt = { "─", "│", "─", "│", "╭", "╮", "┤", "├" },
+      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    },
     path_display = {},
-    layout_strategy = "flex",
+    layout_strategy = "vertical",
     layout_config = {
-      flex = {
-        flip_columns = 120,
-        flip_lines = 24,
-      },
       vertical = {
         mirror = true,
         prompt_position = "top",
-        width = 0.9,
-        height = 0.85,
-        preview_height = 0.45,
-        preview_cutoff = 24,
-      },
-      horizontal = {
-        prompt_position = "top",
-        width = 0.85,
-        height = 0.8,
-        preview_width = 0.5,
+        width = picker_width,
+        height = picker_height,
+        preview_height = 0.62,
+        preview_cutoff = 12,
       },
     },
   },
