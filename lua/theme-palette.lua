@@ -643,33 +643,35 @@ local function from_gruber(g)
     identifier = g.fg,
     type = g.purple or g.quartz,
     func = g.slate or g.niagara,
-    parameter = g.fg,
+    parameter = g.param or g.fg,
     member = g.fg,
     module = g.purple or g.quartz,
-    punctuation = g.fg,
+    punctuation = g["fg-1"] or g.fg,
     indent_guide = g["bg+1"],
-    constant = g.purple or g.quartz,
-    boolean = g.yellow,
-    operator = g.fg,
+    constant = g.aqua or g.quartz,
+    boolean = g.aqua or g.yellow,
+    operator = g.rose or g.fg,
     string = g.neon or g.green,
-    number = g.wisteria,
-    comment = g.brown,
+    number = g.aqua or g.wisteria,
+    comment = g.comment or g.brown,
     selection = g["bg+3"],
+    visual = g.visual,
     line_number = g["bg+4"],
     border = g["bg+2"],
     popup_selection = g["bg+2"],
-    search_bg = g["niagara-2"],
+    search_bg = g.search or g["niagara-2"],
     warning = g.yellow,
-    info = g.purple or g.niagara,
-    hint = g.neon or g.quartz,
-    current_line_number = g.yellow,
+    info = g.niagara,
+    hint = g.quartz,
+    current_line_number = g.white,
+    current_line_number_bg = g["bg-1"],
     git_add = g.neon or g.green,
     git_change = g.yellow,
   }
 
   colors.error_bg = util.blend_bg(g.red, 0.1, g.bg)
   colors.warning_bg = util.blend_bg(g.yellow, 0.1, g.bg)
-  colors.info_bg = util.blend_bg(g.purple or g.niagara, 0.1, g.bg)
+  colors.info_bg = util.blend_bg(g.niagara, 0.1, g.bg)
 
   -- gruber-darker.nvim's terminal colors, with a readable bright black;
   -- palettes with their own syntax hues map them to green (strings),
@@ -705,7 +707,7 @@ local function from_gruber_darker()
 end
 
 local function from_gruber_modern()
-  return from_gruber(require "gruber-modern.palette")
+  return from_gruber(require("gruber-modern.palette").get())
 end
 
 local function from_tokyonight()

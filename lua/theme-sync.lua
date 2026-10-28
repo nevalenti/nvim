@@ -1,24 +1,40 @@
--- Keeps Waybar, Rofi, swaync and btop on Neovim's colorscheme: each app has
--- a template next to its config with {{role}} placeholders ({{role_rgb}} for
--- rgba()), rendered from theme-palette whenever the colorscheme changes.
+-- Keeps Waybar, Rofi, swaync, btop, Hyprland, hyprlock, Alacritty, tmux and
+-- zsh (with its p10k prompt) on Neovim's colorscheme: each app has a template
+-- next to its config with {{role}} placeholders ({{role_rgb}} for rgba(),
+-- {{role_hex}} for a bare RRGGBB, {{role_ansi}} for an R;G;B escape),
+-- rendered from theme-palette whenever the colorscheme changes.
 local M = {}
 
-local config = vim.fn.expand "~/.config/"
+local home = vim.fn.expand "~/"
 
 local waybar = { "pkill", "-SIGUSR2", "-x", "waybar" }
 local targets = {
-  { template = "waybar/style.css.tmpl", output = "waybar/style.css", reload = waybar },
-  { template = "waybar/config.jsonc.tmpl", output = "waybar/config.jsonc", reload = waybar },
-  { template = "swaync/style.css.tmpl", output = "swaync/style.css", reload = { "swaync-client", "-rs" } },
-  -- Rofi and btop read their theme when they start.
-  { template = "rofi/nvim.rasi.tmpl", output = "rofi/nvim.rasi" },
-  { template = "btop/themes/nvim.theme.tmpl", output = "btop/themes/nvim.theme" },
+  { template = ".config/waybar/style.css.tmpl", output = ".config/waybar/style.css", reload = waybar },
+  { template = ".config/waybar/config.jsonc.tmpl", output = ".config/waybar/config.jsonc", reload = waybar },
+  {
+    template = ".config/swaync/style.css.tmpl",
+    output = ".config/swaync/style.css",
+    reload = { "swaync-client", "-rs" },
+  },
+  -- hyprland.lua loads colors.lua for its borders and background.
+  { template = ".config/hypr/colors.lua.tmpl", output = ".config/hypr/colors.lua", reload = { "hyprctl", "reload" } },
+  -- tmux sources theme.conf from ~/.tmux.conf; running servers pick it up here.
+  { template = ".tmux/theme.conf.tmpl", output = ".tmux/theme.conf", reload = { "tmux", "source-file", home .. ".tmux/theme.conf" } },
+  -- Alacritty imports nvim.toml and reloads it on its own.
+  { template = ".config/alacritty/nvim.toml.tmpl", output = ".config/alacritty/nvim.toml" },
+  -- Rofi, btop, hyprlock and zsh read their theme when they start.
+  { template = ".config/rofi/nvim.rasi.tmpl", output = ".config/rofi/nvim.rasi" },
+  { template = ".config/btop/themes/nvim.theme.tmpl", output = ".config/btop/themes/nvim.theme" },
+  { template = ".config/hypr/hyprlock.conf.tmpl", output = ".config/hypr/hyprlock.conf" },
+  { template = ".config/zsh/theme.zsh.tmpl", output = ".config/zsh/theme.zsh" },
+  { template = ".p10k.zsh.tmpl", output = ".p10k.zsh" },
 }
 
 local function roles(c)
   local t = c.terminal or {}
-  return {
+  local values = {
     bg = c.bg,
+    float = c.bg_float or c.bg,
     surface = c.hover_bg,
     hover = c.selection,
     sel = c.popup_selection,
@@ -36,7 +52,23 @@ local function roles(c)
     type = c.type,
     type_bright = t[13] or c.type,
     blue = c.blue,
+    bright = c.current_line_number or c.fg,
+    fg_bright = t[16] or c.fg,
+    caret = c.caret,
+    visual = c.visual or c.selection,
+    search = c.search_bg,
+    string = c.string,
+    constant = c.constant,
+    operator = c.operator,
+    comment = c.comment,
+    param = c.parameter,
+    error = c.red,
+    warning = c.warning,
   }
+  for index = 1, 16 do
+    values["t" .. (index - 1)] = t[index]
+  end
+  return values
 end
 
 local function read(path)
@@ -52,16 +84,23 @@ end
 local function render(text, values)
   return (
     text:gsub("{{([%w_]+)}}", function(name)
-      local rgb = name:match "^(.-)_rgb$"
-      local hex = values[rgb or name]
+      local role, format = name:match "^(.-)_(%l+)$"
+      if not (format == "rgb" or format == "hex" or format == "ansi") then
+        role, format = name, nil
+      end
+      local hex = values[role]
       if not hex then
         return nil
       end
-      if not rgb then
+      if not format then
         return hex
       end
+      if format == "hex" then
+        return hex:sub(2)
+      end
       local r, g, b = hex:match "#(%x%x)(%x%x)(%x%x)"
-      return ("%d, %d, %d"):format(tonumber(r, 16), tonumber(g, 16), tonumber(b, 16))
+      local separator = format == "rgb" and ", " or ";"
+      return table.concat({ tonumber(r, 16), tonumber(g, 16), tonumber(b, 16) }, separator)
     end)
   )
 end
@@ -76,10 +115,10 @@ function M.sync(c)
   -- Only rewrite what changed, and reload each app once.
   local reloads = {}
   for _, target in ipairs(targets) do
-    local template = read(config .. target.template)
+    local template = read(home .. target.template)
     if template then
       local text = render(template, values)
-      local path = config .. target.output
+      local path = home .. target.output
       if text ~= read(path) then
         local file = io.open(path, "w")
         if file then

@@ -27,8 +27,10 @@ local function quarter_page_scroll()
 end
 
 map("n", "<C-d>", function()
-  return quarter_page_scroll() .. "<C-d>zz"
-end, { expr = true, desc = "Scroll down one quarter page and center" })
+  local scroll = quarter_page_scroll() .. "<C-d>"
+  -- Centering a cursor near the top pulls the view back after scrolling.
+  return vim.fn.winline() < math.floor(vim.fn.winheight(0) / 2) and scroll or scroll .. "zz"
+end, { expr = true, desc = "Scroll down one quarter page and center when useful" })
 map("n", "<C-u>", function()
   return quarter_page_scroll() .. "<C-u>zz"
 end, { expr = true, desc = "Scroll up one quarter page and center" })
