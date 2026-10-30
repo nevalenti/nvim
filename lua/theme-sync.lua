@@ -1,5 +1,5 @@
--- Keeps Waybar, Rofi, swaync, btop, Hyprland, hyprlock, Alacritty, tmux and
--- zsh (with its p10k prompt) on Neovim's colorscheme: each app has a template
+-- Keeps Waybar, Rofi, swaync, btop, Hyprland, hyprlock, Alacritty, tmux,
+-- VS Code and zsh (with its p10k prompt) on Neovim's colorscheme: each app has a template
 -- next to its config with {{role}} placeholders ({{role_rgb}} for rgba(),
 -- {{role_hex}} for a bare RRGGBB, {{role_ansi}} for an R;G;B escape),
 -- rendered from theme-palette whenever the colorscheme changes.
@@ -28,6 +28,12 @@ local targets = {
   { template = ".config/hypr/hyprlock.conf.tmpl", output = ".config/hypr/hyprlock.conf" },
   { template = ".config/zsh/theme.zsh.tmpl", output = ".config/zsh/theme.zsh" },
   { template = ".p10k.zsh.tmpl", output = ".p10k.zsh" },
+  -- The "Neovim" color theme in the local Gruber Darker extension; VS Code
+  -- picks it up on its next window reload.
+  {
+    template = ".vscode/extensions/nevalenti.gruber-darker-theme-1.0.0/themes/nvim-color-theme.json.tmpl",
+    output = ".vscode/extensions/nevalenti.gruber-darker-theme-1.0.0/themes/nvim-color-theme.json",
+  },
 }
 
 local function roles(c)
@@ -42,6 +48,7 @@ local function roles(c)
     fg = c.fg,
     fg_dark = c.fg_dark,
     muted = c.inlay_hint or c.fg_dark,
+    line_number = c.line_number or c.gray,
     gray = c.gray,
     accent = c.accent,
     green = c.green,
@@ -64,6 +71,8 @@ local function roles(c)
     param = c.parameter,
     error = c.red,
     warning = c.warning,
+    info = c.info or c.blue,
+    hint = c.hint or c.green,
   }
   for index = 1, 16 do
     values["t" .. (index - 1)] = t[index]

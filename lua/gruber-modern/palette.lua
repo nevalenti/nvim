@@ -5,8 +5,8 @@
 --   string 142 (neon), literal 196 (cyan), call 258 (blue),
 --   type 312 (violet), operator 358 (pink)
 -- and every color has enough chroma that hue, not just lightness, tells it
--- apart. In OKLab, no two roles (plain text and punctuation included) sit
--- closer than 11.9 dark / 7.6 light. Supporting colors (comments, calls,
+-- apart. In OKLab, no two roles (plain text included) sit closer than 11.9
+-- dark / 7.6 light; punctuation, a near-gray, is exempt. Supporting colors (comments, calls,
 -- operators) sit a step lower in lightness so the accents lead.
 -- The grays are neutral, in roughly even lightness steps, like the text.
 --
@@ -65,10 +65,13 @@ M.dark = {
   -- enough from green to never read as a dim neon string or the quartz hint,
   -- and chroma enough to never blur into the blue calls.
   aqua = "#35DEDF",
-  -- Dimmed text (inactive windows, picker details, punctuation) and
-  -- faint annotations (inlay hints).
+  -- Dimmed text (inactive windows, picker details) and faint annotations
+  -- (inlay hints).
   ["fg-1"] = "#A6A6A6",
   ["fg-2"] = "#888888",
+  -- Punctuation and brackets: a steel blue-gray, the slate calls' hue with
+  -- almost no chroma, so it reads as tinted gray rather than as a color.
+  punct = "#9BAEC8",
   -- The loudest text: function definitions.
   strong = "#FFFFFF",
   -- Visual selection: a slate-tinted step instead of bg+3, which dropped
@@ -130,6 +133,7 @@ M.light = {
   aqua = "#025D6B",
   ["fg-1"] = "#535353",
   ["fg-2"] = "#6D6D6D",
+  punct = "#445568",
   strong = "#000000",
   visual = "#D6DEEF",
   comment = "#874300",

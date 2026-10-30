@@ -16,3 +16,21 @@ vim.lsp.config("roslyn", {
     },
   },
 })
+
+-- Roslyn sends member-access dots as operator tokens, which would paint them
+-- over Treesitter's punctuation; keep them with the other separators.
+vim.api.nvim_create_autocmd("LspTokenUpdate", {
+  group = vim.api.nvim_create_augroup("RoslynDots", { clear = true }),
+  callback = function(args)
+    local token = args.data.token
+    if token.type ~= "operator" then
+      return
+    end
+    local line = vim.api.nvim_buf_get_lines(args.buf, token.line, token.line + 1, false)[1] or ""
+    local text = line:sub(token.start_col + 1, token.end_col)
+    local next_char = line:sub(token.end_col + 1, token.end_col + 1)
+    if text == "." or text == "?." or (text == "?" and next_char == ".") then
+      vim.lsp.semantic_tokens.highlight_token(token, args.buf, args.data.client_id, "@punctuation.delimiter")
+    end
+  end,
+})

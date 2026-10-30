@@ -14,8 +14,9 @@ local M = {}
 --   behavior   strong/slate function definitions bold, calls slate
 --   names      fg/param     variables and members in fg; parameters cream,
 --                           so a function's inputs stand out from its locals
---   glue       fg-1/rose    brackets and separators recede to fg-1 so the
---                           names between them lead; operators rose
+--   glue       punct/rose   brackets and separators in a steel blue-gray, tinted
+--                           but quieter than the names between them; operators
+--                           rose; modules and tag attributes recede to fg-1
 --   notes      amber        comments, a muted amber; TODO-style tags get a
 --                           label
 -- Diagnostics use hues the syntax doesn't: info is niagara blue, hint is
@@ -33,6 +34,7 @@ local function roles(c)
     name = c.fg,
     param = c.param,
     glue = c["fg-1"],
+    punct = c.punct,
     operator = c.rose,
     comment = c.comment,
     special = c.yellow,
@@ -242,7 +244,7 @@ local function syntax(c, r, o)
     ["@tag"] = { fg = r.type },
     ["@tag.builtin"] = { fg = r.type },
     ["@tag.attribute"] = { fg = r.glue },
-    ["@tag.delimiter"] = { fg = r.glue },
+    ["@tag.delimiter"] = { fg = r.punct },
 
     -- Behavior
     ["@function"] = { fg = r.func_def, bold = o.bold },
@@ -259,8 +261,8 @@ local function syntax(c, r, o)
     ["@variable.parameter"] = { fg = r.param },
 
     -- Glue
-    ["@punctuation.bracket"] = { fg = r.glue },
-    ["@punctuation.delimiter"] = { fg = r.glue },
+    ["@punctuation.bracket"] = { fg = r.punct },
+    ["@punctuation.delimiter"] = { fg = r.punct },
     ["@punctuation.special"] = { fg = r.special },
     ["@operator"] = { fg = r.operator },
     -- rainbow-delimiters, when installed: one hue per nesting depth, none

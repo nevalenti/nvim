@@ -646,7 +646,7 @@ local function from_gruber(g)
     parameter = g.param or g.fg,
     member = g.fg,
     module = g.purple or g.quartz,
-    punctuation = g["fg-1"] or g.fg,
+    punctuation = g.punct or g["fg-1"] or g.fg,
     indent_guide = g["bg+1"],
     constant = g.aqua or g.quartz,
     boolean = g.aqua or g.yellow,
