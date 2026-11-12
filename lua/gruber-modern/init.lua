@@ -6,7 +6,7 @@ local M = {}
 local defaults = {
   -- Leave Normal, floats and the gutter unpainted, so the terminal shows.
   transparent = false,
-  -- Inactive windows get a darker background and dimmed plain text.
+  -- Inactive windows get a lifted background and dimmed plain text.
   dim_inactive = true,
   bold = true,
   -- Extra attributes per syntax role, merged over the theme's own, e.g.

@@ -661,9 +661,9 @@ local function from_gruber(g)
     popup_selection = g["bg+2"],
     search_bg = g.search or g["niagara-2"],
     warning = g.yellow,
-    info = g.niagara,
+    info = g.info or g.niagara,
     hint = g.quartz,
-    current_line_number = g.white,
+    current_line_number = g.strong or g.white,
     current_line_number_bg = g["bg-1"],
     git_add = g.neon or g.green,
     git_change = g.yellow,
@@ -671,7 +671,7 @@ local function from_gruber(g)
 
   colors.error_bg = util.blend_bg(g.red, 0.1, g.bg)
   colors.warning_bg = util.blend_bg(g.yellow, 0.1, g.bg)
-  colors.info_bg = util.blend_bg(g.niagara, 0.1, g.bg)
+  colors.info_bg = util.blend_bg(g.info or g.niagara, 0.1, g.bg)
 
   -- gruber-darker.nvim's terminal colors, with a readable bright black;
   -- palettes with their own syntax hues map them to green (strings),

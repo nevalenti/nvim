@@ -123,10 +123,7 @@ lazy.on_keys("dbee", {
 })
 lazy.on_cmd("dbee", "Dbee*")
 
-lazy.on_keys("oil", {
-  { "n", "<leader>e", "Toggle Oil file explorer" },
-  { "n", "<leader>tg", "Toggle git author/timestamp info in Oil" },
-})
+lazy.load "oil"
 lazy.on_keys("telescope", {
   { "n", "<leader>ff", "Telescope: Find files" },
   { "n", "<leader>fa", "Telescope: Live grep with ripgrep args" },

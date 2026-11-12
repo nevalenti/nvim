@@ -1,4 +1,4 @@
--- Keeps Waybar, Rofi, swaync, btop, Hyprland, hyprlock, Alacritty, tmux,
+-- Keeps Waybar, Rofi, swaync, btop, k9s, Hyprland, hyprlock, Alacritty, tmux,
 -- VS Code and zsh (with its p10k prompt) on Neovim's colorscheme: each app has a template
 -- next to its config with {{role}} placeholders ({{role_rgb}} for rgba(),
 -- {{role_hex}} for a bare RRGGBB, {{role_ansi}} for an R;G;B escape),
@@ -22,9 +22,10 @@ local targets = {
   { template = ".tmux/theme.conf.tmpl", output = ".tmux/theme.conf", reload = { "tmux", "source-file", home .. ".tmux/theme.conf" } },
   -- Alacritty imports nvim.toml and reloads it on its own.
   { template = ".config/alacritty/nvim.toml.tmpl", output = ".config/alacritty/nvim.toml" },
-  -- Rofi, btop, hyprlock and zsh read their theme when they start.
+  -- Rofi, btop, k9s, hyprlock and zsh read their theme when they start.
   { template = ".config/rofi/nvim.rasi.tmpl", output = ".config/rofi/nvim.rasi" },
   { template = ".config/btop/themes/nvim.theme.tmpl", output = ".config/btop/themes/nvim.theme" },
+  { template = ".config/k9s/skins/nvim.yaml.tmpl", output = ".config/k9s/skins/nvim.yaml" },
   { template = ".config/hypr/hyprlock.conf.tmpl", output = ".config/hypr/hyprlock.conf" },
   { template = ".config/zsh/theme.zsh.tmpl", output = ".config/zsh/theme.zsh" },
   { template = ".p10k.zsh.tmpl", output = ".p10k.zsh" },

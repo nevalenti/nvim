@@ -1,7 +1,7 @@
 local oil = require "oil"
 
 oil.setup {
-  default_file_explorer = false,
+  default_file_explorer = true,
   columns = {
     { "icon", highlight = "OilFileIcon" },
   },
@@ -70,6 +70,22 @@ oil.setup {
     ["q"] = { "actions.close", mode = "n" },
   },
 }
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    if vim.fn.argc() ~= 1 or vim.bo.filetype ~= "oil" then
+      return
+    end
+    local dir = oil.get_current_dir()
+    if not dir then
+      return
+    end
+    vim.cmd.enew()
+    oil.open_float(dir)
+  end,
+})
+
 require("oil-git-status").setup { show_ignored = false }
 
 do

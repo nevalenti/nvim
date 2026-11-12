@@ -12,14 +12,14 @@ local M = {}
 --                           constants in aqua
 --   shapes     purple       types and constructors; declarations in bold
 --   behavior   strong/slate function definitions bold, calls slate
---   names      fg/param     variables and members in fg; parameters cream,
+--   names      fg/param     variables and members in fg; parameters salmon,
 --                           so a function's inputs stand out from its locals
 --   glue       punct/rose   brackets and separators in a steel blue-gray, tinted
 --                           but quieter than the names between them; operators
 --                           rose; modules and tag attributes recede to fg-1
 --   notes      amber        comments, a muted amber; TODO-style tags get a
 --                           label
--- Diagnostics use hues the syntax doesn't: info is niagara blue, hint is
+-- Diagnostics use hues the syntax doesn't: info is sky blue, hint is
 -- quartz. Warn keeps the conventional yellow; it only appears as signs,
 -- undercurls and tinted virtual text, never as a bare token.
 local function roles(c)
@@ -40,7 +40,7 @@ local function roles(c)
     special = c.yellow,
     error = c["red+1"],
     warn = c.yellow,
-    info = c.niagara,
+    info = c.info,
     hint = c.quartz,
     ok = c.neon,
     add = c.neon,
@@ -54,10 +54,10 @@ local function editor(c, r, o)
   local float = o.transparent and "NONE" or c["bg-1"]
   return {
     Normal = { fg = c.fg, bg = bg },
-    NormalNC = o.dim_inactive and { fg = c["fg-1"], bg = c["bg-1"] } or { link = "Normal" },
+    NormalNC = o.dim_inactive and { fg = c["fg-1"], bg = o.transparent and "NONE" or c.bg_nc } or { link = "Normal" },
     NormalSB = { fg = c.fg, bg = float },
     NormalFloat = { fg = c.fg, bg = float },
-    FloatBorder = { fg = c["bg+2"], bg = float },
+    FloatBorder = { fg = c.border, bg = float },
     FloatTitle = { fg = c.yellow, bg = float, bold = o.bold },
     FloatFooter = { fg = c["fg-1"], bg = float },
 
@@ -75,10 +75,10 @@ local function editor(c, r, o)
     LineNr = { fg = c["bg+4"] },
     LineNrAbove = { link = "LineNr" },
     LineNrBelow = { link = "LineNr" },
-    CursorLineNr = { fg = c.white, bg = c["bg-1"], bold = o.bold },
-    SignColumn = { fg = c["bg+4"], bg = bg },
+    CursorLineNr = { fg = c.strong, bg = c["bg-1"], bold = o.bold },
+    SignColumn = { fg = c["bg+4"] },
     CursorLineSign = { bg = c["bg-1"] },
-    FoldColumn = { fg = c["bg+4"], bg = bg },
+    FoldColumn = { fg = c["bg+4"] },
     CursorLineFold = { fg = c["fg-1"], bg = c["bg-1"] },
     Folded = { fg = c["fg-1"], bg = c["bg+1"] },
 
@@ -119,7 +119,7 @@ local function editor(c, r, o)
     PmenuExtraSel = { fg = c["fg-1"], bg = c["bg+2"] },
     PmenuSbar = { bg = float },
     PmenuThumb = { bg = c["bg+2"] },
-    PmenuBorder = { fg = c["bg+2"], bg = float },
+    PmenuBorder = { fg = c.border, bg = float },
     PmenuMatch = { fg = c.purple, bg = float, bold = o.bold },
     PmenuMatchSel = { fg = c.yellow, bg = c["bg+2"], bold = o.bold },
     WildMenu = { link = "PmenuSel" },
@@ -477,7 +477,7 @@ local function plugins(c, r, o)
     TelescopePromptNormal = { fg = c.fg, bg = float },
     TelescopeResultsNormal = { fg = c.fg, bg = float },
     TelescopePreviewNormal = { fg = c.fg, bg = float },
-    TelescopeBorder = { fg = c["bg+2"], bg = float },
+    TelescopeBorder = { fg = c.border, bg = float },
     TelescopePromptBorder = { link = "TelescopeBorder" },
     TelescopeResultsBorder = { link = "TelescopeBorder" },
     TelescopePreviewBorder = { link = "TelescopeBorder" },
@@ -805,6 +805,12 @@ local function plugins(c, r, o)
   hl.BufferTabpages = { fg = c.yellow, bg = bar, bold = bold }
   hl.BufferTabpagesSep = { fg = c["bg+2"], bg = bar }
   hl.BufferOffset = { fg = c["fg-1"], bg = float }
+
+  for level, color in pairs { ERROR = r.error, WARN = r.warn, INFO = r.info, DEBUG = c["fg-2"], TRACE = r.type } do
+    hl["Notify" .. level .. "Title"] = { fg = color }
+    hl["Notify" .. level .. "Icon"] = { fg = color }
+    hl["Notify" .. level .. "Border"] = { fg = blend(color, c.bg, 0.5) }
+  end
 
   for level, color in ipairs { c.yellow, c.purple, c.slate, c.aqua, c.rose, c.brown } do
     hl["RenderMarkdownH" .. level] = { fg = color, bold = bold }

@@ -16,9 +16,11 @@
 -- the background, not as literal colors: in `light`, bg+1 is darker than bg.
 --
 -- Contrast on bg (WCAG 2.x), dark / light:
---   fg 14.8 / 16.7, every syntax role >= 7.0 (AAA) on both, inlay hints
+--   fg 14.8 / 16.7, every syntax role >= 7.0 (AAA) on both, punctuation
+--   5.7 / 5.3, inlay hints
 --   (fg-2) 5.0 / 5.0, line numbers (bg+4) 3.3 / 3.6 (UI, 3:1 minimum).
---   Inside a Visual selection every syntax role stays >= 4.5 (AA).
+--   Inside a Visual selection every syntax role stays >= 4.5 (AA); punctuation
+--   drops to 3.9 / 4.1, by design. Float borders 3.1 / 3.0.
 --   Comments 7.2 / 7.1, parameters 11.0 / 10.5; plain text on a search match
 --   7.6 / 10.3.
 local M = {}
@@ -58,9 +60,9 @@ M.dark = {
   slate = "#7AAFFE",
   purple = "#DA9EFE",
   rose = "#FF7CAD",
-  -- Neon keeps its hue but stays at 0.22 chroma: at the sRGB edge (0.27)
-  -- strings glowed louder than every other role.
-  neon = "#6EF362",
+  -- Neon keeps its hue but stays at 0.83 / 0.18: any brighter, and files
+  -- full of strings turn into a wall of green.
+  neon = "#7CE472",
   -- Constants and literals: a clean cyan (OKLCH 0.82 / 0.13 / 196), far
   -- enough from green to never read as a dim neon string or the quartz hint,
   -- and chroma enough to never blur into the blue calls.
@@ -69,11 +71,19 @@ M.dark = {
   -- (inlay hints).
   ["fg-1"] = "#A6A6A6",
   ["fg-2"] = "#888888",
-  -- Punctuation and brackets: a steel blue-gray, the slate calls' hue with
-  -- almost no chroma, so it reads as tinted gray rather than as a color.
-  punct = "#9BAEC8",
+  -- Punctuation and brackets: the slate calls' hue with almost no chroma and
+  -- a step less contrast, so `foo(` reads as a blue name and a gray paren.
+  punct = "#8993A2",
   -- The loudest text: function definitions.
   strong = "#FFFFFF",
+  -- Inactive windows: lifted, not darkened, so contrast falls away from focus
+  -- (syntax colors keep their foreground) and floats stay apart from them.
+  bg_nc = "#1E1E1E",
+  -- Float borders: 3:1 on the float background.
+  border = "#616161",
+  -- Info diagnostics: a sky blue (OKLCH 0.78 / 0.12 / 228) between the cyan
+  -- literals and the slate calls.
+  info = "#55C6F4",
   -- Visual selection: a slate-tinted step instead of bg+3, which dropped
   -- comments to 3.7:1 and dimmed text to 3.4:1 inside a selection.
   visual = "#2C3650",
@@ -133,7 +143,10 @@ M.light = {
   aqua = "#025D6B",
   ["fg-1"] = "#535353",
   ["fg-2"] = "#6D6D6D",
-  punct = "#445568",
+  punct = "#606A78",
+  bg_nc = "#F6F4EF",
+  border = "#8C8A84",
+  info = "#006291",
   strong = "#000000",
   visual = "#D6DEEF",
   comment = "#874300",
