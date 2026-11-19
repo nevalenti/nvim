@@ -140,7 +140,7 @@ require("mason-lspconfig").setup {
     "gopls",
     "rust_analyzer",
   },
-  automatic_enable = { exclude = { "jdtls", "csharp_ls", "pyright" } },
+  automatic_enable = { exclude = { "jdtls", "csharp_ls", "pyright", "omnisharp" } },
 }
 
 local mason_registry = require "mason-registry"

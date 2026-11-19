@@ -13,6 +13,20 @@ vim.api.nvim_create_autocmd("PackChanged", {
         end
       end)
     end
+
+    if data.spec.name == "blink.cmp" and (data.kind == "install" or data.kind == "update") then
+      if not data.active then
+        vim.cmd.packadd "blink.cmp"
+      end
+      vim.schedule(function()
+        local ok, blink = pcall(require, "blink.cmp")
+        if ok then
+          pcall(function()
+            blink.build():pwait()
+          end)
+        end
+      end)
+    end
   end,
 })
 
@@ -69,7 +83,7 @@ vim.pack.add {
   { src = "https://github.com/SmiteshP/nvim-navic" },
   { src = "https://github.com/kevinhwang91/promise-async" },
   { src = "https://github.com/kevinhwang91/nvim-ufo" },
-  { src = "https://github.com/saghen/blink.cmp", build = "cargo build --release" },
+  { src = "https://github.com/saghen/blink.cmp" },
   { src = "https://github.com/rafamadriz/friendly-snippets" },
   { src = "https://github.com/stevearc/conform.nvim" },
   { src = "https://github.com/mfussenegger/nvim-lint" },
